@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Workflow Engine
+P.E.P.P.E.R. - Workflow Engine
 
 Phase 11A / 11B / 11C / 11D
 

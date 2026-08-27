@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Tool Audit Logger
+P.E.P.P.E.R. - Tool Audit Logger
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
@@ -246,7 +246,7 @@ if __name__ == "__main__":
     )
 
     print(
-        "E.V.I.E. Tool Audit"
+        "P.E.P.P.E.R. Tool Audit"
     )
 
     print(

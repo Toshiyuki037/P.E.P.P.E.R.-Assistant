@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Research Evidence Ingestion
+P.E.P.P.E.R. - Research Evidence Ingestion
 
 Phase 12G
 

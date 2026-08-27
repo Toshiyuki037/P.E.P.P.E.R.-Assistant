@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Notion Authentication / Configuration
+P.E.P.P.E.R. - Notion Authentication / Configuration
 
 Phase 9
 

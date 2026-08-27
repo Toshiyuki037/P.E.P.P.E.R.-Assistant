@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Knowledge File Scanner
+P.E.P.P.E.R. - Knowledge File Scanner
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
@@ -380,7 +380,7 @@ if __name__ == "__main__":
     )
 
     print(
-        "E.V.I.E. Knowledge Scanner"
+        "P.E.P.P.E.R. Knowledge Scanner"
     )
 
     print(

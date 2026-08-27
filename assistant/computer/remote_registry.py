@@ -1,10 +1,10 @@
 
 """
-E.V.I.E. - Remote Device Registry
+P.E.P.P.E.R. - Remote Device Registry
 
 Phase 13K
 
-Persistent JSON registry for trusted remote E.V.I.E. nodes.
+Persistent JSON registry for trusted remote P.E.P.P.E.R. nodes.
 
 Secrets are intentionally NOT stored in the registry.
 """

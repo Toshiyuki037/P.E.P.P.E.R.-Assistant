@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Live Context Router
+P.E.P.P.E.R. - Live Context Router
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
 Author: Max Maehara
 
 Purpose:
-    Collects and formats live computer context for E.V.I.E.
+    Collects and formats live computer context for P.E.P.P.E.R.
 
 How It Works:
     Receives a single workspace snapshot captured for the current

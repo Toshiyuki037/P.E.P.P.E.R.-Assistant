@@ -5,7 +5,7 @@ from assistant.system.manifest import (
 
 def test_manifest_identity():
     m = get_system_manifest()
-    assert m["name"] == "E.V.I.E."
+    assert m["name"] == "P.E.P.P.E.R."
     assert m["version"] == EVIE_VERSION
     assert m["current_phase"] == 15
 
@@ -33,4 +33,4 @@ def test_supported_filter():
 def test_defensive_copy():
     m = get_system_manifest()
     m["name"] = "BROKEN"
-    assert get_system_manifest()["name"] == "E.V.I.E."
+    assert get_system_manifest()["name"] == "P.E.P.P.E.R."

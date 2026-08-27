@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Notion Integration Provider
+P.E.P.P.E.R. - Notion Integration Provider
 
 Phase 9
 """

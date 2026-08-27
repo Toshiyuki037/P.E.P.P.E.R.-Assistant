@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Computer Device Controller
+P.E.P.P.E.R. - Computer Device Controller
 
 Phase 13A / 13B / 13C / 13D / 13E
 """

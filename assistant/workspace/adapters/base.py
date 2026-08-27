@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Workspace Adapter Base
+P.E.P.P.E.R. - Workspace Adapter Base
 
 Phase 12B
 """

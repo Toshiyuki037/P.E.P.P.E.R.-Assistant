@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Git Review and Commit Controls
+P.E.P.P.E.R. - Git Review and Commit Controls
 
 Phase 12L
 

@@ -1,7 +1,7 @@
-"""E.V.I.E. system awareness, health, diagnostics, maintenance, repair, backup, and certification package."""
+"""P.E.P.P.E.R. system awareness, health, diagnostics, maintenance, repair, backup, and certification package."""
 
 from .manifest import (
-    EVIE_VERSION,
+    PEPPER_VERSION,
     SYSTEM_MANIFEST,
     get_system_manifest,
     get_capability,

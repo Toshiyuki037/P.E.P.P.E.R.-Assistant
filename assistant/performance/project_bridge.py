@@ -341,7 +341,7 @@ def augment_with_project_evidence(
         )
         .strip()
         + "\n\n"
-        + "[E.V.I.E. RETRIEVED PROJECT EVIDENCE]\n"
+        + "[P.E.P.P.E.R. RETRIEVED PROJECT EVIDENCE]\n"
         + f"Workspace: {workspace}\n"
         + (
             "Use the retrieved source evidence below when answering. "

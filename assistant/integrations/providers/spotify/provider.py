@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Spotify Provider Registration
+P.E.P.P.E.R. - Spotify Provider Registration
 
 Phase 9F
 Last Edited: August 10, 2026

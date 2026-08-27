@@ -57,7 +57,7 @@ def test_snapshot_formatting():
         )
     )
 
-    assert "E.V.I.E. DIAGNOSTIC SNAPSHOT" in report
+    assert "P.E.P.P.E.R. DIAGNOSTIC SNAPSHOT" in report
     assert "google.calendar" in report
     assert "adapter mismatch" in report
     assert "Overall: DEGRADED" in report

@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Memory Database Module
+P.E.P.P.E.R. - Memory Database Module
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
 Author: Max Maehara
 
 Purpose:
-    Owns E.V.I.E.'s persistent SQLite memory database.
+    Owns P.E.P.P.E.R.'s persistent SQLite memory database.
 
 How It Works:
     Stores conversation history, active long-term memories,
@@ -704,7 +704,7 @@ if __name__ == "__main__":
     init_memory()
 
     print(
-        "E.V.I.E. memory database ready."
+        "P.E.P.P.E.R. memory database ready."
     )
 
     print(DB_PATH)

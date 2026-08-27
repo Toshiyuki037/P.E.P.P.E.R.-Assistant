@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Self-Engineering Planner
+P.E.P.P.E.R. - Self-Engineering Planner
 
 Phase 12M
 
@@ -27,7 +27,7 @@ from .models import EngineeringEdit, EngineeringPlan
 
 
 SYSTEM_PROMPT = """
-You are E.V.I.E.'s repository-level engineering planner.
+You are P.E.P.P.E.R.'s repository-level engineering planner.
 
 You are given a user goal, repository evidence, repository impact analysis,
 and current contents of candidate files.

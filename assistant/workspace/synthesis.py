@@ -1,9 +1,9 @@
 """
-E.V.I.E. - Source-Backed Workspace Synthesis
+P.E.P.P.E.R. - Source-Backed Workspace Synthesis
 
 Phase 12D
 
-Uses the existing E.V.I.E. reasoning client lazily so repository indexing
+Uses the existing P.E.P.P.E.R. reasoning client lazily so repository indexing
 and workspace search remain lightweight when synthesis is not requested.
 """
 
@@ -26,7 +26,7 @@ from assistant.workspace.provenance import (
 
 
 SYSTEM_PROMPT = """
-You are E.V.I.E.'s unified workspace reasoning layer.
+You are P.E.P.P.E.R.'s unified workspace reasoning layer.
 
 Answer only from the evidence supplied to you.
 

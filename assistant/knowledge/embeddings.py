@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Knowledge Embeddings
+P.E.P.P.E.R. - Knowledge Embeddings
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
@@ -18,7 +18,7 @@ import numpy as np
 
 
 # ---------------------------------------------------------------------------
-# Reuse E.V.I.E.'s existing embedding model
+# Reuse P.E.P.P.E.R.'s existing embedding model
 # ---------------------------------------------------------------------------
 
 try:

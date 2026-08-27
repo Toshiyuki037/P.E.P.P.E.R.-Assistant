@@ -1,5 +1,5 @@
 """
-E.V.I.E. - GitHub REST API Client
+P.E.P.P.E.R. - GitHub REST API Client
 
 Phase 9
 
@@ -66,7 +66,7 @@ def github_request(
                 API_VERSION,
 
             "User-Agent":
-                "EVIE-Assistant",
+                "PEPPER-Assistant",
         },
 
         params=

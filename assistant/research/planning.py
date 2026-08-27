@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Research Planning
+P.E.P.P.E.R. - Research Planning
 
 Phase 12G
 

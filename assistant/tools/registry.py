@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Tool Registry
+P.E.P.P.E.R. - Tool Registry
 
 Created: August 9, 2026
 Last Edited: August 10, 2026
 Author: Max Maehara
 
 Purpose:
-    Maintains the authoritative registry of actions E.V.I.E. may request.
+    Maintains the authoritative registry of actions P.E.P.P.E.R. may request.
 
 How It Works:
     Every tool has:
@@ -187,7 +187,7 @@ def describe_tools():
     if not tools:
 
         return (
-            "No E.V.I.E. tools registered."
+            "No P.E.P.P.E.R. tools registered."
         )
 
 
@@ -218,7 +218,7 @@ def describe_tools():
 
 def load_default_tools():
     """
-    Imports all current E.V.I.E. tool modules.
+    Imports all current P.E.P.P.E.R. tool modules.
 
     When this module is imported normally as assistant.tools.registry,
     each imported module registers itself into this registry.
@@ -286,7 +286,7 @@ if __name__ == "__main__":
 
 
     print(
-        "E.V.I.E. Tool Registry"
+        "P.E.P.P.E.R. Tool Registry"
     )
 
 

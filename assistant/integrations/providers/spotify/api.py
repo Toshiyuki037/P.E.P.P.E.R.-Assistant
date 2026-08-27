@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Spotify API Client
+P.E.P.P.E.R. - Spotify API Client
 
 Phase 9F
 Last Edited: August 10, 2026
@@ -357,7 +357,7 @@ def spotify_delete(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Spotify API Client"
+        "P.E.P.P.E.R. Spotify API Client"
     )
 
     print(

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Wake Voice Authentication
+P.E.P.P.E.R. - Wake Voice Authentication
 
 Phase 14
 
@@ -41,7 +41,7 @@ AUTHENTICATED_LINES = (
     "Identity confirmed. Welcome back, Max.",
     "Voice verified. Good to have you back, Max.",
     "Authenticated. Welcome back, Max.",
-    "Voice confirmed. E.V.I.E. online.",
+    "Voice confirmed. Pepper online.",
 )
 
 

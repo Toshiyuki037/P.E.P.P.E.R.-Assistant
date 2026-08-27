@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Browser Context
+P.E.P.P.E.R. - Browser Context
 
 Created: August 10, 2026
 Last Edited: August 10, 2026

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Unified Workspace Query Controller
+P.E.P.P.E.R. - Unified Workspace Query Controller
 
 Phase 12D - Source Diversity
 """

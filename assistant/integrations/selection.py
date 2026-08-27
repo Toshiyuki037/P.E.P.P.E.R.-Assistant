@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Integration Account Selection
+P.E.P.P.E.R. - Integration Account Selection
 
 Created: August 10, 2026
 Author: Max Maehara
@@ -548,7 +548,7 @@ def format_account_choices(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Integration Account Selection"
+        "P.E.P.P.E.R. Integration Account Selection"
     )
 
     print(

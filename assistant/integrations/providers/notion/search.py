@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Notion Search
+P.E.P.P.E.R. - Notion Search
 
 Phase 9
 

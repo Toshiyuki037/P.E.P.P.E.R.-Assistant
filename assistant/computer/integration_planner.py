@@ -1,6 +1,6 @@
 
 """
-E.V.I.E. - Deterministic Computer Request Planner
+P.E.P.P.E.R. - Deterministic Computer Request Planner
 
 Phase 13L
 

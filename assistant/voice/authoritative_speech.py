@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Authoritative Speech Pipeline
+P.E.P.P.E.R. - Authoritative Speech Pipeline
 
 Phase 14 Rolling Speech Compatibility Fix
 
@@ -126,13 +126,13 @@ class AuthoritativeSpeechPipeline:
         self._synthesis_worker = threading.Thread(
             target=self._rolling_synthesis_loop,
             daemon=True,
-            name="evie-authoritative-synthesis",
+            name="pepper-authoritative-synthesis",
         )
 
         self._playback_worker = threading.Thread(
             target=self._rolling_playback_loop,
             daemon=True,
-            name="evie-authoritative-playback",
+            name="pepper-authoritative-playback",
         )
 
         self._synthesis_worker.start()
@@ -286,7 +286,7 @@ class AuthoritativeSpeechPipeline:
             target=self._legacy_generate_and_play,
             args=(text,),
             daemon=True,
-            name="evie-authoritative-spoken-chunk",
+            name="pepper-authoritative-spoken-chunk",
         )
 
         self._worker.start()

@@ -1,6 +1,6 @@
 
 """
-E.V.I.E. - Remote Device Controller
+P.E.P.P.E.R. - Remote Device Controller
 
 Phase 13K
 """

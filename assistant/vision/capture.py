@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Screen Capture
+P.E.P.P.E.R. - Screen Capture
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
 Author: Max Maehara
 
 Purpose:
-    Captures temporary screenshots for E.V.I.E.'s visual intelligence.
+    Captures temporary screenshots for P.E.P.P.E.R.'s visual intelligence.
 
 Capabilities:
     - full virtual desktop capture
@@ -408,7 +408,7 @@ if __name__ == "__main__":
     )
 
     print(
-        "E.V.I.E. Screen Capture"
+        "P.E.P.P.E.R. Screen Capture"
     )
 
     print(

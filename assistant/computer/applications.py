@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Windows Application Discovery & Launch
+P.E.P.P.E.R. - Windows Application Discovery & Launch
 
 Phase 13C
 

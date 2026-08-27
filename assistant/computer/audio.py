@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Audio Device Enumeration
+P.E.P.P.E.R. - Audio Device Enumeration
 
 Phase 13F
 
 Uses sounddevice/PortAudio for structured local audio-device discovery.
 
 Important:
-Changing sounddevice.default.device only changes E.V.I.E.'s process-local
+Changing sounddevice.default.device only changes P.E.P.P.E.R.'s process-local
 default for future captures/playback. It does NOT change the Windows-wide
 default audio device.
 """
@@ -169,7 +169,7 @@ def set_evie_audio_device(
     output_index: int | None = None,
 ) -> dict:
     """
-    Set E.V.I.E.'s process-local PortAudio defaults.
+    Set P.E.P.P.E.R.'s process-local PortAudio defaults.
 
     This is intentionally not a Windows-wide default-device mutation.
     """

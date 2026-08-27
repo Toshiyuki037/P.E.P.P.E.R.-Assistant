@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Agentic Execution
+P.E.P.P.E.R. - Agentic Execution
 
 Created: August 9, 2026
 Last Edited: August 9, 2026

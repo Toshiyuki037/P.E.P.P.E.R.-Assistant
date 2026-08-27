@@ -1,5 +1,5 @@
 """
-E.V.I.E. - System Certification
+P.E.P.P.E.R. - System Certification
 
 Phase 15L — Final Certification / Freeze
 
@@ -487,7 +487,7 @@ def format_certification_report(
 
 
     lines = [
-        "E.V.I.E. SYSTEM CERTIFICATION",
+        "P.E.P.P.E.R. SYSTEM CERTIFICATION",
         "",
     ]
 

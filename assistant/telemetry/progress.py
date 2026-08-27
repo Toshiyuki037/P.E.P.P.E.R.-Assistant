@@ -1,11 +1,11 @@
 """
-E.V.I.E. - Phase 14 Progress System
+P.E.P.P.E.R. - Phase 14 Progress System
 
 Created: August 12, 2026
 Author: Max Maehara
 
 Purpose:
-    Provides throttled progress events for long-running E.V.I.E. tasks.
+    Provides throttled progress events for long-running P.E.P.P.E.R. tasks.
 
 Compatibility:
     Preserves the original Phase 14A emit_progress() API while adding
@@ -151,7 +151,7 @@ def emit_progress(
 
     print(
         (
-            "\n[E.V.I.E. Progress] "
+            "\n[P.E.P.P.E.R. Progress] "
             f"{message}"
         )
     )
@@ -227,7 +227,7 @@ class ProgressReporter:
     ):
         print(
             (
-                "\n[E.V.I.E. Progress] "
+                "\n[P.E.P.P.E.R. Progress] "
                 f"{event.message}"
             )
         )

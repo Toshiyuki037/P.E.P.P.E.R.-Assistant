@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Integration Registry
+P.E.P.P.E.R. - Integration Registry
 
 Created: August 10, 2026
 Last Edited: August 10, 2026
@@ -11,7 +11,7 @@ Purpose:
 Architecture:
     Providers register normalized capabilities here.
 
-    The rest of E.V.I.E. requests capabilities rather than directly
+    The rest of P.E.P.P.E.R. requests capabilities rather than directly
     importing Gmail, Outlook, Spotify, Apple, Schwab, or other provider
     implementations.
 
@@ -339,7 +339,7 @@ def load_default_integrations(
     layers.
 
     Mock loading is opt-in so fake development data can never silently
-    appear in normal E.V.I.E. operation.
+    appear in normal P.E.P.P.E.R. operation.
     """
 
     global _DEFAULTS_LOADED
@@ -548,7 +548,7 @@ def run_standalone_test():
 
 
     print(
-        "E.V.I.E. Integration Registry"
+        "P.E.P.P.E.R. Integration Registry"
     )
 
     print(

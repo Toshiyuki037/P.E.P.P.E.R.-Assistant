@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Contextual Reference Resolver
+P.E.P.P.E.R. - Contextual Reference Resolver
 
 Phase 10C
 

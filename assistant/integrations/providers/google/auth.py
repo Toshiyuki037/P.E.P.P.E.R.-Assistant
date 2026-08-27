@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Google Authentication
+P.E.P.P.E.R. - Google Authentication
 
 Created: August 10, 2026
 Last Edited: August 10, 2026
@@ -11,13 +11,13 @@ Purpose:
 Architecture:
     Google identity discovery is independent of Gmail.
 
-    This allows E.V.I.E. to connect Google accounts that provide
+    This allows P.E.P.P.E.R. to connect Google accounts that provide
     Calendar / People access even when Gmail is disabled, such as
     institutional Google Workspace accounts that use Outlook for mail.
 
 Security:
     - OAuth client configuration stays under ignored runtime storage
-    - access / refresh credentials are stored through E.V.I.E.'s
+    - access / refresh credentials are stored through P.E.P.P.E.R.'s
       OS-backed credential store
     - tokens are never written to token.json
     - tokens are never stored in memory.db
@@ -25,7 +25,7 @@ Security:
     - tokens are never printed by this module
 
 Compatibility:
-    E.V.I.E. currently uses the Google account email as account_id.
+    P.E.P.P.E.R. currently uses the Google account email as account_id.
 
     Google OpenID Connect's stable "sub" identifier is also preserved
     in account metadata for future stable identity resolution.
@@ -174,7 +174,7 @@ def credentials_to_dict(
 ):
     """
     Converts Google Credentials into a dictionary suitable for
-    E.V.I.E.'s secure OS credential store.
+    P.E.P.P.E.R.'s secure OS credential store.
     """
 
     return json.loads(
@@ -596,7 +596,7 @@ def connect_google_account():
 
 
     # -----------------------------------------------------------------------
-    # Preserve Existing E.V.I.E. Account-ID Architecture
+    # Preserve Existing P.E.P.P.E.R. Account-ID Architecture
     # -----------------------------------------------------------------------
 
     account_id = email
@@ -900,7 +900,7 @@ def get_google_service_status(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Google Authentication"
+        "P.E.P.P.E.R. Google Authentication"
     )
 
     print(

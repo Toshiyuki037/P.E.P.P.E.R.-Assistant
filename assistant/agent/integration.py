@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Agent Runtime Integration
+P.E.P.P.E.R. - Agent Runtime Integration
 
 Created: August 9, 2026
 Last Edited: August 12, 2026
 Author: Max Maehara
 
 Purpose:
-    Connects Phase 7 task execution to E.V.I.E.'s normal prompt loop.
+    Connects Phase 7 task execution to P.E.P.P.E.R.'s normal prompt loop.
 
 Phase 14A:
     Adds a cheap deterministic fast gate so obviously non-agentic
@@ -168,7 +168,7 @@ def _cancel_stale_task_silently():
     The user moved on to a new request.
 
     Cancel the old unfinished task without surfacing the cancellation text.
-    The CURRENT request should continue normally through E.V.I.E.'s router.
+    The CURRENT request should continue normally through P.E.P.P.E.R.'s router.
     """
 
     try:

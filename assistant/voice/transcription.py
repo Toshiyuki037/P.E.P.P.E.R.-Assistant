@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Streaming Transcription Runtime
+P.E.P.P.E.R. - Streaming Transcription Runtime
 
 Created: August 12, 2026
 Author: Max Maehara
@@ -164,7 +164,7 @@ class PartialTranscriber:
                     True,
 
                 name=
-                    "evie-partial-transcriber",
+                    "pepper-partial-transcriber",
             )
         )
 

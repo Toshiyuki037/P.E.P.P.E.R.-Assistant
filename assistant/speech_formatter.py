@@ -1,10 +1,10 @@
 """
-E.V.I.E. - Speech Response Formatter
+P.E.P.P.E.R. - Speech Response Formatter
 
 Phase 14 Rolling Speech Update
 
 Purpose:
-    Cleans E.V.I.E. text for speech while preserving the complete response.
+    Cleans P.E.P.P.E.R. text for speech while preserving the complete response.
 
 Compatibility:
     prepare_spoken_text() keeps the existing concise behavior by default.

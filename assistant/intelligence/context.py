@@ -1,11 +1,11 @@
 """
-E.V.I.E. - Short-Term Conversation State
+P.E.P.P.E.R. - Short-Term Conversation State
 
 Phase 10B
 
 Purpose:
     Stores temporary conversational/tool context for the current
-    E.V.I.E. runtime session.
+    P.E.P.P.E.R. runtime session.
 
 This is intentionally separate from Phase 2 long-term memory.
 

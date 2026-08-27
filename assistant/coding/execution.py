@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Coding Command Execution
+P.E.P.P.E.R. - Coding Command Execution
 
 Phase 12J / Phase 12N
 
@@ -13,7 +13,7 @@ Security model:
 - cwd is always the transaction repository root
 - records stdout/stderr/return code
 - does not accept arbitrary shell strings
-- Python commands are pinned to the interpreter currently running E.V.I.E.
+- Python commands are pinned to the interpreter currently running P.E.P.P.E.R.
 """
 
 from __future__ import annotations
@@ -53,7 +53,7 @@ def _normalize_command(
     executable with sys.executable.
 
     This ensures validation runs inside the same Python environment that
-    is currently running E.V.I.E., rather than accidentally resolving to
+    is currently running P.E.P.P.E.R., rather than accidentally resolving to
     another Python installation through Windows PATH.
     """
 

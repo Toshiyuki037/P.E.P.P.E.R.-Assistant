@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Self-Engineering Commit Approval
+P.E.P.P.E.R. - Self-Engineering Commit Approval
 
 Phase 12M
 

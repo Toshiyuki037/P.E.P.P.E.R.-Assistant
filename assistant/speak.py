@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Voice Synthesis Module
+P.E.P.P.E.R. - Voice Synthesis Module
 
 Phase 14 Rolling Speech Update
 Phase 16E Low-Latency First Chunk
@@ -59,16 +59,16 @@ ROOT = (
 
 REF_AUDIO = (
     ROOT
-    / "evie-voice"
+    / "pepper-voice"
     / "references"
-    / "evie-neutral.wav"
+    / "pepper-reference.wav"
 )
 
 REF_TEXT_FILE = (
     ROOT
-    / "evie-voice"
+    / "pepper-voice"
     / "references"
-    / "evie-neutral.txt"
+    / "pepper-reference.txt"
 )
 
 REF_TEXT = (
@@ -81,7 +81,7 @@ REF_TEXT = (
 
 
 print(
-    "Preparing E.V.I.E. LuxTTS backend..."
+    "Preparing P.E.P.P.E.R. LuxTTS backend..."
 )
 
 _TTS_LOCK = (
@@ -95,7 +95,7 @@ _ACTIVE_SPEECH_LOCK = (
 _ACTIVE_SPEECH_CANCEL = None
 
 print(
-    "E.V.I.E. LuxTTS backend configured."
+    "P.E.P.P.E.R. LuxTTS backend configured."
 )
 
 
@@ -103,7 +103,7 @@ def synthesize_audio(
     text: str,
 ):
     """
-    LuxTTS adapter for E.V.I.E.'s existing speech architecture.
+    LuxTTS adapter for P.E.P.P.E.R.'s existing speech architecture.
 
     Contract remains unchanged:
         text -> (audio, sample_rate)
@@ -118,6 +118,20 @@ def synthesize_audio(
             or ""
         )
         .strip()
+    )
+
+    # P.E.P.P.E.R. spoken-name normalization
+    # Keep the formal acronym in UI/output, but pronounce it naturally.
+    text = (
+        text
+        .replace(
+            "P.E.P.P.E.R.",
+            "Pepper",
+        )
+        .replace(
+            "P.E.P.P.E.R",
+            "Pepper",
+        )
     )
 
     if not text:
@@ -375,7 +389,7 @@ def speak_streaming_response(
             daemon=
                 True,
             name=
-                "evie-rolling-tts-synthesis",
+                "pepper-rolling-tts-synthesis",
         )
     )
 

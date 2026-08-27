@@ -59,6 +59,6 @@ def test_deep_report_format():
         )
     )
 
-    assert "E.V.I.E. DEEP DIAGNOSTIC" in report
+    assert "P.E.P.P.E.R. DEEP DIAGNOSTIC" in report
     assert "memory.database.deep" in report
     assert "Overall: HEALTHY" in report

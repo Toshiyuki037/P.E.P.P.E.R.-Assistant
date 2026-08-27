@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Knowledge Indexer
+P.E.P.P.E.R. - Knowledge Indexer
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
@@ -357,7 +357,7 @@ def index_workspace(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Knowledge Indexer"
+        "P.E.P.P.E.R. Knowledge Indexer"
     )
 
     print(

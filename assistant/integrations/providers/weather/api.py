@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Weather API Client
+P.E.P.P.E.R. - Weather API Client
 
 Phase 9
 

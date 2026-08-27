@@ -12,7 +12,7 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-LUX_ROOT = ROOT / "voice_benchmarks" / "LuxTTS"
+LUX_ROOT = ROOT / "voice_runtime" / "LuxTTS"
 LUX_SERVER = LUX_ROOT / "evie_luxtts_server.py"
 
 LUX_PYTHON = Path(
@@ -96,7 +96,7 @@ class LuxTTSClient:
                     f"LuxTTS worker not found: {LUX_SERVER}"
                 )
 
-            print("Loading E.V.I.E. LuxTTS voice...")
+            print("Loading P.E.P.P.E.R. LuxTTS voice...")
 
             self._process = subprocess.Popen(
                 [
@@ -123,7 +123,7 @@ class LuxTTSClient:
                 target=self._stderr_worker,
                 args=(self._process,),
                 daemon=True,
-                name="evie-luxtts-stderr",
+                name="pepper-luxtts-stderr",
             )
             self._stderr_thread.start()
 
@@ -135,7 +135,7 @@ class LuxTTSClient:
                     f"LuxTTS failed to initialize: {response}"
                 )
 
-            print("E.V.I.E. LuxTTS voice ready.")
+            print("P.E.P.P.E.R. LuxTTS voice ready.")
 
     def _send(self, payload):
         process = self._process

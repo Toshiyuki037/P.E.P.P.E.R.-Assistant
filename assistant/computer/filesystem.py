@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Safe Local Filesystem Control
+P.E.P.P.E.R. - Safe Local Filesystem Control
 
 Phase 13D
 

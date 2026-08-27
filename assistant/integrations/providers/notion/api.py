@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Notion API Client
+P.E.P.P.E.R. - Notion API Client
 
 Phase 9
 

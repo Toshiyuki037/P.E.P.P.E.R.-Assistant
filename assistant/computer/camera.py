@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Local Camera Discovery & Capture
+P.E.P.P.E.R. - Local Camera Discovery & Capture
 
 Phase 13F
 

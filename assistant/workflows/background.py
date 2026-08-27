@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Workflow Background Runtime
+P.E.P.P.E.R. - Workflow Background Runtime
 
 Phase 11F
 
@@ -64,7 +64,7 @@ def run_background_scheduler(
     if verbose:
 
         print(
-            "E.V.I.E. workflow scheduler online."
+            "P.E.P.P.E.R. workflow scheduler online."
         )
 
         print(
@@ -116,7 +116,7 @@ def run_background_scheduler(
     if verbose:
 
         print(
-            "E.V.I.E. workflow scheduler stopped."
+            "P.E.P.P.E.R. workflow scheduler stopped."
         )
 
 

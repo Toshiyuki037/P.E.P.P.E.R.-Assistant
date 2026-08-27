@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Semantic Embedding Module
+P.E.P.P.E.R. - Semantic Embedding Module
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
 Author: Max Maehara
 
 Purpose:
-    Provides local semantic embeddings for E.V.I.E.'s memory system.
+    Provides local semantic embeddings for P.E.P.P.E.R.'s memory system.
 
 How It Works:
     Uses Sentence Transformers locally to convert memory text
@@ -48,7 +48,7 @@ def get_embedding_model():
 
     if _embedding_model is None:
         print(
-            "Loading E.V.I.E. semantic memory model..."
+            "Loading P.E.P.P.E.R. semantic memory model..."
         )
 
         _embedding_model = SentenceTransformer(

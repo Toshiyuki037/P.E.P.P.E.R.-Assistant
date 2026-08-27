@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Bounded Coding Repair Planner
+P.E.P.P.E.R. - Bounded Coding Repair Planner
 
 Phase 12K
 
@@ -36,7 +36,7 @@ from .state import (
 
 
 SYSTEM_PROMPT = """
-You are E.V.I.E.'s bounded repository repair planner.
+You are P.E.P.P.E.R.'s bounded repository repair planner.
 
 You are repairing ONE existing coding transaction.
 

@@ -19,7 +19,7 @@ def test_filler_words_do_not_block_health_command():
 def test_multiple_fillers_do_not_block_health_command():
     result = (
         handle_system_message(
-            "Okay, um, Evie, are you healthy please?"
+            "Okay, um, Pepper, are you healthy please?"
         )
     )
 
@@ -51,7 +51,7 @@ def test_filler_does_not_rewrite_ordinary_conversation():
 def test_capabilities_still_route():
     result = (
         handle_system_message(
-            "Hey Evie, what can you do?"
+            "Hey Pepper, what can you do?"
         )
     )
 
@@ -62,7 +62,7 @@ def test_capabilities_still_route():
 def test_normalize_filler():
     assert (
         _normalize(
-            "Okay, um, Evie, run a diagnostic please."
+            "Okay, um, Pepper, run a diagnostic please."
         )
         == "run a diagnostic"
     )

@@ -1,6 +1,6 @@
 
 """
-E.V.I.E. - Remote Device HTTP Transport
+P.E.P.P.E.R. - Remote Device HTTP Transport
 
 Phase 13K
 

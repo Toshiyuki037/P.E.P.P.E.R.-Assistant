@@ -1,10 +1,10 @@
 """
-E.V.I.E. - Charles Schwab API Client
+P.E.P.P.E.R. - Charles Schwab API Client
 
 Phase 9
 
 This file deliberately contains all Schwab production base URLs in one
-place so provider endpoint changes do not affect the rest of E.V.I.E.
+place so provider endpoint changes do not affect the rest of P.E.P.P.E.R.
 """
 
 from __future__ import annotations

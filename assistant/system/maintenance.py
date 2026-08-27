@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Maintenance & Recovery
+P.E.P.P.E.R. - Maintenance & Recovery
 
 Phase 15H
 
@@ -7,7 +7,7 @@ Purpose:
     Provides safe, bounded operational maintenance actions.
 
 Important:
-    This module does NOT edit E.V.I.E. source code.
+    This module does NOT edit P.E.P.P.E.R. source code.
     Source-code repair belongs to the later self-engineering bridge.
 
 Maintenance principles:

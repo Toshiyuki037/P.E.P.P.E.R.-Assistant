@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Local Resource State
+P.E.P.P.E.R. - Local Resource State
 
 Phase 13C
 

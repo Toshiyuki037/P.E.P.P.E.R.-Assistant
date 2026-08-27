@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Repository Graph Query
+P.E.P.P.E.R. - Repository Graph Query
 
 Phase 12C
 """

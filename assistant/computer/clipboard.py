@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Native Windows Clipboard
+P.E.P.P.E.R. - Native Windows Clipboard
 
 Phase 13D
 

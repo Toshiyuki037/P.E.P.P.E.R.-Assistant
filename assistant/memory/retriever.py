@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Hybrid Memory Retriever
+P.E.P.P.E.R. - Hybrid Memory Retriever
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
@@ -61,7 +61,7 @@ def get_reranker():
 
     if _reranker is None:
         print(
-            "Loading E.V.I.E. memory reranker..."
+            "Loading P.E.P.P.E.R. memory reranker..."
         )
 
         _reranker = CrossEncoder(
@@ -84,21 +84,21 @@ def warm_memory_retriever():
     """
 
     print(
-        "Warming E.V.I.E. memory retrieval..."
+        "Warming P.E.P.P.E.R. memory retrieval..."
     )
 
     try:
 
         # Force the embedding model to initialize.
         create_embedding(
-            "E.V.I.E. memory warmup"
+            "P.E.P.P.E.R. memory warmup"
         )
 
         # Force the CrossEncoder to initialize.
         get_reranker()
 
         print(
-            "E.V.I.E. memory retrieval ready."
+            "P.E.P.P.E.R. memory retrieval ready."
         )
 
         return True
@@ -608,7 +608,7 @@ def retrieve_matching_memories(
 
 if __name__ == "__main__":
     print(
-        "E.V.I.E. Hybrid Memory Retriever"
+        "P.E.P.P.E.R. Hybrid Memory Retriever"
     )
 
     print(

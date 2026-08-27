@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Existing Knowledge Index Adapter
+P.E.P.P.E.R. - Existing Knowledge Index Adapter
 
 Phase 12E
 

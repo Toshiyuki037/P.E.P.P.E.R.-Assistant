@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Unified Workspace Models
+P.E.P.P.E.R. - Unified Workspace Models
 
 Phase 12A
 
@@ -152,7 +152,7 @@ class WorkspaceEntity:
     A meaningful object in the user's engineering workspace.
 
     Examples:
-        E.V.I.E. repository
+        P.E.P.P.E.R. repository
         assistant/workflows/engine.py
         Phase 11
         BP calibration drift project

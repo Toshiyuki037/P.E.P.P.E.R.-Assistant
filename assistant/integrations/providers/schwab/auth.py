@@ -1,11 +1,11 @@
 """
-E.V.I.E. - Charles Schwab Authentication
+P.E.P.P.E.R. - Charles Schwab Authentication
 
 Created: August 10, 2026
 Author: Max Maehara
 
 Purpose:
-    Handles Charles Schwab OAuth authentication for E.V.I.E.
+    Handles Charles Schwab OAuth authentication for P.E.P.P.E.R.
 
 Configuration:
     Static Schwab application credentials are loaded from:
@@ -24,7 +24,7 @@ Configuration:
 Security:
     - config.json MUST be excluded from Git.
     - OAuth access and refresh tokens are stored through
-      E.V.I.E.'s credential store.
+      P.E.P.P.E.R.'s credential store.
     - OAuth tokens are not stored in accounts.json.
 """
 
@@ -493,7 +493,7 @@ def _store_oauth_credentials(
 ):
     """
     Adds local expiration metadata and stores OAuth credentials using
-    E.V.I.E.'s credential backend.
+    P.E.P.P.E.R.'s credential backend.
     """
 
     credentials = dict(
@@ -906,7 +906,7 @@ def connect_schwab_account():
 
     Schwab redirects to the configured HTTPS callback URL.
 
-    Because E.V.I.E. currently uses https://127.0.0.1 without a local
+    Because P.E.P.P.E.R. currently uses https://127.0.0.1 without a local
     HTTPS listener, the browser may display a connection error after
     successful authorization.
 
@@ -926,7 +926,7 @@ def connect_schwab_account():
 
     print()
     print(
-        "E.V.I.E. - Schwab Authorization"
+        "P.E.P.P.E.R. - Schwab Authorization"
     )
 
     print(
@@ -943,7 +943,7 @@ def connect_schwab_account():
 
     print(
         (
-            "After signing in, authorize E.V.I.E. "
+            "After signing in, authorize P.E.P.P.E.R. "
             "to access the Schwab account."
         )
     )
@@ -1177,7 +1177,7 @@ def disconnect_schwab_account(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Schwab Authentication"
+        "P.E.P.P.E.R. Schwab Authentication"
     )
 
     print(

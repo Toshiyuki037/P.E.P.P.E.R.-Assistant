@@ -1,6 +1,6 @@
 
 """
-E.V.I.E. - Unified Computer Control Executor
+P.E.P.P.E.R. - Unified Computer Control Executor
 
 Phase 13J
 """
@@ -227,7 +227,7 @@ def _native(
 
     if a == "notification.send":
         return send_local_notification(
-            str(x.get("title", "E.V.I.E.")),
+            str(x.get("title", "P.E.P.P.E.R.")),
             str(x.get("message", "")),
         )
 

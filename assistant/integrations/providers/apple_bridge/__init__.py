@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Apple Bridge Provider
+P.E.P.P.E.R. - Apple Bridge Provider
 
 Created: August 10, 2026
 Author: Max Maehara

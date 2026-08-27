@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Unified Voice Presentation Policy
+P.E.P.P.E.R. - Unified Voice Presentation Policy
 
 Final Phase 14/15 polish.
 
@@ -123,7 +123,7 @@ def build_contextual_expansion_prompt(user_text: str):
 
     return (
         str(user_text or "").strip()
-        + "\n\n[E.V.I.E. CONTEXTUAL EXPANSION]\n"
+        + "\n\n[P.E.P.P.E.R. CONTEXTUAL EXPANSION]\n"
         + "The user is asking to expand the previous authoritative answer. "
           "Continue the same topic rather than starting a new subject. "
           "Explain the most useful additional detail without merely repeating "

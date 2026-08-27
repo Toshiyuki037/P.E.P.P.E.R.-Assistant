@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Spotify Authentication
+P.E.P.P.E.R. - Spotify Authentication
 
 Created: August 10, 2026
 Author: Max Maehara
@@ -10,7 +10,7 @@ Purpose:
 Architecture:
     - Authorization Code with PKCE
     - no client secret required
-    - access / refresh tokens stored through E.V.I.E.'s secure
+    - access / refresh tokens stored through P.E.P.P.E.R.'s secure
       credential store
     - account metadata stored separately
 """
@@ -426,7 +426,7 @@ class _SpotifyCallbackHandler(
 
         self.wfile.write(
             (
-                b"E.V.I.E. Spotify authorization received. "
+                b"P.E.P.P.E.R. Spotify authorization received. "
                 b"You can close this window."
             )
         )
@@ -857,7 +857,7 @@ def disconnect_spotify_account(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Spotify Authentication"
+        "P.E.P.P.E.R. Spotify Authentication"
     )
 
     print(

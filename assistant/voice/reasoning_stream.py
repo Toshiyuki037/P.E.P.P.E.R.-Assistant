@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Provisional Reasoning Stream
+P.E.P.P.E.R. - Provisional Reasoning Stream
 
 Created: August 12, 2026
 Author: Max Maehara
@@ -20,7 +20,7 @@ Architecture:
         - replace brain.chat()
 
     Final authoritative requests continue through the original
-    E.V.I.E. pipeline.
+    P.E.P.P.E.R. pipeline.
 
 Phase 14D4:
     Adds:
@@ -518,7 +518,7 @@ class ProvisionalReasoningWorker:
             timer.daemon = True
 
             timer.name = (
-                "evie-provisional-debounce-"
+                "pepper-provisional-debounce-"
                 f"{candidate.version}"
             )
 
@@ -626,7 +626,7 @@ class ProvisionalReasoningWorker:
 
                     name=
                         (
-                            "evie-provisional-reasoning-"
+                            "pepper-provisional-reasoning-"
                             f"{candidate.version}"
                         ),
                 )
@@ -740,7 +740,7 @@ class ProvisionalReasoningWorker:
                 timer.daemon = True
 
                 timer.name = (
-                    "evie-provisional-debounce-"
+                    "pepper-provisional-debounce-"
                     f"{version}"
                 )
 

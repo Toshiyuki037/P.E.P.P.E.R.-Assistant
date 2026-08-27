@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Process Inspection & Safe Termination
+P.E.P.P.E.R. - Process Inspection & Safe Termination
 
 Phase 13C
 
 Process reads are unrestricted.
 Termination is deliberately bounded:
 - PID must be explicit.
-- E.V.I.E.'s own process cannot be terminated through this function.
+- P.E.P.P.E.R.'s own process cannot be terminated through this function.
 - known critical Windows process names are blocked.
 - caller must explicitly pass approved=True.
 """
@@ -196,7 +196,7 @@ def terminate_process(
 
     if pid == os.getpid():
         raise PermissionError(
-            "E.V.I.E. cannot terminate its own process through "
+            "P.E.P.P.E.R. cannot terminate its own process through "
             "the Phase 13C process controller."
         )
 

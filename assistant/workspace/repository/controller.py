@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Repository Workspace Controller
+P.E.P.P.E.R. - Repository Workspace Controller
 
 Phase 12C
 """

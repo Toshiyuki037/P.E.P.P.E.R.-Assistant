@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Workspace Query Expansion
+P.E.P.P.E.R. - Workspace Query Expansion
 
 Phase 12D Retrieval Fix
 
@@ -8,7 +8,7 @@ Turn natural-language workspace questions into compact retrieval terms
 that different sources can match reliably.
 
 Example:
-    "What changed in E.V.I.E. around Phase 11?"
+    "What changed in P.E.P.P.E.R. around Phase 11?"
 becomes roughly:
     ["what changed in e.v.i.e. around phase 11",
      "phase 11",

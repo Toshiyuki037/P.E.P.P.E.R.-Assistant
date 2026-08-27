@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Lightweight Voice Identity Signal
+P.E.P.P.E.R. - Lightweight Voice Identity Signal
 
 Phase 14
 

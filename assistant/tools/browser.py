@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Browser Tools
+P.E.P.P.E.R. - Browser Tools
 
 Created: August 9, 2026
 Last Edited: August 10, 2026
 Author: Max Maehara
 
 Purpose:
-    Exposes controlled browser operations through E.V.I.E.'s
+    Exposes controlled browser operations through P.E.P.P.E.R.'s
     Phase 6 tool registry.
 
 Phase:
@@ -16,7 +16,7 @@ Phase:
 Security:
     Phase 8 does not bypass Phase 6.
 
-    Every browser operation exposed to E.V.I.E. is registered with
+    Every browser operation exposed to P.E.P.P.E.R. is registered with
     an explicit risk classification.
 
 Risk Policy:
@@ -441,7 +441,7 @@ register_tool(
     name="browser_start",
 
     description=(
-        "Starts E.V.I.E.'s managed Chromium browser."
+        "Starts P.E.P.P.E.R.'s managed Chromium browser."
     ),
 
     category="browser",
@@ -456,7 +456,7 @@ register_tool(
     name="browser_get_state",
 
     description=(
-        "Returns E.V.I.E.'s managed browser tabs, active tab, "
+        "Returns P.E.P.P.E.R.'s managed browser tabs, active tab, "
         "page titles, URLs, and optionally visible text."
     ),
 
@@ -625,7 +625,7 @@ register_tool(
     name="browser_search_web",
 
     description=(
-        "Searches the live web in E.V.I.E.'s managed browser and "
+        "Searches the live web in P.E.P.P.E.R.'s managed browser and "
         "returns search-result links for research."
     ),
 
@@ -728,7 +728,7 @@ register_tool(
     name="browser_shutdown",
 
     description=(
-        "Closes E.V.I.E.'s managed Chromium browser."
+        "Closes P.E.P.P.E.R.'s managed Chromium browser."
     ),
 
     category="browser",
@@ -751,7 +751,7 @@ if __name__ == "__main__":
 
 
     print(
-        "E.V.I.E. Browser Tools"
+        "P.E.P.P.E.R. Browser Tools"
     )
 
     print(

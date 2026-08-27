@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Tool Permission Engine
+P.E.P.P.E.R. - Tool Permission Engine
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
@@ -253,7 +253,7 @@ if __name__ == "__main__":
     )
 
     print(
-        "E.V.I.E. Permission Engine"
+        "P.E.P.P.E.R. Permission Engine"
     )
 
     print(

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Workflow Package
+P.E.P.P.E.R. - Workflow Package
 
 Phase 11
 
@@ -8,7 +8,7 @@ This package intentionally performs no eager imports.
 
 Background services such as the scheduler must be able to start
 without loading:
-    - E.V.I.E. reasoning
+    - P.E.P.P.E.R. reasoning
     - semantic memory
     - sentence transformers
     - speech systems

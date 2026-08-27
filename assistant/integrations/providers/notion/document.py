@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Notion Intelligent Document Operations
+P.E.P.P.E.R. - Notion Intelligent Document Operations
 
 Phase 9
 

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - OAuth Integration Interface
+P.E.P.P.E.R. - OAuth Integration Interface
 
 Created: August 10, 2026
 Author: Max Maehara

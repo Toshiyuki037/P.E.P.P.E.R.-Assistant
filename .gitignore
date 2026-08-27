@@ -1,8 +1,6 @@
-@'
-venv/
+﻿venv/
 __pycache__/
 *.pyc
-*.wav
 voice-output/
 memory/memory.db
 knowledge/knowledge.db
@@ -12,11 +10,14 @@ runtime/agent/
 runtime/integrations/
 runtime/coding/
 runtime/workspace/repositories/
-# tests/
+runtime/telemetry/
+runtime/cleanup/
+runtime/models/
+runtime/voice/
+runtime/voice_identity/
 .env
+.env/
 .cache/
 .idea/
 .vscode/
-.env/
-'@ | Set-Content .gitignore
-runtime/coding/
+runtime/phase13f/

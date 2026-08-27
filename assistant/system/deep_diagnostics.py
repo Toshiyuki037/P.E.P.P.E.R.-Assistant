@@ -1,10 +1,10 @@
 """
-E.V.I.E. - Deep Diagnostic Runner
+P.E.P.P.E.R. - Deep Diagnostic Runner
 
 Phase 15F
 
 Purpose:
-    Performs active but safe diagnostics for core local E.V.I.E. components.
+    Performs active but safe diagnostics for core local P.E.P.P.E.R. components.
 
 Important:
     - no destructive actions
@@ -175,7 +175,7 @@ def deep_check_embedding_model():
 
     vector = (
         create_embedding(
-            "E.V.I.E. diagnostic embedding"
+            "P.E.P.P.E.R. diagnostic embedding"
         )
     )
 
@@ -220,11 +220,11 @@ def deep_check_reranker():
         model.predict(
             [
                 [
-                    "E.V.I.E. health check",
-                    "E.V.I.E. health check",
+                    "P.E.P.P.E.R. health check",
+                    "P.E.P.P.E.R. health check",
                 ],
                 [
-                    "E.V.I.E. health check",
+                    "P.E.P.P.E.R. health check",
                     "completely unrelated sentence",
                 ],
             ],
@@ -554,7 +554,7 @@ def format_deep_diagnostic_report(
 
 
     lines = [
-        "E.V.I.E. DEEP DIAGNOSTIC",
+        "P.E.P.P.E.R. DEEP DIAGNOSTIC",
         "",
     ]
 

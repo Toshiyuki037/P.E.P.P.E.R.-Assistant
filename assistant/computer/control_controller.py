@@ -1,6 +1,6 @@
 
 """
-E.V.I.E. - Public Unified Computer Control API
+P.E.P.P.E.R. - Public Unified Computer Control API
 
 Phase 13J
 """

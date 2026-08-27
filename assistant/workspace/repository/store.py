@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Repository Graph Store
+P.E.P.P.E.R. - Repository Graph Store
 
 Phase 12C
 """

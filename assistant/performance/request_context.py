@@ -9,7 +9,7 @@ class RequestPerformanceHints:
     allow_project_knowledge: bool = True
     reason: str = "default"
 
-_HINTS = ContextVar("evie_performance_hints", default=RequestPerformanceHints())
+_HINTS = ContextVar("pepper_performance_hints", default=RequestPerformanceHints())
 
 def current_performance_hints():
     return _HINTS.get()

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Notion Provider Registration
+P.E.P.P.E.R. - Notion Provider Registration
 
 Phase 9
 

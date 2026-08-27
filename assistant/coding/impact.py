@@ -1,11 +1,11 @@
 """
-E.V.I.E. - Repository Impact Analysis
+P.E.P.P.E.R. - Repository Impact Analysis
 
 Phase 12H
 
 Purpose:
 Use the Phase 12C repository graph to determine what a proposed code
-change may affect before E.V.I.E. edits anything.
+change may affect before P.E.P.P.E.R. edits anything.
 
 This module is read-only.
 

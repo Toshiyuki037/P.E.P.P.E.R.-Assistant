@@ -1,11 +1,11 @@
 """
-E.V.I.E. - Integration Tool Gateway
+P.E.P.P.E.R. - Integration Tool Gateway
 
 Created: August 10, 2026
 Author: Max Maehara
 
 Purpose:
-    Exposes Phase 9 integrations to E.V.I.E.'s existing Phase 6 tool
+    Exposes Phase 9 integrations to P.E.P.P.E.R.'s existing Phase 6 tool
     system.
 
 Architecture:
@@ -27,7 +27,7 @@ Important:
     Phase 6 determines whether the action may execute.
     Phase 9 independently validates account/provider availability.
 
-    Write actions therefore inherit E.V.I.E.'s existing persistent
+    Write actions therefore inherit P.E.P.P.E.R.'s existing persistent
     approval/resume architecture.
 """
 
@@ -92,7 +92,7 @@ def integration_execute(
             Optional exact account restriction.
 
         approved:
-            Supplied ONLY by E.V.I.E.'s Phase 6 executor after the
+            Supplied ONLY by P.E.P.P.E.R.'s Phase 6 executor after the
             existing permission boundary has been satisfied.
 
     Important:
@@ -257,7 +257,7 @@ register_tool(
         "Use this for connected accounts such as Google Gmail, "
         "Google Calendar, Google Tasks, Contacts, Spotify, GitHub, "
         "Notion, Discord, finance providers, weather providers, and "
-        "future E.V.I.E. integrations. "
+        "future P.E.P.P.E.R. integrations. "
         "Examples include email.search, email.send, calendar.read, "
         "calendar.create, contacts.search, tasks.read, tasks.create, "
         "tasks.complete, finance.read, media.read, and media.control. "
@@ -286,7 +286,7 @@ register_tool(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Integration Tool Gateway"
+        "P.E.P.P.E.R. Integration Tool Gateway"
     )
 
     print(

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Agent Controller
+P.E.P.P.E.R. - Agent Controller
 
 Created: August 9, 2026
 Last Edited: August 9, 2026

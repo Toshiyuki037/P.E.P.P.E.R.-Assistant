@@ -1,10 +1,10 @@
 """
-E.V.I.E. - Workspace Bridge Utilities
+P.E.P.P.E.R. - Workspace Bridge Utilities
 
 Phase 12E
 
 Purpose:
-Safely bridge older E.V.I.E. subsystems into the unified workspace
+Safely bridge older P.E.P.P.E.R. subsystems into the unified workspace
 without hard-coding one historical function signature.
 
 All imports are lazy. Missing optional subsystems fail closed and return

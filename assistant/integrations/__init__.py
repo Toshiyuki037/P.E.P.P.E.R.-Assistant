@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Personal Integrations
+P.E.P.P.E.R. - Personal Integrations
 
 Phase 9 - Personal Digital Integration & Context
 
@@ -17,6 +17,6 @@ Provides a provider-independent integration layer for services such as:
 - tasks
 - messaging
 
-The rest of E.V.I.E. should reason about capabilities and normalized
+The rest of P.E.P.P.E.R. should reason about capabilities and normalized
 personal data rather than provider-specific APIs.
 """

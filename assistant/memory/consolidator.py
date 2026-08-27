@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Memory Consolidation Module
+P.E.P.P.E.R. - Memory Consolidation Module
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
 Author: Max Maehara
 
 Purpose:
-    Performs maintenance on E.V.I.E.'s long-term memory.
+    Performs maintenance on P.E.P.P.E.R.'s long-term memory.
 
 How It Works:
     Finds semantically similar memories and asks the Memory Manager
@@ -206,7 +206,7 @@ def consolidate_memories():
 
 if __name__ == "__main__":
     print(
-        "Running E.V.I.E. memory consolidation..."
+        "Running P.E.P.P.E.R. memory consolidation..."
     )
 
     actions = consolidate_memories()

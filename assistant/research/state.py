@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Research Intelligence Persistence
+P.E.P.P.E.R. - Research Intelligence Persistence
 
 Simple JSON persistence for Phase 12F.
 """

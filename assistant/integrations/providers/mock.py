@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Mock Integration Provider
+P.E.P.P.E.R. - Mock Integration Provider
 
 Purpose:
     Tests the Phase 9 integration architecture without requiring

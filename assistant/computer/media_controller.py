@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Local Media Hardware Controller
+P.E.P.P.E.R. - Local Media Hardware Controller
 
 Phase 13F
 

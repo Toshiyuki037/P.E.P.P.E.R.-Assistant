@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Mock Apple Bridge
+P.E.P.P.E.R. - Mock Apple Bridge
 
 Created: August 10, 2026
 Author: Max Maehara
@@ -7,7 +7,7 @@ Author: Max Maehara
 Purpose:
     Development-only mock implementation of the Phase 9H Apple bridge.
 
-This server allows E.V.I.E.'s Windows-side bridge client, capability
+This server allows P.E.P.P.E.R.'s Windows-side bridge client, capability
 registry, account router, and aggregator to be tested before the native
 Swift bridge exists.
 
@@ -133,7 +133,7 @@ class AppleBridgeMockHandler(
                         True,
 
                     "bridge":
-                        "EVIE Apple Bridge",
+                        "P.E.P.P.E.R. Apple Bridge",
 
                     "version":
                         "0.1.0",
@@ -187,7 +187,7 @@ if __name__ == "__main__":
 
 
     print(
-        "E.V.I.E. Mock Apple Bridge"
+        "P.E.P.P.E.R. Mock Apple Bridge"
     )
 
     print(

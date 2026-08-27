@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Research Intelligence Models
+P.E.P.P.E.R. - Research Intelligence Models
 
 Phase 12F:
 Structured research projects, papers, hypotheses, experiments,

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Apple Bridge Provider Registration
+P.E.P.P.E.R. - Apple Bridge Provider Registration
 
 Created: August 10, 2026
 Author: Max Maehara
@@ -59,6 +59,6 @@ def load_apple_bridge_provider():
             "personal",
 
         description=(
-            "Checks whether E.V.I.E.'s trusted Apple bridge is available."
+            "Checks whether P.E.P.P.E.R.'s trusted Apple bridge is available."
         ),
     )

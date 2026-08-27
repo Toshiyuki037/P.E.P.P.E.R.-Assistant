@@ -1,5 +1,5 @@
 """
-E.V.I.E. - GitHub Authentication / Configuration
+P.E.P.P.E.R. - GitHub Authentication / Configuration
 
 Phase 9
 
@@ -195,7 +195,7 @@ if __name__ == "__main__":
         )
 
         print(
-            "E.V.I.E. GitHub Configuration"
+            "P.E.P.P.E.R. GitHub Configuration"
         )
 
         print(

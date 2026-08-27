@@ -68,7 +68,7 @@ Contextual voice-session state
 Example:
 
 User:
-"Evie, good morning. What's on my calendar?"
+"Pepper, good morning. What's on my calendar?"
 
 E.V.I.E.:
 "Authenticated. Welcome back, Max."

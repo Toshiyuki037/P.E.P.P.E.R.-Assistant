@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Phase 15C/D Diagnostic Aggregation
+P.E.P.P.E.R. - Phase 15C/D Diagnostic Aggregation
 
 Adds failure-history and subsystem-level reporting on top of the Phase 15B
 health engine.
@@ -65,7 +65,7 @@ def format_diagnostic_snapshot(
         )
 
     lines = [
-        "E.V.I.E. DIAGNOSTIC SNAPSHOT",
+        "P.E.P.P.E.R. DIAGNOSTIC SNAPSHOT",
         "",
     ]
 

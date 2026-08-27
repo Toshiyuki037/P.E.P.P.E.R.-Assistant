@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Intelligence / Reasoning Module
+P.E.P.P.E.R. - Intelligence / Reasoning Module
 
 Created: August 7, 2026
 Last Edited: August 9, 2026
 Author: Max Maehara
 
 Purpose:
-    Handles E.V.I.E.'s reasoning and combines conversation,
+    Handles P.E.P.P.E.R.'s reasoning and combines conversation,
     memory, perception, project knowledge, and visual intelligence.
 
 How It Works:
@@ -131,9 +131,9 @@ client = OpenAI()
 # ---------------------------------------------------------------------------
 
 SYSTEM_PROMPT = """
-You are E.V.I.E.
+You are P.E.P.P.E.R.
 
-E.V.I.E. stands for Enhanced Virtual Intelligence Engine.
+P.E.P.P.E.R. stands for Enhanced Virtual Intelligence Engine.
 
 You are Max's personal AI assistant and engineering partner.
 
@@ -187,7 +187,7 @@ Use live context for questions about the computer's current state.
 
 ATOMIC WORKSPACE SNAPSHOT
 
-For each user request, E.V.I.E. receives one coherent workspace snapshot.
+For each user request, P.E.P.P.E.R. receives one coherent workspace snapshot.
 
 The active workspace and open-workspace list in that snapshot represent
 the same observation in time.
@@ -276,7 +276,7 @@ When explaining runtime or cross-file flows:
 
 VISUAL CONTEXT
 
-E.V.I.E. may receive a fresh screenshot captured at the beginning
+P.E.P.P.E.R. may receive a fresh screenshot captured at the beginning
 of the current request.
 
 A screenshot is only provided when the user's request appears to
@@ -305,7 +305,7 @@ Rules:
   prefer the current screenshot.
 - If text is too small or unclear, say that it cannot be read
   confidently rather than inventing it.
-- Do not claim that E.V.I.E. clicked, edited, opened, closed,
+- Do not claim that P.E.P.P.E.R. clicked, edited, opened, closed,
   or otherwise controlled anything. Phase 5 vision is read-only.
 - When the user asks what is on the screen, prioritize the
   screenshot rather than relying only on application metadata.
@@ -318,7 +318,7 @@ Rules:
 
 TOOL / COMPUTER CONTROL
 
-E.V.I.E. may perform controlled computer actions through a registered
+P.E.P.P.E.R. may perform controlled computer actions through a registered
 tool system.
 
 Rules:
@@ -387,7 +387,7 @@ def build_conversation_context(
 
         formatted.append(
             f"User: {user_message}\n"
-            f"E.V.I.E.: {response}"
+            f"P.E.P.P.E.R.: {response}"
         )
 
 
@@ -852,7 +852,7 @@ def render_tool_result_response(
 ):
     """
     Converts deterministic tool output into a concise natural-language
-    E.V.I.E. response.
+    P.E.P.P.E.R. response.
 
     The model is not allowed to reinterpret failure as success.
     """
@@ -874,7 +874,7 @@ def render_tool_result_response(
     }
 
     instructions = """
-You are E.V.I.E. reporting the result of one computer tool action.
+You are P.E.P.P.E.R. reporting the result of one computer tool action.
 
 Use only the supplied tool execution and verification data.
 
@@ -2558,7 +2558,7 @@ PROVISIONAL_SYSTEM_PROMPT = (
 
 PROVISIONAL VOICE REASONING
 
-This request comes from E.V.I.E.'s live streaming voice system.
+This request comes from P.E.P.P.E.R.'s live streaming voice system.
 
 The user's utterance may still change.
 
@@ -2596,7 +2596,7 @@ def stream_provisional_reasoning(
     authoritative final requests.
 
     It uses:
-        - the existing E.V.I.E. system identity
+        - the existing P.E.P.P.E.R. system identity
         - recent conversation history
         - the currently committed safe speech
 
@@ -2771,7 +2771,7 @@ def chat(
     user_message: str,
 ):
     """
-    Main E.V.I.E. reasoning entry point.
+    Main P.E.P.P.E.R. reasoning entry point.
 
     Supports:
         - normal text-only reasoning
@@ -2811,7 +2811,7 @@ def chat(
 
         developer_message = (
             "The following information "
-            "comes from E.V.I.E.'s local "
+            "comes from P.E.P.P.E.R.'s local "
             "memory, computer perception, "
             "workspace, project knowledge, "
             "and vision systems. "
@@ -3004,7 +3004,7 @@ def chat(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Brain Test"
+        "P.E.P.P.E.R. Brain Test"
     )
 
     print(
@@ -3038,6 +3038,6 @@ if __name__ == "__main__":
 
 
         print(
-            f"\nE.V.I.E.: "
+            f"\nP.E.P.P.E.R.: "
             f"{response}\n"
         )

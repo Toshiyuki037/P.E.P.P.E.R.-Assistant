@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Knowledge Retriever
+P.E.P.P.E.R. - Knowledge Retriever
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
@@ -21,7 +21,7 @@ How It Works:
     Stage 4:
         Neighbor expansion around strong matches.
 
-    This allows E.V.I.E. to retrieve the exact relevant code while
+    This allows P.E.P.P.E.R. to retrieve the exact relevant code while
     also receiving enough surrounding implementation to understand
     execution flow across large functions.
 
@@ -910,7 +910,7 @@ CONTENT:
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Knowledge Retriever"
+        "P.E.P.P.E.R. Knowledge Retriever"
     )
 
     print(

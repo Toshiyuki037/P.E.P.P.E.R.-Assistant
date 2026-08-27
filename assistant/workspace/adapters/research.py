@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Research Workspace Adapter
+P.E.P.P.E.R. - Research Workspace Adapter
 
 Phase 12F
 

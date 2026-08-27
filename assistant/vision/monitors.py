@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Monitor Awareness
+P.E.P.P.E.R. - Monitor Awareness
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
 Author: Max Maehara
 
 Purpose:
-    Detects connected physical monitors for E.V.I.E.'s vision system.
+    Detects connected physical monitors for P.E.P.P.E.R.'s vision system.
 
 Most Recent Change:
     Uses the current MSS interface and exposes monitor geometry for
@@ -58,7 +58,7 @@ def get_monitors():
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Monitor Awareness"
+        "P.E.P.P.E.R. Monitor Awareness"
     )
 
     print(

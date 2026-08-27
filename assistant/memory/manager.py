@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Intelligent Memory Manager
+P.E.P.P.E.R. - Intelligent Memory Manager
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
 Author: Max Maehara
 
 Purpose:
-    Reasons about how information should modify E.V.I.E.'s
+    Reasons about how information should modify P.E.P.P.E.R.'s
     long-term memory.
 
 How It Works:
@@ -138,7 +138,7 @@ RELATION_CONFIDENCE = 82
 # ---------------------------------------------------------------------------
 
 MEMORY_MANAGER_PROMPT = """
-You are the memory manager for E.V.I.E.,
+You are the memory manager for P.E.P.P.E.R.,
 Enhanced Virtual Intelligence Engine.
 
 Do not answer the user.
@@ -687,7 +687,7 @@ merely because they are similar.
     response = client.responses.parse(
         model="gpt-5.5",
         instructions=(
-            "You are E.V.I.E.'s memory relationship resolver. "
+            "You are P.E.P.P.E.R.'s memory relationship resolver. "
             "Do not answer the user. Classify memory relationships."
         ),
         input=prompt,
@@ -767,7 +767,7 @@ select all of them.
     response = client.responses.parse(
         model="gpt-5.5",
         instructions=(
-            "Select which existing E.V.I.E. memories are "
+            "Select which existing P.E.P.P.E.R. memories are "
             "superseded by current user information."
         ),
         input=prompt,
@@ -821,7 +821,7 @@ CANDIDATE MEMORIES:
 {format_candidates(candidates)}
 
 
-The user has explicitly requested that E.V.I.E. forget information.
+The user has explicitly requested that P.E.P.P.E.R. forget information.
 
 Select EVERY candidate memory that contains information covered
 by the forget request.
@@ -831,7 +831,7 @@ Important rules:
 1. Interpret the user's request by meaning, not exact wording.
 
 2. If the user asks to forget a category of information, select
-   every memory that would allow E.V.I.E. to reconstruct that
+   every memory that would allow P.E.P.P.E.R. to reconstruct that
    information.
 
 3. Do not require the candidate to contain every word from the request.
@@ -841,13 +841,13 @@ Important rules:
 Example:
 
 User:
-"Forget which GPU I use for E.V.I.E. development."
+"Forget which GPU I use for P.E.P.P.E.R. development."
 
 Candidate:
-"E.V.I.E. development laptop has an NVIDIA GeForce RTX 4070 GPU."
+"P.E.P.P.E.R. development laptop has an NVIDIA GeForce RTX 4070 GPU."
 
 This MUST be selected because it directly reveals the GPU used
-for E.V.I.E. development.
+for P.E.P.P.E.R. development.
 
 Another candidate:
 "Max's primary development computer uses an RTX 4070 GPU."
@@ -863,7 +863,7 @@ the user's explicit forget request.
     response = client.responses.parse(
         model="gpt-5.5",
         instructions=(
-            "You are E.V.I.E.'s long-term memory deletion selector. "
+            "You are P.E.P.P.E.R.'s long-term memory deletion selector. "
             "The user has explicitly requested forgetting. "
             "Select every candidate memory whose stored information "
             "falls within that request."

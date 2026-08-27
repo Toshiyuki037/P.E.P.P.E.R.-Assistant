@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Browser Actions
+P.E.P.P.E.R. - Browser Actions
 
 Created: August 10, 2026
 Last Edited: August 10, 2026
 Author: Max Maehara
 
 Purpose:
-    Provides browser interaction primitives for E.V.I.E.
+    Provides browser interaction primitives for P.E.P.P.E.R.
 
 Phase:
     Phase 8 - Browser Intelligence & Control

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Streaming Speech Pipeline
+P.E.P.P.E.R. - Streaming Speech Pipeline
 
 Created: August 12, 2026
 Author: Max Maehara
@@ -167,13 +167,13 @@ class StreamingSpeechPipeline:
             self._synthesis_thread = threading.Thread(
                 target=self._synthesis_loop,
                 daemon=True,
-                name="evie-tts-synthesis",
+                name="pepper-tts-synthesis",
             )
 
             self._playback_thread = threading.Thread(
                 target=self._playback_loop,
                 daemon=True,
-                name="evie-tts-playback",
+                name="pepper-tts-playback",
             )
 
             synthesis_thread = self._synthesis_thread

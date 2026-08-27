@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Tool Result Verifier
+P.E.P.P.E.R. - Tool Result Verifier
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
@@ -7,7 +7,7 @@ Author: Max Maehara
 
 Purpose:
     Normalizes executor results into a reliable verification state
-    before E.V.I.E. describes an action as successful.
+    before P.E.P.P.E.R. describes an action as successful.
 """
 
 from dataclasses import dataclass
@@ -178,7 +178,7 @@ def verification_to_dict(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Tool Result Verifier"
+        "P.E.P.P.E.R. Tool Result Verifier"
     )
 
     print(

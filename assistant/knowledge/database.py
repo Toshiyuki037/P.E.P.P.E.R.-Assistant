@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Knowledge Database
+P.E.P.P.E.R. - Knowledge Database
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
@@ -7,10 +7,10 @@ Author: Max Maehara
 
 Purpose:
     Stores indexed project files, searchable chunks, embeddings,
-    and metadata for E.V.I.E.'s local project knowledge system.
+    and metadata for P.E.P.P.E.R.'s local project knowledge system.
 
 How It Works:
-    Uses a local SQLite database separate from E.V.I.E.'s memory DB.
+    Uses a local SQLite database separate from P.E.P.P.E.R.'s memory DB.
 
     Stores:
         - indexed files
@@ -619,7 +619,7 @@ if __name__ == "__main__":
     init_knowledge_database()
 
     print(
-        "E.V.I.E. knowledge database ready."
+        "P.E.P.P.E.R. knowledge database ready."
     )
 
     print(

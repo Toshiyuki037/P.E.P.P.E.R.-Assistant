@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Spotify Search and Playback Resolution
+P.E.P.P.E.R. - Spotify Search and Playback Resolution
 
 Phase 9F
 Last Edited: August 10, 2026

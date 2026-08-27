@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Unified Workspace Controller
+P.E.P.P.E.R. - Unified Workspace Controller
 
 Phase 12A
 

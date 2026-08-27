@@ -1,5 +1,5 @@
 """
-E.V.I.E. - GitHub Activity
+P.E.P.P.E.R. - GitHub Activity
 
 Phase 9
 

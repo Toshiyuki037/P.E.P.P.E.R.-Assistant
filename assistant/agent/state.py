@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Persistent Agent State
+P.E.P.P.E.R. - Persistent Agent State
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
 Author: Max Maehara
 
 Purpose:
-    Persists E.V.I.E.'s active Phase 7 task.
+    Persists P.E.P.P.E.R.'s active Phase 7 task.
 
 Capabilities:
     - save active tasks
@@ -24,7 +24,7 @@ Storage:
 Important:
     This state is runtime coordination data.
 
-    It is not E.V.I.E.'s long-term memory system.
+    It is not P.E.P.P.E.R.'s long-term memory system.
 
 Most Recent Change:
     Added continuation_count persistence for dynamically extended
@@ -538,7 +538,7 @@ def summarize_task(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Agent State"
+        "P.E.P.P.E.R. Agent State"
     )
 
     print(

@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Browser Research
+P.E.P.P.E.R. - Browser Research
 
 Created: August 10, 2026
 Last Edited: August 10, 2026
 Author: Max Maehara
 
 Purpose:
-    Provides live-web search and research extraction for E.V.I.E.
+    Provides live-web search and research extraction for P.E.P.P.E.R.
 
 Phase:
     Phase 8 - Browser Intelligence & Control
@@ -41,7 +41,7 @@ Security:
 Most Recent Change:
     Added canonical URL extraction so Bing tracking redirects are
     converted into the actual destination URLs before being returned
-    to E.V.I.E.
+    to P.E.P.P.E.R.
 """
 
 from __future__ import annotations
@@ -1446,7 +1446,7 @@ if __name__ == "__main__":
 
 
     print(
-        "E.V.I.E. Browser Research"
+        "P.E.P.P.E.R. Browser Research"
     )
 
     print(

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Coding Branch Management
+P.E.P.P.E.R. - Coding Branch Management
 
 Phase 12J
 
@@ -96,7 +96,7 @@ def create_transaction_branch(
         _safe_branch_name(
             branch_name
             or (
-                "evie/"
+                "pepper/"
                 + transaction.transaction_id
             )
         )

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Safe Git Read Helpers
+P.E.P.P.E.R. - Safe Git Read Helpers
 
 Phase 12I
 

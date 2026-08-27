@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Workflow Replanner
+P.E.P.P.E.R. - Workflow Replanner
 
 Phase 11D
 
@@ -12,7 +12,7 @@ Important:
 - This module only proposes a repair.
 - The repaired step still executes through the normal workflow engine.
 - The workflow goal is immutable.
-- E.V.I.E.'s reasoning stack is loaded lazily only when replanning
+- P.E.P.P.E.R.'s reasoning stack is loaded lazily only when replanning
   is actually required.
 """
 
@@ -40,7 +40,7 @@ from assistant.intelligence.integration_runtime import (
 # ---------------------------------------------------------------------------
 
 REPLANNER_SYSTEM_PROMPT = """
-You are E.V.I.E.'s Phase 11 workflow repair planner.
+You are P.E.P.P.E.R.'s Phase 11 workflow repair planner.
 
 Your job is to repair ONE FAILED WORKFLOW STEP while preserving the
 original workflow goal.
@@ -146,7 +146,7 @@ def _available_tools_text():
 
 def _get_reasoning_client():
     """
-    Import E.V.I.E.'s reasoning stack only if replanning is genuinely
+    Import P.E.P.P.E.R.'s reasoning stack only if replanning is genuinely
     required.
 
     This prevents lightweight processes such as the Phase 11 scheduler

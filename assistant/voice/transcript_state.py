@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Transcript State Machine
+P.E.P.P.E.R. - Transcript State Machine
 
 Created: August 12, 2026
 Author: Max Maehara

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Voice Response Length Discipline
+P.E.P.P.E.R. - Voice Response Length Discipline
 
 Final Phase 14/15 polish.
 
@@ -305,7 +305,7 @@ def apply_response_length_policy(
     return (
         original
         + "\n\n"
-        + "[E.V.I.E. RESPONSE-LENGTH POLICY — INTERNAL RUNTIME INSTRUCTION]\n"
+        + "[P.E.P.P.E.R. RESPONSE-LENGTH POLICY — INTERNAL RUNTIME INSTRUCTION]\n"
         + policy.instruction
         + "\n"
         + (

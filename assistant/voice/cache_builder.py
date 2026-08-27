@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Phase 14A.5 Acknowledgement Cache Builder
+P.E.P.P.E.R. - Phase 14A.5 Acknowledgement Cache Builder
 
 Purpose:
     Generates a small set of acknowledgement WAV files ahead of time.
@@ -36,17 +36,17 @@ ROOT = (
 
 REF_AUDIO = (
     ROOT
-    / "evie-voice"
+    / "pepper-voice"
     / "references"
-    / "evie-neutral.wav"
+    / "pepper-reference.wav"
 )
 
 
 REF_TEXT_FILE = (
     ROOT
-    / "evie-voice"
+    / "pepper-voice"
     / "references"
-    / "evie-neutral.txt"
+    / "pepper-reference.txt"
 )
 
 
@@ -208,7 +208,7 @@ def build_cache(
     """
 
     print(
-        "Preparing E.V.I.E. acknowledgement cache..."
+        "Preparing P.E.P.P.E.R. acknowledgement cache..."
     )
 
 
@@ -280,7 +280,7 @@ def build_cache(
     # -----------------------------------------------------------------------
 
     print(
-        "Loading E.V.I.E. voice model "
+        "Loading P.E.P.P.E.R. voice model "
         "for acknowledgement generation..."
     )
 

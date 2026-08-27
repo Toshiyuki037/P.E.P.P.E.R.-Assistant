@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Main Application Controller
+P.E.P.P.E.R. - Main Application Controller
 
 Created: August 7, 2026
 Last Edited: August 8, 2026
@@ -21,7 +21,7 @@ How It Works:
         - trigger normal reasoning
 
     The complete response is displayed in the terminal while a cleaned,
-    shorter version is sent to E.V.I.E.'s voice model.
+    shorter version is sent to P.E.P.P.E.R.'s voice model.
 
 Most Recent Change:
     Added Phase 6 controlled computer-tool requests and explicit
@@ -168,6 +168,9 @@ from .voice.acknowledgements import (
     play_acknowledgement,
     suppress_next_acknowledgement,
 )
+
+# P.E.P.P.E.R.: old prerecorded acknowledgements disabled.
+VOICE_ACKNOWLEDGEMENTS_ENABLED = False
 
 from .system.integration import (
     handle_system_message,
@@ -478,7 +481,7 @@ def handle_manual_memory(
         )
 
     print(
-        f"\nE.V.I.E.: "
+        f"\nP.E.P.P.E.R.: "
         f"{response}\n"
     )
 
@@ -764,7 +767,7 @@ def process_intelligent_memory(
 
     except Exception as error:
 
-        # Memory failures must not crash E.V.I.E.
+        # Memory failures must not crash P.E.P.P.E.R.
 
         print(
             "\n[Memory Manager Warning]"
@@ -785,7 +788,7 @@ def complete_response(
 ):
     """
     Displays, stores, speaks, and records telemetry for one
-    completed E.V.I.E. response.
+    completed P.E.P.P.E.R. response.
     """
 
     mark(
@@ -793,7 +796,7 @@ def complete_response(
     )
 
     print(
-        f"\nE.V.I.E.: "
+        f"\nP.E.P.P.E.R.: "
         f"{response}\n"
     )
 
@@ -849,7 +852,7 @@ def process_prompt(
     voice_streaming: bool = False,
 ):
     """
-    Shared E.V.I.E. processing pipeline.
+    Shared P.E.P.P.E.R. processing pipeline.
 
     Priority:
 
@@ -910,7 +913,10 @@ def process_prompt(
     # authoritative reasoning.
     # -----------------------------------------------------------------------
 
-    if voice_streaming:
+    if (
+        voice_streaming
+        and VOICE_ACKNOWLEDGEMENTS_ENABLED
+    ):
 
         acknowledgement = (
             choose_acknowledgement()
@@ -1790,7 +1796,7 @@ def process_prompt(
 
 
             print(
-                f"\nE.V.I.E.: "
+                f"\nP.E.P.P.E.R.: "
                 f"{response}\n"
             )
 
@@ -1895,7 +1901,7 @@ def process_voice_prompt(
 ):
     """
     Processes finalized voice requests through the normal frozen
-    E.V.I.E. routing architecture while enabling authoritative
+    P.E.P.P.E.R. routing architecture while enabling authoritative
     sentence-by-sentence streaming for normal reasoning.
     """
 
@@ -1930,7 +1936,7 @@ def speak_authenticated_wake():
 
 
     print(
-        f"E.V.I.E.: {line}"
+        f"P.E.P.P.E.R.: {line}"
     )
 
 
@@ -1950,7 +1956,7 @@ def speak_unrecognized_wake():
 
 
     print(
-        f"E.V.I.E.: {NOT_RECOGNIZED_LINE}"
+        f"P.E.P.P.E.R.: {NOT_RECOGNIZED_LINE}"
     )
 
 
@@ -1994,7 +2000,7 @@ start_background_prewarm(
 start_tts_prewarm()
 
 print(
-    "\nE.V.I.E. Online"
+    "\nP.E.P.P.E.R. Online"
 )
 
 
@@ -2045,7 +2051,7 @@ while True:
     }:
 
         print(
-            "\nE.V.I.E. Offline"
+            "\nP.E.P.P.E.R. Offline"
         )
 
         break
@@ -2070,7 +2076,7 @@ while True:
         }:
 
             print(
-                "\nE.V.I.E. Offline"
+                "\nP.E.P.P.E.R. Offline"
             )
 
             break

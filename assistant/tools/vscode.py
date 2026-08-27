@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Visual Studio Code Tools
+P.E.P.P.E.R. - Visual Studio Code Tools
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
@@ -478,7 +478,7 @@ register_tool(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. VS Code Tools"
+        "P.E.P.P.E.R. VS Code Tools"
     )
 
     print(

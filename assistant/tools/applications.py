@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Application Control Tools
+P.E.P.P.E.R. - Application Control Tools
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
@@ -198,7 +198,7 @@ def get_application(
         raise PermissionError(
             (
                 "Application is not on "
-                "E.V.I.E.'s approved list: "
+                "P.E.P.P.E.R.'s approved list: "
                 f"{name}"
             )
         )
@@ -498,7 +498,7 @@ register_tool(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Application Tools"
+        "P.E.P.P.E.R. Application Tools"
     )
 
     print(

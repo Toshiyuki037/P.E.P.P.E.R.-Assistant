@@ -6,9 +6,9 @@ from assistant.voice.wake import (
 
 
 def test_wake_word_and_inline_request():
-    assert extract_wake_request("Evie") == (True, "")
+    assert extract_wake_request("Pepper") == (True, "")
     assert extract_wake_request(
-        "Evie, what's on my calendar?"
+        "Pepper, what's on my calendar?"
     ) == (
         True,
         "what's on my calendar",

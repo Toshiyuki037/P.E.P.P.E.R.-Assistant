@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Integration Connections
+P.E.P.P.E.R. - Integration Connections
 
 Created: August 10, 2026
 Author: Max Maehara
@@ -313,7 +313,7 @@ def list_provider_accounts(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Integration Connections"
+        "P.E.P.P.E.R. Integration Connections"
     )
 
     print(

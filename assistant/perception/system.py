@@ -1,5 +1,5 @@
 """
-E.V.I.E. - System Awareness Module
+P.E.P.P.E.R. - System Awareness Module
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
@@ -474,7 +474,7 @@ if __name__ == "__main__":
     context = get_system_context()
 
     print(
-        "E.V.I.E. System Context"
+        "P.E.P.P.E.R. System Context"
     )
 
     print(

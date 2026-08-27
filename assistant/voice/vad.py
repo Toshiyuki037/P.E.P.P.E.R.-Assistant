@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Voice Activity Detection
+P.E.P.P.E.R. - Voice Activity Detection
 
 Created: August 12, 2026
 Author: Max Maehara
@@ -531,7 +531,7 @@ if __name__ == "__main__":
 
 
     print(
-        "E.V.I.E. Phase 14B VAD"
+        "P.E.P.P.E.R. Phase 14B VAD"
     )
 
 

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Spotify Playback
+P.E.P.P.E.R. - Spotify Playback
 
 Phase 9F
 Last Edited: August 10, 2026

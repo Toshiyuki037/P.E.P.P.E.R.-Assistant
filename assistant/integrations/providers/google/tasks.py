@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Google Tasks Integration
+P.E.P.P.E.R. - Google Tasks Integration
 
 Created: August 10, 2026
 Author: Max Maehara

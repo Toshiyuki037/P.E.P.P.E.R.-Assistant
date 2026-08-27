@@ -1,18 +1,18 @@
 """
-E.V.I.E. - Tool Approval Session
+P.E.P.P.E.R. - Tool Approval Session
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
 Author: Max Maehara
 
 Purpose:
-    Stores one exact pending tool action while E.V.I.E. waits for
+    Stores one exact pending tool action while P.E.P.P.E.R. waits for
     explicit approval.
 
 Security:
     Approval executes the exact saved tool name and arguments.
 
-    E.V.I.E. does not re-plan the pending action after the user
+    P.E.P.P.E.R. does not re-plan the pending action after the user
     approves it.
 
 Capabilities:
@@ -367,7 +367,7 @@ if __name__ == "__main__":
     )
 
     print(
-        "E.V.I.E. Tool Approval Session"
+        "P.E.P.P.E.R. Tool Approval Session"
     )
 
     print(

@@ -1,5 +1,5 @@
-"""
-E.V.I.E. - Self-Engineering Candidate Discovery
+﻿"""
+P.E.P.P.E.R. - Self-Engineering Candidate Discovery
 
 Phase 12N Final
 
@@ -72,8 +72,8 @@ GENERIC_WORDS = {
     "display-only",
     "do",
     "engineering",
-    "evie",
-    "e.v.i.e.",
+    "pepper",
+    "p.e.p.p.e.r.",
     "execute",
     "execution",
     "executable",

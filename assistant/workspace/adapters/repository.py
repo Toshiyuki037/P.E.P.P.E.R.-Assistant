@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Repository Graph Workspace Adapter
+P.E.P.P.E.R. - Repository Graph Workspace Adapter
 
 Phase 12D Retrieval Fix
 

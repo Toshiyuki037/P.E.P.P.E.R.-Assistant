@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Knowledge File Reader
+P.E.P.P.E.R. - Knowledge File Reader
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
@@ -7,7 +7,7 @@ Author: Max Maehara
 
 Purpose:
     Safely reads supported text/source files discovered by
-    E.V.I.E.'s knowledge scanner.
+    P.E.P.P.E.R.'s knowledge scanner.
 
 How It Works:
     Ensures files remain inside the selected workspace, applies
@@ -375,7 +375,7 @@ def find_file(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Knowledge Reader"
+        "P.E.P.P.E.R. Knowledge Reader"
     )
 
     print(

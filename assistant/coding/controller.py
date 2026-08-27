@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Self-Engineering Controller
+P.E.P.P.E.R. - Self-Engineering Controller
 
 Phase 12M / Phase 12N
 

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Agent Verifier
+P.E.P.P.E.R. - Agent Verifier
 
 Created: August 9, 2026
 Last Edited: August 10, 2026
@@ -1063,7 +1063,7 @@ def decide_recovery(
             model="gpt-5.5",
 
             instructions="""
-You are E.V.I.E.'s Phase 7 failure recovery controller.
+You are P.E.P.P.E.R.'s Phase 7 failure recovery controller.
 
 A REAL computer action failed.
 
@@ -1424,7 +1424,7 @@ def decide_continuation(
             model="gpt-5.5",
 
             instructions="""
-You are E.V.I.E.'s Phase 7 continuation controller.
+You are P.E.P.P.E.R.'s Phase 7 continuation controller.
 
 Every CURRENTLY PLANNED action has finished.
 
@@ -1744,7 +1744,7 @@ PHASE 13 COMPUTER CONTROL:
 
     value.
 
-38. Never guess that a project name is relative to the E.V.I.E. repository.
+38. Never guess that a project name is relative to the P.E.P.P.E.R. repository.
 
 39. When search_filesystem returns exactly one strong matching project
     directory, use its exact absolute path in the NEXT dependent action.
@@ -1929,7 +1929,7 @@ def verify_goal_completion(
             model="gpt-5.5",
 
             instructions="""
-You are E.V.I.E.'s final Phase 7 completion verifier AND final
+You are P.E.P.P.E.R.'s final Phase 7 completion verifier AND final
 task-summary generator.
 
 Determine whether the ORIGINAL USER GOAL is actually complete.
@@ -2244,7 +2244,7 @@ operation is actually missing.
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Agent Verifier"
+        "P.E.P.P.E.R. Agent Verifier"
     )
 
     print(

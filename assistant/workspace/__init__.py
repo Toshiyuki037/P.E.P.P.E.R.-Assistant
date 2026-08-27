@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Unified Workspace Intelligence
+P.E.P.P.E.R. - Unified Workspace Intelligence
 
 Phase 12
 

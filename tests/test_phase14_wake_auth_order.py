@@ -31,7 +31,7 @@ def test_wake_auth_runs_before_inline_prompt():
         if calls == 1:
 
             return (
-                "Evie, good morning."
+                "Pepper, good morning."
             )
 
         return (

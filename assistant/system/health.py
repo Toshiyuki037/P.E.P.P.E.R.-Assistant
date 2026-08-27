@@ -1,5 +1,5 @@
 """
-E.V.I.E. Phase 15B — Runtime Health Engine.
+P.E.P.P.E.R. Phase 15B — Runtime Health Engine.
 """
 
 from __future__ import annotations
@@ -654,7 +654,7 @@ def check_integration_capabilities():
             # Expected account-specific limitations
             #
             # These mean an individual account does not provide a service.
-            # They do NOT mean E.V.I.E. itself is unhealthy.
+            # They do NOT mean P.E.P.P.E.R. itself is unhealthy.
             #
             # Current examples:
             # - OSU Google account has no Gmail service
@@ -795,7 +795,7 @@ def check_integration_capabilities():
     # Healthy system
     #
     # Account-specific limitations remain visible in metadata but do not
-    # degrade overall E.V.I.E. health.
+    # degrade overall P.E.P.P.E.R. health.
     # -----------------------------------------------------------------------
 
     detail = (

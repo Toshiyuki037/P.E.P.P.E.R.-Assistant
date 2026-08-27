@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import re
 
@@ -36,7 +36,7 @@ SELF_ENGINEERING_ACTIONS = {
 #
 # are NOT sufficient.
 #
-# E.V.I.E. may appear in filenames, document contents, titles,
+# P.E.P.P.E.R. may appear in filenames, document contents, titles,
 # application names, notes, etc. That must never automatically mean
 # "modify your own repository."
 #
@@ -54,8 +54,8 @@ REPOSITORY_ANCHORS = {
     "your own repository",
     "your own repo",
     "your own codebase",
-    "e.v.i.e. repository",
-    "evie repository",
+    "p.e.p.p.e.r. repository",
+    "pepper repository",
     "e.v.-assistant repository",
     "assistant/main.py",
     "assistant/",
@@ -171,7 +171,7 @@ def _contains_word(
 
         "test"
             from matching
-        "EVIE-Phase13-Test.txt"
+        "PEPPER-Phase13-Test.txt"
 
     unless 'test' is actually present as a normal word in the user's
     instruction.
@@ -222,8 +222,8 @@ def _has_explicit_self_engineering_reference(
     text: str,
 ):
     """
-    Strong signals that the user is talking about E.V.I.E.'s own
-    implementation rather than asking E.V.I.E. to operate the computer.
+    Strong signals that the user is talking about P.E.P.P.E.R.'s own
+    implementation rather than asking P.E.P.P.E.R. to operate the computer.
     """
 
     explicit_phrases = (
@@ -286,7 +286,7 @@ def _has_repository_context(
     """
     Require an actual repository/code reference.
 
-    E.V.I.E.'s name alone is intentionally NOT enough.
+    P.E.P.P.E.R.'s name alone is intentionally NOT enough.
     """
 
     return _contains_any_phrase(
@@ -425,11 +425,11 @@ def plan_coding_request(
     #         +
     #     actual repository/code context
     #
-    # E.V.I.E.'s name in a filename/document is not repository context.
+    # P.E.P.P.E.R.'s name in a filename/document is not repository context.
     #
     # A word such as "test" embedded in:
     #
-    #     EVIE-Phase13-Test.txt
+    #     PEPPER-Phase13-Test.txt
     #
     # is not an engineering instruction.
     # -----------------------------------------------------------------------
@@ -469,13 +469,13 @@ def plan_coding_request(
     #
     # Examples:
     #
-    #   Open Notepad and save EVIE-Test.txt
+    #   Open Notepad and save PEPPER-Test.txt
     #       -> Phase 7 / Phase 13
     #
-    #   Verify that EVIE-Test.txt exists
+    #   Verify that PEPPER-Test.txt exists
     #       -> Phase 7 / Phase 13
     #
-    #   Write "E.V.I.E." in Notepad
+    #   Write "P.E.P.P.E.R." in Notepad
     #       -> Phase 7 / Phase 13
     #
     #   Fix your repository's routing logic

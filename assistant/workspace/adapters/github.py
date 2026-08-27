@@ -1,5 +1,5 @@
 """
-E.V.I.E. - GitHub Workspace Adapter
+P.E.P.P.E.R. - GitHub Workspace Adapter
 
 Phase 12D Retrieval Fix
 

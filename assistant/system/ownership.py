@@ -1,10 +1,10 @@
 """
-E.V.I.E. - Architecture Ownership Map
+P.E.P.P.E.R. - Architecture Ownership Map
 
 Phase 15I
 
 Purpose:
-    Provides a deterministic map from E.V.I.E. components/capabilities to:
+    Provides a deterministic map from P.E.P.P.E.R. components/capabilities to:
         - owning development phase
         - primary source modules
         - related tests

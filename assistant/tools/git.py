@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Git Tools
+P.E.P.P.E.R. - Git Tools
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
 Author: Max Maehara
 
 Purpose:
-    Provides controlled Git operations for E.V.I.E.
+    Provides controlled Git operations for P.E.P.P.E.R.
 
 Security:
     Git commands execute only inside a resolved workspace.
@@ -446,7 +446,7 @@ register_tool(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Git Tools"
+        "P.E.P.P.E.R. Git Tools"
     )
 
     print(

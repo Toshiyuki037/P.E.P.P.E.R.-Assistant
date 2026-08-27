@@ -1,10 +1,10 @@
 """
-E.V.I.E. - Backup, Restore & Integrity
+P.E.P.P.E.R. - Backup, Restore & Integrity
 
 Phase 15K
 
 Purpose:
-    Protects persistent E.V.I.E. state without backing up the entire source tree.
+    Protects persistent P.E.P.P.E.R. state without backing up the entire source tree.
 
 Backed-up state may include:
     - memory database

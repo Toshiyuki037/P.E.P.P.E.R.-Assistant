@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Windows Notifications
+P.E.P.P.E.R. - Windows Notifications
 
 Phase 13E
 
@@ -38,7 +38,7 @@ def send_windows_notification(
     title: str,
     message: str,
     *,
-    app_id: str = "E.V.I.E.",
+    app_id: str = "P.E.P.P.E.R.",
 ) -> NotificationResult:
     if not IS_WINDOWS:
         raise NotificationBackendUnavailable(

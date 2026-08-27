@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Streaming Input Coordinator
+P.E.P.P.E.R. - Streaming Input Coordinator
 
 Created: August 12, 2026
 Author: Max Maehara
@@ -8,7 +8,7 @@ Phase 14D
 
 Purpose:
     Coordinates provisional and finalized streaming speech before it
-    reaches reasoning or E.V.I.E.'s authoritative request pipeline.
+    reaches reasoning or P.E.P.P.E.R.'s authoritative request pipeline.
 
 Architecture:
     This module does NOT:
@@ -33,7 +33,7 @@ Safety:
     reasoning.
 
     Finalized speech remains authoritative and continues through the
-    existing E.V.I.E. Phase 1-13 routing architecture.
+    existing P.E.P.P.E.R. Phase 1-13 routing architecture.
 """
 
 from __future__ import annotations

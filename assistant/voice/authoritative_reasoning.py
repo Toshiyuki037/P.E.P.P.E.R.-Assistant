@@ -53,7 +53,7 @@ class ResponseSentenceAccumulator:
 
 def _developer_message(context: str) -> str:
     return (
-        "The following information comes from E.V.I.E.'s local memory, "
+        "The following information comes from P.E.P.P.E.R.'s local memory, "
         "computer perception, workspace, project knowledge, and vision systems. "
         "All current workspace information was captured from one coherent "
         "snapshot for this request. When visual context is attached, treat the "
@@ -82,7 +82,7 @@ def _context_query_from_reasoning_prompt(user_message: str) -> str:
 
     marker = (
         "\n\n"
-        "[E.V.I.E. RESPONSE-LENGTH POLICY — INTERNAL RUNTIME INSTRUCTION]"
+        "[P.E.P.P.E.R. RESPONSE-LENGTH POLICY — INTERNAL RUNTIME INSTRUCTION]"
     )
 
     if marker in value:

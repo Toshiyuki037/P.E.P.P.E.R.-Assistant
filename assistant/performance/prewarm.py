@@ -1,4 +1,4 @@
-"""Background prewarming for E.V.I.E.'s existing semantic-memory singletons."""
+"""Background prewarming for P.E.P.P.E.R.'s existing semantic-memory singletons."""
 from dataclasses import dataclass, field
 import os, threading, time
 
@@ -30,7 +30,7 @@ def _enabled():
 def _warm_embedding_model():
     from ..memory.embeddings import create_embedding
     t = time.monotonic()
-    create_embedding("E.V.I.E. semantic memory prewarm.")
+    create_embedding("P.E.P.P.E.R. semantic memory prewarm.")
     _STATUS.timings["memory_embedding"] = time.monotonic() - t
 
 def _warm_reranker():
@@ -46,11 +46,11 @@ def _warm_reranker():
         model = getter()
         predict = getattr(model, "predict", None)
         if callable(predict):
-            predict([["E.V.I.E. prewarm query", "E.V.I.E. prewarm candidate"]])
+            predict([["P.E.P.P.E.R. prewarm query", "P.E.P.P.E.R. prewarm candidate"]])
     else:
         retrieve = getattr(retriever, "retrieve_memories", None)
         if callable(retrieve):
-            retrieve(query="E.V.I.E. prewarm", limit=2, use_reranker=True)
+            retrieve(query="P.E.P.P.E.R. prewarm", limit=2, use_reranker=True)
     _STATUS.timings["memory_reranker"] = time.monotonic() - t
 
 def _worker(delay):
@@ -85,7 +85,7 @@ def start_background_prewarm(delay_seconds=1.0):
             return _THREAD
         if _STATUS.finished:
             return _THREAD
-        _THREAD = threading.Thread(target=_worker, args=(max(0.0, float(delay_seconds)),), name="evie-model-prewarm", daemon=True)
+        _THREAD = threading.Thread(target=_worker, args=(max(0.0, float(delay_seconds)),), name="pepper-model-prewarm", daemon=True)
         _THREAD.start()
         return _THREAD
 

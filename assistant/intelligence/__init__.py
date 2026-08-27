@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Unified Intelligence Layer
+P.E.P.P.E.R. - Unified Intelligence Layer
 
 Phase 10
 

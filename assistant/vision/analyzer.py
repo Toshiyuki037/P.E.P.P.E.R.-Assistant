@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Visual Input Analyzer
+P.E.P.P.E.R. - Visual Input Analyzer
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
 Author: Max Maehara
 
 Purpose:
-    Prepares temporary E.V.I.E. screenshots for multimodal reasoning.
+    Prepares temporary P.E.P.P.E.R. screenshots for multimodal reasoning.
 
 How It Works:
     1. Validates the temporary screenshot.
@@ -336,7 +336,7 @@ if __name__ == "__main__":
     )
 
     print(
-        "E.V.I.E. Visual Input Analyzer"
+        "P.E.P.P.E.R. Visual Input Analyzer"
     )
 
     print(

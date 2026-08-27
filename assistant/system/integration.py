@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Phase 15 System Integration
+P.E.P.P.E.R. - Phase 15 System Integration
 
 Live runtime entry point for:
     - self-awareness
@@ -73,9 +73,8 @@ _FILLER_PREFIXES = (
     "so",
     "like",
     "hey",
-    "evie",
-    "eve",
-    "e.v.i.e",
+    "pepper",
+    "p.e.p.p.e.r",
 )
 
 _FILLER_SUFFIXES = (
@@ -88,11 +87,11 @@ _STT_COMMAND_ALIASES = {
     "what vision are you":
         "what version are you",
 
-    "what vision is evie":
-        "what version is evie",
+    "what vision is pepper":
+        "what version is pepper",
 
-    "what vision is eve":
-        "what version is evie",
+    "what vision is p.e.p.p.e.r":
+        "what version is pepper",
 
     "are you helpy":
         "are you healthy",
@@ -632,8 +631,8 @@ def handle_system_message(
         in {
             "what version are you",
             "what version are you running",
-            "what version is evie",
-            "what version is e.v.i.e",
+            "what version is pepper",
+            "what version is p.e.p.p.e.r",
             "what is your version",
         }
         or "current version" in text
@@ -652,7 +651,7 @@ def handle_system_message(
 
     if (
         "what phase are you" in text
-        or "what phase is evie" in text
+        or "what phase is pepper" in text
         or "which phases are complete" in text
         or "what phases are complete" in text
     ):
@@ -765,16 +764,38 @@ def handle_system_message(
     # Health / Failure Awareness
     # -----------------------------------------------------------------------
 
-    if text in {
-        "are you healthy",
-        "system status",
-        "health status",
-        "check your health",
-        "check system health",
-        "how are your systems",
-        "is everything working",
-        "are all systems healthy",
-    }:
+    if (
+        text
+        in {
+            "are you healthy",
+            "system status",
+            "health status",
+            "check your health",
+            "check system health",
+            "how are your systems",
+            "is everything working",
+            "are all systems healthy",
+            "how is your health",
+            "how's your health",
+            "hows your health",
+            "what is your health",
+            "what's your health",
+            "whats your health",
+            "how are your systems looking",
+            "how are your systems looking today",
+            "how's your systems looking",
+            "hows your systems looking",
+            "how're your systems looking",
+            "howre your systems looking",
+            "what's your systems looking like",
+            "whats your systems looking like",
+        }
+        or "your health looking" in text
+        or "your health status" in text
+        or "system health looking" in text
+        or "systems health looking" in text
+        or "how are your systems looking" in text
+    ):
 
         return _result(
             _format_quick_health()

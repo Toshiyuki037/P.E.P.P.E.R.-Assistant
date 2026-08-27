@@ -103,7 +103,7 @@ def start_tts_prewarm():
                 daemon=
                     True,
                 name=
-                    "evie-tts-prewarm",
+                    "pepper-tts-prewarm",
             )
         )
 

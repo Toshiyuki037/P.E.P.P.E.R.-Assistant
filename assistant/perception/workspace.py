@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Multi-Workspace Awareness
+P.E.P.P.E.R. - Multi-Workspace Awareness
 
 Created: August 8, 2026
 Last Edited: August 8, 2026
@@ -32,10 +32,10 @@ from .system import (
 
 
 # ---------------------------------------------------------------------------
-# E.V.I.E. Root
+# P.E.P.P.E.R. Root
 # ---------------------------------------------------------------------------
 
-EVIE_ROOT = (
+PEPPER_ROOT = (
     Path(__file__)
     .resolve()
     .parent
@@ -211,10 +211,10 @@ def find_workspace_folder(
         return None
 
     if (
-        EVIE_ROOT.name.lower()
+        PEPPER_ROOT.name.lower()
         == workspace_name.lower()
     ):
-        return EVIE_ROOT
+        return PEPPER_ROOT
 
     # First try direct children.
     for root in get_search_roots():
@@ -609,10 +609,10 @@ def get_active_workspace():
             active=True,
         )
 
-    # Final fallback to E.V.I.E.
+    # Final fallback to P.E.P.P.E.R.
     return build_workspace_record(
         workspace_name=
-            EVIE_ROOT.name,
+            PEPPER_ROOT.name,
 
         window_title=
             None,
@@ -763,7 +763,7 @@ def get_other_workspace():
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Multi-Workspace Context"
+        "P.E.P.P.E.R. Multi-Workspace Context"
     )
 
     print(

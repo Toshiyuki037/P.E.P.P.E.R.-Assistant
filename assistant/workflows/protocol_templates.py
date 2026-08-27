@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Phase 11E Protocol Templates
+P.E.P.P.E.R. - Phase 11E Protocol Templates
 """
 
 from __future__ import annotations

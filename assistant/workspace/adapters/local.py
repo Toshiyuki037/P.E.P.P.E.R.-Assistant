@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Local Workspace Adapter
+P.E.P.P.E.R. - Local Workspace Adapter
 
 Phase 12D Retrieval Fix
 

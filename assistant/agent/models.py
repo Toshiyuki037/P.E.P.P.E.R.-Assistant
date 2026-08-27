@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Agent Models
+P.E.P.P.E.R. - Agent Models
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
@@ -91,7 +91,7 @@ class AgentTask:
     Represents the complete persistent state of an active Phase 7 task.
 
     This object is written to runtime/agent/current_task.json so
-    E.V.I.E. can pause for approval, resume after ordinary restarts,
+    P.E.P.P.E.R. can pause for approval, resume after ordinary restarts,
     replan after failures, and dynamically continue unfinished goals.
     """
 
@@ -207,7 +207,7 @@ def result_to_dict(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Agent Models"
+        "P.E.P.P.E.R. Agent Models"
     )
 
     print(

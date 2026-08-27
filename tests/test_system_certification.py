@@ -132,6 +132,6 @@ def test_certification_report():
         )
     )
 
-    assert "E.V.I.E. SYSTEM CERTIFICATION" in report
+    assert "P.E.P.P.E.R. SYSTEM CERTIFICATION" in report
     assert "Certification Status: CERTIFIED" in report
     assert "Certification passed." in report

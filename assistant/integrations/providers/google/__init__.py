@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Google Integration Provider
+P.E.P.P.E.R. - Google Integration Provider
 
 Created: August 10, 2026
 Last Edited: August 10, 2026
 Author: Max Maehara
 
 Purpose:
-    Package entry point for E.V.I.E.'s Phase 9 Google integrations.
+    Package entry point for P.E.P.P.E.R.'s Phase 9 Google integrations.
 
 Architecture:
     The provider registration function is exported here so the central

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Performance Health
+P.E.P.P.E.R. - Performance Health
 
 Phase 15E — Telemetry Performance Analysis
 
@@ -503,7 +503,7 @@ def format_performance_report(
         )
 
     lines = [
-        "E.V.I.E. PERFORMANCE HEALTH",
+        "P.E.P.P.E.R. PERFORMANCE HEALTH",
         "",
         f"Requests analyzed: {summary.request_count}",
     ]

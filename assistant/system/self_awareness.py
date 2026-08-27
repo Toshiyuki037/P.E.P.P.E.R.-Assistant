@@ -1,11 +1,11 @@
 """
-E.V.I.E. - Self Awareness Interface
+P.E.P.P.E.R. - Self Awareness Interface
 
 Phase 15G
 
 Purpose:
     Provides an authoritative, read-only interface for questions about
-    E.V.I.E.'s identity, version, capabilities, health, diagnostics,
+    P.E.P.P.E.R.'s identity, version, capabilities, health, diagnostics,
     performance, architecture, integrations, and limitations.
 
 Important:
@@ -26,7 +26,7 @@ from typing import (
 )
 
 from .manifest import (
-    EVIE_VERSION,
+    PEPPER_VERSION,
     get_capability,
     get_system_manifest,
     list_capabilities,
@@ -155,11 +155,11 @@ def get_version():
             True,
 
         summary=
-            f"E.V.I.E. is running version {EVIE_VERSION}.",
+            f"P.E.P.P.E.R. is running version {PEPPER_VERSION}.",
 
         data={
             "version":
-                EVIE_VERSION,
+                PEPPER_VERSION,
         },
 
         source=

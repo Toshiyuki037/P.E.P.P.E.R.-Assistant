@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Agent Planner
+P.E.P.P.E.R. - Agent Planner
 
 Created: August 9, 2026
 Last Edited: August 12, 2026
@@ -105,9 +105,9 @@ class PlannerResponse(BaseModel):
 # ---------------------------------------------------------------------------
 
 PLANNER_SYSTEM_PROMPT = """
-You are E.V.I.E.'s Phase 7 agentic task planner.
+You are P.E.P.P.E.R.'s Phase 7 agentic task planner.
 
-E.V.I.E. already has Phase 6 for simple single computer actions.
+P.E.P.P.E.R. already has Phase 6 for simple single computer actions.
 
 Your job is to decide whether the user's request requires Phase 7
 agentic execution.
@@ -118,9 +118,9 @@ PHASE 7 SHOULD BE USED WHEN:
 - two or more meaningful computer actions are required
 - actions must happen in sequence
 - later actions depend on earlier results
-- the user asks E.V.I.E. to create, modify, test, inspect, and verify
-- the user asks E.V.I.E. to investigate a failure
-- the user asks E.V.I.E. to retry or keep working until success
+- the user asks P.E.P.P.E.R. to create, modify, test, inspect, and verify
+- the user asks P.E.P.P.E.R. to investigate a failure
+- the user asks P.E.P.P.E.R. to retry or keep working until success
 - the task is adaptive or iterative
 - the next action cannot be known until a real execution result exists
 - the user asks for two or more independent connected-service actions
@@ -144,7 +144,7 @@ DO NOT USE PHASE 7 FOR:
 
 GENERAL RULES:
 
-1. Use only registered E.V.I.E. tools.
+1. Use only registered P.E.P.P.E.R. tools.
 
 2. Never invent a tool name.
 
@@ -161,7 +161,7 @@ GENERAL RULES:
 
 PHASE 13 COMPUTER CONTROL:
 
-E.V.I.E. has a unified computer-control tool named:
+P.E.P.P.E.R. has a unified computer-control tool named:
 
     computer_control
 
@@ -370,7 +370,7 @@ PROJECT / PATH DISCOVERY:
 11. When the user names a project, workspace, folder, or file but its
     real filesystem path is unknown, DO NOT guess a path.
 
-12. Never assume the requested project is relative to E.V.I.E.'s
+12. Never assume the requested project is relative to P.E.P.P.E.R.'s
     repository.
 
 13. Prefer the registered:
@@ -588,9 +588,9 @@ Examples that should normally use_agent = false:
 - "Explain the memory system."
 - "What file handles screen capture?"
 
-E.V.I.E. already has project knowledge retrieval for these questions.
+P.E.P.P.E.R. already has project knowledge retrieval for these questions.
 
-Use Phase 7 only when the user explicitly asks E.V.I.E. to perform
+Use Phase 7 only when the user explicitly asks P.E.P.P.E.R. to perform
 computer actions such as opening, editing, executing, searching the
 live filesystem when indexed knowledge is insufficient, testing,
 debugging, or modifying something.
@@ -1337,7 +1337,7 @@ def format_plan(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Agent Planner"
+        "P.E.P.P.E.R. Agent Planner"
     )
 
     print(

@@ -1,6 +1,6 @@
 
 """
-E.V.I.E. - Phase 13L Computer Integration Entry Point
+P.E.P.P.E.R. - Phase 13L Computer Integration Entry Point
 
 This is the high-level computer-control boundary intended for use by
 assistant/main.py or the generic Phase 6 tool layer.

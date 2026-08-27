@@ -1,6 +1,6 @@
 
 """
-E.V.I.E. - Remote Device Message Authentication
+P.E.P.P.E.R. - Remote Device Message Authentication
 
 Phase 13K
 

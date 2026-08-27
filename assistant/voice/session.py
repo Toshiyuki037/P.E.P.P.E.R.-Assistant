@@ -1,5 +1,5 @@
-"""
-E.V.I.E. - Phase 14 Final Voice Session Runtime
+﻿"""
+P.E.P.P.E.R. - Phase 14 Final Voice Session Runtime
 
 Design goals:
     - preserve frozen Phase 1-13 request routing
@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import os
 import threading
+import time
 
 from dataclasses import (
     dataclass,
@@ -191,7 +192,7 @@ class PromptWorker:
                     ),
                     daemon=True,
                     name=
-                        "evie-voice-turn",
+                        "pepper-voice-turn",
                 )
             )
 
@@ -339,7 +340,7 @@ def _run_safe_session(
                 )
 
                 print(
-                    "E.V.I.E.: Standing by."
+                    "P.E.P.P.E.R.: Standing by."
                 )
 
             continue
@@ -360,7 +361,7 @@ def _run_safe_session(
             print()
 
             print(
-                "E.V.I.E.: Voice session ended."
+                "P.E.P.P.E.R.: Voice session ended."
             )
 
             return (
@@ -378,7 +379,7 @@ def _run_safe_session(
             print()
 
             print(
-                "E.V.I.E. Offline"
+                "P.E.P.P.E.R. Offline"
             )
 
             return (
@@ -446,7 +447,7 @@ def _run_safe_session(
             )
 
             print(
-                "E.V.I.E.: Standing by."
+                "P.E.P.P.E.R.: Standing by."
             )
 
             continue
@@ -476,7 +477,7 @@ def _run_safe_session(
             if live_command == "never_mind":
 
                 print(
-                    "E.V.I.E.: Okay."
+                    "P.E.P.P.E.R.: Okay."
                 )
 
             continue
@@ -505,6 +506,7 @@ def _run_headset_duplex_session(
     wake_authenticate_fn=None,
     wake_authenticated_fn=None,
     wake_unrecognized_fn=None,
+    speaker_confirm_mode: bool = False,
 ):
 
     worker = (
@@ -514,6 +516,8 @@ def _run_headset_duplex_session(
     )
 
     pending_prompt = None
+
+    worker_was_active = False
 
 
     onset_callback = (
@@ -596,6 +600,19 @@ def _run_headset_duplex_session(
 
     while True:
 
+        worker_active_now = worker.active
+
+        if (
+            speaker_confirm_mode
+            and worker_was_active
+            and not worker_active_now
+        ):
+            time.sleep(
+                0.25
+            )
+
+        worker_was_active = worker_active_now
+
         launch_pending_if_ready()
 
 
@@ -609,16 +626,38 @@ def _run_headset_duplex_session(
             is not None
         ):
 
-            user_text = (
-                str(
-                    listen_fn(
-                        on_speech_started=
-                            onset_callback,
+            if (
+                speaker_confirm_mode
+                and worker.active
+            ):
+
+                user_text = (
+                    str(
+                        listen_fn(
+                            on_speech_started=
+                                onset_callback,
+                            confirm_after_speech_started=
+                                True,
+                            on_speech_rejected=
+                                resume_speech_fn,
+                        )
+                        or ""
                     )
-                    or ""
+                    .strip()
                 )
-                .strip()
-            )
+
+            else:
+
+                user_text = (
+                    str(
+                        listen_fn(
+                            on_speech_started=
+                                onset_callback,
+                        )
+                        or ""
+                    )
+                    .strip()
+                )
 
         else:
 
@@ -646,7 +685,7 @@ def _run_headset_duplex_session(
                 )
 
                 print(
-                    "E.V.I.E.: Standing by."
+                    "P.E.P.P.E.R.: Standing by."
                 )
 
             continue
@@ -671,7 +710,7 @@ def _run_headset_duplex_session(
             print()
 
             print(
-                "E.V.I.E.: Voice session ended."
+                "P.E.P.P.E.R.: Voice session ended."
             )
 
             return (
@@ -695,7 +734,7 @@ def _run_headset_duplex_session(
             print()
 
             print(
-                "E.V.I.E. Offline"
+                "P.E.P.P.E.R. Offline"
             )
 
             return (
@@ -767,17 +806,63 @@ def _run_headset_duplex_session(
             pending_prompt = None
 
             print(
-                "E.V.I.E.: Standing by."
+                "P.E.P.P.E.R.: Standing by."
             )
 
             continue
 
 
-        live_command = (
-            classify_live_voice_command(
+        normalized_live_text = (
+            normalize_voice_command(
                 user_text
             )
         )
+
+        if normalized_live_text in {
+            "hold on",
+            "pause",
+            "one second",
+            "wait a second",
+        }:
+
+            live_command = "wait"
+
+        elif normalized_live_text in {
+            "resume",
+            "go on",
+            "keep going",
+        }:
+
+            live_command = "continue"
+
+        else:
+
+            live_command = (
+                classify_live_voice_command(
+                    user_text
+                )
+            )
+
+        if (
+            speaker_confirm_mode
+            and worker.active
+            and normalized_live_text
+            in {
+                "thank you",
+                "thank you thank you",
+                "thanks",
+                "thanks pepper",
+            }
+        ):
+
+            print(
+                "[Interrupt] Ignored probable playback echo transcript."
+            )
+
+            if resume_speech_fn is not None:
+                resume_speech_fn()
+
+            continue
 
 
         if live_command == "wait":
@@ -791,7 +876,7 @@ def _run_headset_duplex_session(
             )
 
             print(
-                "E.V.I.E.: Paused."
+                "P.E.P.P.E.R.: Paused."
             )
 
             continue
@@ -808,7 +893,7 @@ def _run_headset_duplex_session(
             )
 
             print(
-                "E.V.I.E.: Continuing."
+                "P.E.P.P.E.R.: Continuing."
             )
 
             continue
@@ -823,7 +908,7 @@ def _run_headset_duplex_session(
             )
 
             print(
-                "E.V.I.E.: Stopped."
+                "P.E.P.P.E.R.: Stopped."
             )
 
             continue
@@ -844,7 +929,7 @@ def _run_headset_duplex_session(
             )
 
             print(
-                "E.V.I.E.: Okay."
+                "P.E.P.P.E.R.: Okay."
             )
 
             continue
@@ -933,7 +1018,7 @@ def run_voice_session(
     print()
 
     print(
-        "E.V.I.E.: Voice session active."
+        "P.E.P.P.E.R.: Voice session active."
     )
 
     print(
@@ -961,8 +1046,8 @@ def run_voice_session(
 
         print(
             (
-                "E.V.I.E.: Standing by. "
-                "Say \"Evie\" to wake me."
+                "P.E.P.P.E.R.: Standing by. "
+                "Say \"Pepper\" to wake me."
             )
         )
 
@@ -992,11 +1077,27 @@ def run_voice_session(
     )
 
 
-    if duplex_mode == "headset":
+    if duplex_mode in {
+        "headset",
+        "speaker",
+    }:
 
-        print(
-            "E.V.I.E.: Headset duplex enabled."
+        speaker_confirm_mode = (
+            duplex_mode
+            == "speaker"
         )
+
+        if speaker_confirm_mode:
+
+            print(
+                "P.E.P.P.E.R.: Speaker pause-confirm interruption enabled."
+            )
+
+        else:
+
+            print(
+                "P.E.P.P.E.R.: Headset duplex enabled."
+            )
 
         return (
             _run_headset_duplex_session(
@@ -1024,6 +1125,8 @@ def run_voice_session(
                     wake_authenticated_fn,
                 wake_unrecognized_fn=
                     wake_unrecognized_fn,
+                speaker_confirm_mode=
+                    speaker_confirm_mode,
             )
         )
 

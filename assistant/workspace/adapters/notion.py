@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Notion Workspace Adapter
+P.E.P.P.E.R. - Notion Workspace Adapter
 
 Phase 12D - Source Enrichment
 

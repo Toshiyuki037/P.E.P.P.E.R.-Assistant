@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Memory Workspace Adapter
+P.E.P.P.E.R. - Memory Workspace Adapter
 
 Phase 12E
 
@@ -105,7 +105,7 @@ class MemoryWorkspaceAdapter:
                 EvidenceItem(
                     evidence_id=evidence_id,
                     source_type=SOURCE_MEMORY,
-                    source_name="evie_memory",
+                    source_name="pepper_memory",
                     source_id=source_id,
                     title=(
                         (

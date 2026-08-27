@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Self-Engineering Transaction Recovery
+P.E.P.P.E.R. - Self-Engineering Transaction Recovery
 
 Phase 12N Final
 
@@ -709,7 +709,7 @@ def resume_engineering_transaction(
                     "commit_message",
                     "",
                 )
-                or "E.V.I.E. self-engineering change"
+                or "P.E.P.P.E.R. self-engineering change"
             ),
 
         "documentation_note":

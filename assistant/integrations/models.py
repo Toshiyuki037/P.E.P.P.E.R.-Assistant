@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Integration Models
+P.E.P.P.E.R. - Integration Models
 
 Created: August 10, 2026
 Author: Max Maehara
@@ -8,7 +8,7 @@ Purpose:
     Shared Phase 9 data structures.
 
 These models normalize provider-specific information so the rest of
-E.V.I.E. does not need to know whether an object came from Google,
+P.E.P.P.E.R. does not need to know whether an object came from Google,
 Microsoft, Apple, Spotify, Schwab, or another provider.
 """
 

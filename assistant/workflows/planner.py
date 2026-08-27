@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Workflow Natural-Language Planner
+P.E.P.P.E.R. - Workflow Natural-Language Planner
 
 Phase 11G / 11H
 

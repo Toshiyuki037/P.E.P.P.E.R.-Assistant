@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Terminal Tools
+P.E.P.P.E.R. - Terminal Tools
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
 Author: Max Maehara
 
 Purpose:
-    Provides controlled terminal execution inside E.V.I.E.'s
+    Provides controlled terminal execution inside P.E.P.P.E.R.'s
     selected workspace.
 
 Current Tools:
@@ -31,9 +31,9 @@ Security:
 
 Important:
     run_python() uses the SAME Python interpreter currently running
-    E.V.I.E. instead of WindowsApps/system Python.
+    P.E.P.P.E.R. instead of WindowsApps/system Python.
 
-    This prevents E.V.I.E.'s agent from accidentally switching away
+    This prevents P.E.P.P.E.R.'s agent from accidentally switching away
     from its active virtual environment.
 
 Most Recent Change:
@@ -78,7 +78,7 @@ def truncate_output(
 ):
     """
     Prevents extremely large command output from flooding
-    E.V.I.E.'s context.
+    P.E.P.P.E.R.'s context.
 
     Returns:
         truncated_text,
@@ -108,7 +108,7 @@ def truncate_output(
 
     suffix = (
         "\n\n"
-        "[Output truncated by E.V.I.E.]"
+        "[Output truncated by P.E.P.P.E.R.]"
     )
 
 
@@ -306,7 +306,7 @@ def build_python_environment():
     """
     Creates an environment for Python subprocesses.
 
-    E.V.I.E. inherits the current process environment, but removes an
+    P.E.P.P.E.R. inherits the current process environment, but removes an
     invalid PYTHONHASHSEED before starting another Python interpreter.
 
     This fixes crashes such as:
@@ -647,7 +647,7 @@ def run_python(
     IMPORTANT:
         This uses sys.executable.
 
-        Therefore, when E.V.I.E. itself is running from:
+        Therefore, when P.E.P.P.E.R. itself is running from:
 
             eve-assistant/venv/Scripts/python.exe
 
@@ -666,7 +666,7 @@ def run_python(
 
     Equivalent to:
 
-        <E.V.I.E. venv python> TypewriterTest/typewriter.py
+        <P.E.P.P.E.R. venv python> TypewriterTest/typewriter.py
     """
 
     if arguments is None:
@@ -790,7 +790,7 @@ def run_tests(
     timeout=120,
 ):
     """
-    Runs pytest using E.V.I.E.'s current Python interpreter.
+    Runs pytest using P.E.P.P.E.R.'s current Python interpreter.
 
     Using:
 
@@ -879,7 +879,7 @@ register_tool(
         "run_python",
 
     description=(
-        "Runs Python using E.V.I.E.'s current Python interpreter "
+        "Runs Python using P.E.P.P.E.R.'s current Python interpreter "
         "inside the selected workspace. Supply Python arguments in "
         "the arguments list, for example "
         "arguments=['TypewriterTest/typewriter.py']. "
@@ -902,7 +902,7 @@ register_tool(
         "run_tests",
 
     description=(
-        "Runs pytest through E.V.I.E.'s current Python interpreter "
+        "Runs pytest through P.E.P.P.E.R.'s current Python interpreter "
         "inside the selected workspace. Optional pytest arguments are "
         "supplied through the arguments list."
     ),
@@ -925,7 +925,7 @@ register_tool(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Terminal Tools"
+        "P.E.P.P.E.R. Terminal Tools"
     )
 
     print(
@@ -997,7 +997,7 @@ if __name__ == "__main__":
             "-c",
             (
                 "import sys; "
-                "print('E.V.I.E. terminal tool works'); "
+                "print('P.E.P.P.E.R. terminal tool works'); "
                 "print(sys.executable)"
             ),
         ]

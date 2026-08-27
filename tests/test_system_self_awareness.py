@@ -24,7 +24,7 @@ def test_identity_awareness():
     )
 
     assert result.success is True
-    assert result.data["name"] == "E.V.I.E."
+    assert result.data["name"] == "P.E.P.P.E.R."
     assert result.data["current_phase"] == 15
 
 

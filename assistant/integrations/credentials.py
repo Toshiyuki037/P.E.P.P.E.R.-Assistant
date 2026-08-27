@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Credential Store
+P.E.P.P.E.R. - Credential Store
 
 Created: August 10, 2026
 Author: Max Maehara
@@ -172,7 +172,7 @@ def has_credentials(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Credential Store"
+        "P.E.P.P.E.R. Credential Store"
     )
 
     print(

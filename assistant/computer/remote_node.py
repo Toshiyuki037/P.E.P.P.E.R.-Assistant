@@ -1,6 +1,6 @@
 
 """
-E.V.I.E. - Minimal Remote Node Contract
+P.E.P.P.E.R. - Minimal Remote Node Contract
 
 Phase 13K
 

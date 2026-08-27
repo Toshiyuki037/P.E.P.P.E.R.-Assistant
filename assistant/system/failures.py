@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Failure Tracking
+P.E.P.P.E.R. - Failure Tracking
 
 Phase 15C — Deep Diagnostics & Failure State
 

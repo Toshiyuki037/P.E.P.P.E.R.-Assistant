@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Windows Accessibility Backend
+P.E.P.P.E.R. - Windows Accessibility Backend
 
 Phase 13G
 

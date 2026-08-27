@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Weather Integration Provider
+P.E.P.P.E.R. - Weather Integration Provider
 
 Phase 9
 """

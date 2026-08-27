@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Persistent Workflow Schedules
+P.E.P.P.E.R. - Persistent Workflow Schedules
 
 Phase 11F
 

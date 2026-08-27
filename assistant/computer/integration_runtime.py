@@ -1,6 +1,6 @@
 
 """
-E.V.I.E. - Phase 13L Computer Integration Runtime
+P.E.P.P.E.R. - Phase 13L Computer Integration Runtime
 
 Binds high-level computer tool requests to the Phase 13J unified router and
 the read-only/specialized Phase 13 controller primitives.

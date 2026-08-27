@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Safe Windows Settings Navigation
+P.E.P.P.E.R. - Safe Windows Settings Navigation
 
 Phase 13E
 

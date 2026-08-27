@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Visual Context Router
+P.E.P.P.E.R. - Visual Context Router
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
@@ -338,7 +338,7 @@ if __name__ == "__main__":
     )
 
     print(
-        "E.V.I.E. Visual Context Router"
+        "P.E.P.P.E.R. Visual Context Router"
     )
 
     print(

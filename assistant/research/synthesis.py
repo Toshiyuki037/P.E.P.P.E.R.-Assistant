@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Research Project Synthesis
+P.E.P.P.E.R. - Research Project Synthesis
 
 Phase 12G
 
@@ -34,7 +34,7 @@ from .state import (
 
 
 SYSTEM_PROMPT = """
-You are E.V.I.E.'s research copilot.
+You are P.E.P.P.E.R.'s research copilot.
 
 You are given:
 1. structured research state for one project;

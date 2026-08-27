@@ -1,5 +1,5 @@
 """
-E.V.I.E. Phase 16F — Conservative Voice Model Router
+P.E.P.P.E.R. Phase 16F — Conservative Voice Model Router
 
 Purpose:
     Route safe, low-risk, ordinary voice conversation and stable general
@@ -63,6 +63,22 @@ _FAST_EXACT = {
     "thank you",
     "thanks",
 }
+
+_FAST_SOCIAL_PREFIXES = (
+    "good morning",
+    "good afternoon",
+    "good evening",
+    "how are you",
+    "how're you",
+    "howre you",
+    "how's it going",
+    "hows it going",
+    "how is it going",
+    "how are things",
+    "hello",
+    "hi ",
+    "hey ",
+)
 
 _BLOCK_PHRASES = (
     " my ",
@@ -181,7 +197,7 @@ def should_use_fast_voice_reasoning(
     cost_profile,
 ):
     """
-    Return True only when the request is a safe fit for E.V.I.E.'s existing
+    Return True only when the request is a safe fit for P.E.P.P.E.R.'s existing
     low-latency reasoning model.
 
     This does not bypass any Phase 1-15 routing. main.py already calls this
@@ -227,10 +243,63 @@ def should_use_fast_voice_reasoning(
     if len(text) > 320:
         return False
 
+    if any(
+        text.startswith(
+            prefix
+        )
+        for prefix in _FAST_SOCIAL_PREFIXES
+    ):
+        social_hard_blocks = (
+            "weather",
+            "calendar",
+            "email",
+            "gmail",
+            "spotify",
+            "schwab",
+            "stock",
+            "market",
+            "news",
+            "price",
+            "project",
+            "workspace",
+            "repository",
+            "repo",
+            "code",
+            "screen",
+            "screenshot",
+            "camera",
+            "diagnostic",
+            "debug",
+            "fix ",
+            "repair",
+        )
+
+        if not any(
+            phrase in text
+            for phrase in social_hard_blocks
+        ):
+            return True
+
+
     if _contains_block_phrase(
         text
     ):
         return False
+
+        # -----------------------------------------------------------------------
+    # Phase 16F repair — ordinary social conversation
+    # -----------------------------------------------------------------------
+    #
+    # Temporal conversational wording such as:
+    #
+    #     "Good morning. How are you doing today?"
+    #
+    # must not be pushed to the full authoritative model simply because the
+    # word "today" appears.
+    #
+    # Tool/project/current-data requests are still protected by the existing
+    # router because this exception only applies to known social openings.
+    # -----------------------------------------------------------------------
 
     if text.rstrip(" .!?") in _FAST_EXACT:
         return True

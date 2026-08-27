@@ -1,11 +1,11 @@
 """
-E.V.I.E. - Health to Self-Engineering Bridge
+P.E.P.P.E.R. - Health to Self-Engineering Bridge
 
 Phase 15J
 
 Purpose:
     Converts health/diagnostic evidence plus architecture ownership metadata
-    into a bounded, approval-aware repair request for E.V.I.E.'s existing
+    into a bounded, approval-aware repair request for P.E.P.P.E.R.'s existing
     self-engineering/coding system.
 
 Important:
@@ -317,7 +317,7 @@ def render_repair_prompt(
 
 
     return f"""
-E.V.I.E. SELF-ENGINEERING REPAIR REQUEST
+P.E.P.P.E.R. SELF-ENGINEERING REPAIR REQUEST
 
 Component:
 {request.component}

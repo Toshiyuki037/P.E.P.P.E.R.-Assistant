@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Coding Failure Diagnostics
+P.E.P.P.E.R. - Coding Failure Diagnostics
 
 Phase 12K
 

@@ -1,5 +1,5 @@
 """
-E.V.I.E. - GitHub Provider Registration
+P.E.P.P.E.R. - GitHub Provider Registration
 
 Phase 9
 

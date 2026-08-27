@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Workspace Adapter Registry
+P.E.P.P.E.R. - Workspace Adapter Registry
 
 Phase 12E / 12F
 """

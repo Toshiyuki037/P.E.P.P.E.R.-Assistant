@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Speech Recognition Module
+P.E.P.P.E.R. - Speech Recognition Module
 
 Phase 14H addition:
     exposes on_speech_started callback from the VAD boundary.
@@ -7,7 +7,7 @@ Phase 14H addition:
 This callback is intentionally fired immediately when VAD confirms speech,
 before final transcription exists.
 
-It is the correct low-latency hook for interrupting E.V.I.E. playback.
+It is the correct low-latency hook for interrupting P.E.P.P.E.R. playback.
 """
 
 from __future__ import annotations
@@ -62,6 +62,10 @@ from .voice.vad import (
 
 from .voice.audio_state import (
     set_last_utterance_audio,
+)
+
+from .voice.owner_verification import (
+    verify_owner_audio,
 )
 
 
@@ -658,12 +662,10 @@ def record_utterance(
                             time.monotonic()
                         )
 
-                        next_partial_at = (
-                            speech_started_at
-                            + PARTIAL_INITIAL_DELAY_SECONDS
-                        )
-
-                        partial_worker.start()
+                        # Strict owner gate:
+                        # do not start/schedule any Whisper work before
+                        # ECAPA verifies the captured speaker.
+                        next_partial_at = None
 
                         print(
                             "Speech detected."
@@ -716,27 +718,9 @@ def record_utterance(
                     time.monotonic()
                 )
 
-                if (
-                    next_partial_at
-                    is not None
-                    and now >= next_partial_at
-                    and not vad_result.speech_ended
-                ):
-
-                    snapshot = (
-                        buffer.audio()
-                    )
-
-                    if snapshot is not None:
-
-                        partial_worker.submit(
-                            snapshot
-                        )
-
-                    next_partial_at = (
-                        now
-                        + PARTIAL_INTERVAL_SECONDS
-                    )
+                # Strict owner gate:
+                # no partial Whisper transcription occurs here.
+                # Captured audio is held until ECAPA verification in listen().
 
                 if vad_result.speech_ended:
 
@@ -764,9 +748,8 @@ def record_utterance(
 
     finally:
 
-        partial_worker.stop(
-            wait=True
-        )
+        # Strict owner gate: partial Whisper is not started before ECAPA.
+        pass
 
     return (
         buffer.audio(),
@@ -801,6 +784,57 @@ def listen(
         sample_rate=
             SAMPLE_RATE,
     )
+
+    # -----------------------------------------------------------------------
+    # Owner Voice Gate
+    # -----------------------------------------------------------------------
+    #
+    # Temporarily disabled while the P.E.P.P.E.R. migration is validated.
+    #
+    # ECAPA remains installed and the enrolled owner profile/calibration files
+    # remain untouched so the feature can be re-enabled later.
+    # -----------------------------------------------------------------------
+
+    OWNER_VOICE_GATE_ENABLED = False
+
+
+    if OWNER_VOICE_GATE_ENABLED:
+
+        print(
+            "[Owner verification...]"
+        )
+
+
+        owner_result = (
+            verify_owner_audio(
+                audio,
+                SAMPLE_RATE,
+            )
+        )
+
+
+        print(
+            (
+                "[Owner identity] "
+                f"similarity={owner_result.similarity:.4f} "
+                f"threshold={owner_result.threshold:.4f} "
+                f"time={owner_result.elapsed_seconds:.3f}s"
+            )
+        )
+
+
+        if not owner_result.matched:
+
+            print(
+                (
+                    "[Owner gate] "
+                    "Speech rejected before final STT. "
+                    f"reason={owner_result.reason}"
+                )
+            )
+
+
+            return ""
 
     print(
         "Finalizing transcription..."

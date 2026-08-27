@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Filesystem Tools
+P.E.P.P.E.R. - Filesystem Tools
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
@@ -464,7 +464,7 @@ register_tool(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Filesystem Tools"
+        "P.E.P.P.E.R. Filesystem Tools"
     )
 
     print(

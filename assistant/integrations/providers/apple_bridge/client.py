@@ -1,21 +1,21 @@
 """
-E.V.I.E. - Apple Bridge Client
+P.E.P.P.E.R. - Apple Bridge Client
 
 Created: August 10, 2026
 Author: Max Maehara
 
 Purpose:
-    Provides the Windows-side client for E.V.I.E.'s trusted Apple
+    Provides the Windows-side client for P.E.P.P.E.R.'s trusted Apple
     bridge.
 
 Architecture:
     The actual Apple APIs execute on a trusted Mac.
 
-    E.V.I.E. communicates with that Mac through a small authenticated
+    P.E.P.P.E.R. communicates with that Mac through a small authenticated
     HTTP bridge.
 
 Security:
-    - bridge token is stored through E.V.I.E.'s secure credential store
+    - bridge token is stored through P.E.P.P.E.R.'s secure credential store
     - bridge token is never stored in account metadata
     - bridge token is never printed
     - requests use explicit timeouts

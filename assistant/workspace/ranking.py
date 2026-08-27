@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Workspace Evidence Ranking
+P.E.P.P.E.R. - Workspace Evidence Ranking
 
 Phase 12D
 

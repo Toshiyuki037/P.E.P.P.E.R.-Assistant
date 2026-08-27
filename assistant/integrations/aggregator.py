@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Integration Aggregator
+P.E.P.P.E.R. - Integration Aggregator
 
 Created: August 10, 2026
 Last Edited: August 10, 2026

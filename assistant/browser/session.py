@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Browser Session
+P.E.P.P.E.R. - Browser Session
 
 Created: August 10, 2026
 Last Edited: August 10, 2026
 Author: Max Maehara
 
 Purpose:
-    Owns E.V.I.E.'s managed Playwright browser session.
+    Owns P.E.P.P.E.R.'s managed Playwright browser session.
 
 Phase:
     Phase 8 - Browser Intelligence & Control
@@ -114,7 +114,7 @@ def start_browser(
     headless: bool = False,
 ):
     """
-    Starts E.V.I.E.'s managed Chromium browser.
+    Starts P.E.P.P.E.R.'s managed Chromium browser.
 
     Existing sessions are reused.
     """
@@ -235,7 +235,7 @@ def set_active_page(
     page: Page,
 ):
     """
-    Marks a page as E.V.I.E.'s active browser page.
+    Marks a page as P.E.P.P.E.R.'s active browser page.
     """
 
     global _active_page
@@ -265,7 +265,7 @@ def set_active_page(
 
 def get_active_page():
     """
-    Returns E.V.I.E.'s currently tracked page.
+    Returns P.E.P.P.E.R.'s currently tracked page.
 
     Falls back to the newest open page.
     """
@@ -738,7 +738,7 @@ def close_browser():
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Browser Session"
+        "P.E.P.P.E.R. Browser Session"
     )
 
     print(

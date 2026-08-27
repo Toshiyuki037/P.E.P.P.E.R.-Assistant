@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Connected Workspace Adapter
+P.E.P.P.E.R. - Connected Workspace Adapter
 
 Phase 12E
 

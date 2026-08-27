@@ -1,7 +1,7 @@
 # assistant/integrations/providers/google/contacts.py
 
 """
-E.V.I.E. - Google Contacts Integration
+P.E.P.P.E.R. - Google Contacts Integration
 
 Phase 9C
 """

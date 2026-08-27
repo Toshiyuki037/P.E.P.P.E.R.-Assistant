@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Python Repository Parser
+P.E.P.P.E.R. - Python Repository Parser
 
 Phase 12C - Import Graph Fix
 

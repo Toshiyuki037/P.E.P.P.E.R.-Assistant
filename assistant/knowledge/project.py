@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Project Intelligence
+P.E.P.P.E.R. - Project Intelligence
 
 Created: August 8, 2026
 Last Edited: August 8, 2026

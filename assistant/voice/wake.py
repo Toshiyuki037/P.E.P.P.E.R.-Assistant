@@ -1,15 +1,10 @@
 from __future__ import annotations
 
+
 WAKE_FORMS = (
-    "evie",
-    "eevee",
-    "ev",
-    "ev.",
-    "e.v",
-    "e.v.",
-    "e.v.i.e",
-    "e.v.i.e.",
+    "pepper",
 )
+
 
 SLEEP_COMMANDS = {
     "go to sleep",
@@ -21,17 +16,15 @@ SLEEP_COMMANDS = {
     "that's all",
     "thats all",
 
-    "that's all evie",
-    "thats all evie",
-
-    "that's all ev",
-    "thats all ev",
+    "that's all pepper",
+    "thats all pepper",
 
     "you can go to sleep",
     "you can sleep now",
 
     "go back to sleep",
 }
+
 
 def normalize_voice_text(text: str) -> str:
     return " ".join(
@@ -47,24 +40,15 @@ def extract_wake_request(text: str) -> tuple[bool, str]:
     lowered = normalize_voice_text(text)
 
     for form in WAKE_FORMS:
-
         if lowered == form:
             return True, ""
 
         comma_prefix = form + ","
-
         if lowered.startswith(comma_prefix):
-            return (
-                True,
-                lowered[len(comma_prefix):].strip(),
-            )
+            return True, lowered[len(comma_prefix):].strip()
 
         space_prefix = form + " "
-
         if lowered.startswith(space_prefix):
-            return (
-                True,
-                lowered[len(space_prefix):].strip(),
-            )
+            return True, lowered[len(space_prefix):].strip()
 
     return False, ""

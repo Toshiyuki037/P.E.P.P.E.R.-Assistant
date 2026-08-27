@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Tool Executor
+P.E.P.P.E.R. - Tool Executor
 
 Created: August 9, 2026
 Last Edited: August 12, 2026
 Author: Max Maehara
 
 Purpose:
-    Provides the single controlled execution gateway for E.V.I.E.'s
+    Provides the single controlled execution gateway for P.E.P.P.E.R.'s
     computer tools.
 
 How It Works:
@@ -486,7 +486,7 @@ def execute_tool(
     approved: bool = False,
 ):
     """
-    Executes a registered tool through E.V.I.E.'s permission
+    Executes a registered tool through P.E.P.P.E.R.'s permission
     and audit layers.
 
     Returns a structured result dictionary.
@@ -741,7 +741,7 @@ def execute_tool(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Tool Executor"
+        "P.E.P.P.E.R. Tool Executor"
     )
 
 
@@ -794,7 +794,7 @@ if __name__ == "__main__":
                     "-c",
                     (
                         "print("
-                        "'E.V.I.E. executor works'"
+                        "'P.E.P.P.E.R. executor works'"
                         ")"
                     ),
                 ]

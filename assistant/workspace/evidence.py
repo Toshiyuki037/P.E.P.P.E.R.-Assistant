@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Workspace Evidence Store
+P.E.P.P.E.R. - Workspace Evidence Store
 
 Phase 12A
 

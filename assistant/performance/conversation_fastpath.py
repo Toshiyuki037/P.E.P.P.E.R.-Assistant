@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import re
 from dataclasses import dataclass
@@ -32,9 +32,7 @@ def _normalize(
     ).strip()
 
     for prefix in (
-        "evie ",
-        "eve ",
-        "ev ",
+        "pepper ",
     ):
         if value.startswith(
             prefix

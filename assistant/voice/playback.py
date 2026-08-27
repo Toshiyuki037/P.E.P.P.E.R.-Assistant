@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Persistent Interruptible Audio Playback Controller
+P.E.P.P.E.R. - Persistent Interruptible Audio Playback Controller
 
 Phase 14I
 

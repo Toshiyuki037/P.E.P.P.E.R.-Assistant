@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Spotify Integration Provider
+P.E.P.P.E.R. - Spotify Integration Provider
 
 Phase 9F
 """

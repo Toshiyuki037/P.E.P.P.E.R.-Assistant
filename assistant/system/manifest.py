@@ -1,13 +1,18 @@
-"""E.V.I.E. Phase 15A — authoritative system manifest."""
+﻿"""P.E.P.P.E.R. Phase 15A â€” authoritative system manifest."""
 from __future__ import annotations
 from copy import deepcopy
 from typing import Any
 
-EVIE_VERSION = "1.0.0"
+PEPPER_VERSION = "1.0.0"
+
+# Backward-compatible internal API.
+# P.E.P.P.E.R. is the canonical product identity, but older Phase modules,
+# plugins, and tests may still import EVIE_VERSION.
+EVIE_VERSION = PEPPER_VERSION
 
 SYSTEM_MANIFEST: dict[str, Any] = {
-    "name": "E.V.I.E.",
-    "version": EVIE_VERSION,
+    "name": "P.E.P.P.E.R.",
+    "version": PEPPER_VERSION,
     "release": "Version 1 Foundation",
     "platform": "Windows",
     "python": "3.11",
@@ -83,3 +88,4 @@ def completed_phase(phase: int) -> bool:
     except (TypeError, ValueError):
         return False
     return number in SYSTEM_MANIFEST["completed_phases"]
+

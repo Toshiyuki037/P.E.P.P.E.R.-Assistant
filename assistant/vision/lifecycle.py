@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Vision Lifecycle Manager
+P.E.P.P.E.R. - Vision Lifecycle Manager
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
 Author: Max Maehara
 
 Purpose:
-    Manages temporary screenshots created by E.V.I.E.'s vision system.
+    Manages temporary screenshots created by P.E.P.P.E.R.'s vision system.
 
 How It Works:
     - Only files inside runtime/vision may be automatically deleted.
@@ -138,7 +138,7 @@ def cleanup_stale_visual_artifacts(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Vision Lifecycle"
+        "P.E.P.P.E.R. Vision Lifecycle"
     )
 
     print(

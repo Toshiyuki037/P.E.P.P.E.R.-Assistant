@@ -1,5 +1,5 @@
-"""
-E.V.I.E. - Single Tool Planner
+﻿"""
+P.E.P.P.E.R. - Single Tool Planner
 
 Created: August 9, 2026
 Last Edited: August 10, 2026
@@ -176,7 +176,7 @@ class ToolPlan(BaseModel):
 # ---------------------------------------------------------------------------
 
 TOOL_PLANNER_PROMPT = """
-You are E.V.I.E.'s Phase 6 single-action computer tool planner.
+You are P.E.P.P.E.R.'s Phase 6 single-action computer tool planner.
 
 Your job is to decide whether the CURRENT user message requests ONE
 immediate computer action.
@@ -190,7 +190,7 @@ If no computer action is needed:
     use_tool = false
 
 If the request is clearly multi-step, adaptive, iterative, debugging,
-research-oriented, or asks E.V.I.E. to continue working based on future
+research-oriented, or asks P.E.P.P.E.R. to continue working based on future
 results:
 
     use_tool = false
@@ -236,7 +236,7 @@ GENERAL RULES
 16. Questions asking about current managed-browser state should use
     browser inspection tools rather than being answered from memory.
 
-17. Questions asking E.V.I.E. to search the live web should use the
+17. Questions asking P.E.P.P.E.R. to search the live web should use the
     managed browser search tool.
 
 18. Requests involving multiple dependent browser actions belong to
@@ -287,7 +287,7 @@ Interpret as:
 
 Earlier successful action:
     notion.read_document
-    page_title = E.V.I.E. Assistant
+    page_title = P.E.P.P.E.R. Assistant
 
 Current:
     What about Phase 9?
@@ -300,7 +300,7 @@ Interpret as:
     account_id = primary
     routing_mode = explicit_account
     arguments = {
-        "page_title": "E.V.I.E. Assistant",
+        "page_title": "P.E.P.P.E.R. Assistant",
         "section": "Phase 9"
     }
 
@@ -376,7 +376,7 @@ Earlier:
 User:
     Hacksmith on YouTube
 
-E.V.I.E.:
+P.E.P.P.E.R.:
     Opened YouTube search results for Hacksmith.
 
 Current user:
@@ -394,7 +394,7 @@ FILE EXAMPLE
 
 Earlier:
 
-E.V.I.E.:
+P.E.P.P.E.R.:
     Memory retrieval is implemented in:
     assistant/memory/retriever.py
 
@@ -412,7 +412,7 @@ APPLICATION EXAMPLE
 
 Earlier:
 
-E.V.I.E.:
+P.E.P.P.E.R.:
     Chrome is currently open.
 
 Current user:
@@ -488,7 +488,7 @@ already exists in recent context.
 
 PHASE 8 MANAGED BROWSER ROUTING
 
-E.V.I.E. has a dedicated Playwright-managed Chromium browser.
+P.E.P.P.E.R. has a dedicated Playwright-managed Chromium browser.
 
 The managed browser is separate from the user's normal Chrome window.
 
@@ -937,7 +937,7 @@ Arguments:
 
 SCHWAB / FINANCE ROUTING
 
-E.V.I.E. has live read-only Charles Schwab access.
+P.E.P.P.E.R. has live read-only Charles Schwab access.
 
 User:
     What stocks do I own?
@@ -1199,7 +1199,7 @@ FINANCIAL ROUTING RULES
 
 GITHUB ROUTING
 
-E.V.I.E. has a connected read-only GitHub integration.
+P.E.P.P.E.R. has a connected read-only GitHub integration.
 
 Provider:
     github
@@ -1383,7 +1383,7 @@ GITHUB ROUTING RULES
 
 WEATHER ROUTING
 
-E.V.I.E. has a public read-only weather provider.
+P.E.P.P.E.R. has a public read-only weather provider.
 
 Provider:
     weather
@@ -1495,7 +1495,7 @@ Arguments:
 
 NOTION ROUTING
 
-E.V.I.E. has a connected Notion integration.
+P.E.P.P.E.R. has a connected Notion integration.
 
 Provider:
     notion
@@ -1568,7 +1568,7 @@ Arguments:
 
 
 User:
-    Read the Phase 9 section of my E.V.I.E. Assistant page.
+    Read the Phase 9 section of my P.E.P.P.E.R. Assistant page.
 
 Use:
     integration_execute
@@ -1579,13 +1579,13 @@ Arguments:
     account_id = primary
     routing_mode = explicit_account
     arguments = {
-        "page_title": "E.V.I.E. Assistant",
+        "page_title": "P.E.P.P.E.R. Assistant",
         "section": "Phase 9"
     }
 
 
 User:
-    Document that GitHub integration passed under Phase 9 in my E.V.I.E. Assistant page.
+    Document that GitHub integration passed under Phase 9 in my P.E.P.P.E.R. Assistant page.
 
 Use:
     integration_execute
@@ -1596,7 +1596,7 @@ Arguments:
     account_id = primary
     routing_mode = explicit_account
     arguments = {
-        "page_title": "E.V.I.E. Assistant",
+        "page_title": "P.E.P.P.E.R. Assistant",
         "section": "Phase 9",
         "content": "GitHub integration passed."
     }
@@ -1704,7 +1704,7 @@ RULES FOR CONNECTED SERVICES
    information is absent from conversation history.
 
 3. For integration_execute, NEVER provide or infer the approved
-   argument. Approval state belongs exclusively to E.V.I.E.'s executor.
+   argument. Approval state belongs exclusively to P.E.P.P.E.R.'s executor.
 
 4. Do not invent an account_id when the user did not specify an account.
 
@@ -1812,7 +1812,7 @@ Examples that normally remain normal reasoning / project knowledge:
     "Where is memory retrieval implemented?"
     "What does the memory system do?"
     "Where is the Phase 7 planner?"
-    "Explain E.V.I.E.'s vision architecture."
+    "Explain P.E.P.P.E.R.'s vision architecture."
 
 Explicitly requesting a real file inspection may use read_file.
 
@@ -2162,7 +2162,7 @@ def get_reference_context(
 
             blocks.append(
                 (
-                    "E.V.I.E.:\n"
+                    "P.E.P.P.E.R.:\n"
                     f"{assistant_text}"
                 )
             )
@@ -2759,7 +2759,7 @@ def _fast_tool_plan(
 
     # Remove harmless wake-name/punctuation noise commonly produced by STT.
     text = re.sub(
-        r"^\s*(?:evie|e\.?v\.?i\.?e\.?|ev|evi|evu)\s*[,.:;-]*\s*",
+        r"^\s*(?:pepper|p\.?e\.?p\.?p\.?e\.?r\.?)\s*[,.:;-]*\s*",
         "",
         text,
         flags=re.IGNORECASE,
@@ -3568,7 +3568,7 @@ def plan_tool(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Tool Planner"
+        "P.E.P.P.E.R. Tool Planner"
     )
 
     print(

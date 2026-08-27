@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Cross-Source Workspace Query Engine
+P.E.P.P.E.R. - Cross-Source Workspace Query Engine
 
 Phase 12D - Source Diversity Fix
 

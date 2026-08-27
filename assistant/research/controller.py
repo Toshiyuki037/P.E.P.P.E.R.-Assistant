@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Research Intelligence Controller
+P.E.P.P.E.R. - Research Intelligence Controller
 
 Phase 12F orchestration layer.
 """

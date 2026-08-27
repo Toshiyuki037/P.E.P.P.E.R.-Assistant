@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Structured UI Accessibility Inspection
+P.E.P.P.E.R. - Structured UI Accessibility Inspection
 
 Phase 13G
 

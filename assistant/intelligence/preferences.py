@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Explicit User Preferences
+P.E.P.P.E.R. - Explicit User Preferences
 
 Phase 10E
 
@@ -769,7 +769,7 @@ def handle_preference_command(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Preferences"
+        "P.E.P.P.E.R. Preferences"
     )
 
     print(

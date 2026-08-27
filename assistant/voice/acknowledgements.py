@@ -1,11 +1,11 @@
 """
-E.V.I.E. - Cached Voice Acknowledgements
+P.E.P.P.E.R. - Cached Voice Acknowledgements
 
 Phase 14A.5
 
 Purpose:
     Plays pre-generated acknowledgement lines immediately while
-    E.V.I.E. continues processing the user's request.
+    P.E.P.P.E.R. continues processing the user's request.
 
 Examples:
     "On it."
@@ -21,14 +21,14 @@ Phase 14 voice-auth integration:
     Example:
 
         User:
-            "Evie, open my VS Code workspace."
+            "Pepper, open my VS Code workspace."
 
-        E.V.I.E.:
+        P.E.P.P.E.R.:
             "Voice authenticated. Welcome home, Max."
 
         processing begins...
 
-    E.V.I.E. must NOT immediately follow that with:
+    P.E.P.P.E.R. must NOT immediately follow that with:
         "Got it, boss."
 
     suppress_next_acknowledgement() provides this one-shot behavior.
@@ -132,7 +132,7 @@ def suppress_next_acknowledgement():
     """
     Suppresses exactly one future acknowledgement.
 
-    Used when E.V.I.E. has already spoken a wake-authentication line.
+    Used when P.E.P.P.E.R. has already spoken a wake-authentication line.
     """
 
     global _skip_next_acknowledgement
@@ -342,7 +342,7 @@ def play_acknowledgement(
                 True,
 
             name=
-                "evie-acknowledgement",
+                "pepper-acknowledgement",
         ).start()
 
 

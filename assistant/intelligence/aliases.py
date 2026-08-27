@@ -1,11 +1,11 @@
 """
-E.V.I.E. - Capability Aliases
+P.E.P.P.E.R. - Capability Aliases
 
 Phase 10A
 
 Purpose:
 Normalizes alternate or legacy capability names into the
-canonical capability names registered by E.V.I.E.
+canonical capability names registered by P.E.P.P.E.R.
 
 Important:
 Aliases do NOT grant permissions.

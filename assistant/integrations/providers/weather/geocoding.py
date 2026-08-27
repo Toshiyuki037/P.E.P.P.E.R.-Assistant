@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Weather Geocoding
+P.E.P.P.E.R. - Weather Geocoding
 
 Phase 9
 
 Resolves human-readable locations into coordinates.
 
 Important:
-    Open-Meteo geocoding uses fuzzy search. E.V.I.E. therefore
+    Open-Meteo geocoding uses fuzzy search. P.E.P.P.E.R. therefore
     retrieves multiple candidates and ranks them rather than trusting
     the first returned result.
 """

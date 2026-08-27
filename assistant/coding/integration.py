@@ -58,7 +58,7 @@ def _result_to_pending_state(
                     "suggested_commit_message",
                     "",
                 )
-                or "E.V.I.E. self-engineering change"
+                or "P.E.P.P.E.R. self-engineering change"
             ),
         )
         return
@@ -271,7 +271,7 @@ def _handle_pending(
                     "commit_message",
                     "",
                 )
-                or "E.V.I.E. self-engineering change"
+                or "P.E.P.P.E.R. self-engineering change"
             )
 
             transaction = (

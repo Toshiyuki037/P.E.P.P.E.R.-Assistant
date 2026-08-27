@@ -1,5 +1,5 @@
 """
-E.V.I.E. - Workflow Scheduler
+P.E.P.P.E.R. - Workflow Scheduler
 
 Phase 11F
 

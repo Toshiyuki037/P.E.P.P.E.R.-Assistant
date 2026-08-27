@@ -1,12 +1,12 @@
 """
-E.V.I.E. - Agent Runner
+P.E.P.P.E.R. - Agent Runner
 
 Created: August 9, 2026
 Last Edited: August 9, 2026
 Author: Max Maehara
 
 Purpose:
-    Executes Phase 7 agentic tasks through E.V.I.E.'s existing
+    Executes Phase 7 agentic tasks through P.E.P.P.E.R.'s existing
     Phase 6 controlled tool system.
 
 Capabilities:
@@ -1883,7 +1883,7 @@ def format_agent_result(
 if __name__ == "__main__":
 
     print(
-        "E.V.I.E. Agent Runner"
+        "P.E.P.P.E.R. Agent Runner"
     )
 
     print(

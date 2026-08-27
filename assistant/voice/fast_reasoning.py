@@ -1,5 +1,5 @@
 """
-E.V.I.E. Phase 16F — Low-Latency Authoritative Conversation
+P.E.P.P.E.R. Phase 16F — Low-Latency Authoritative Conversation
 
 Used ONLY after the conservative Phase 16F model router approves a stable,
 generic, text-only explanatory question.
@@ -14,7 +14,7 @@ Design:
     - the full text is still returned to main.py for terminal/history storage
 
 This module does not own tools, memory, vision, approvals, project context, or
-agent behavior. Those paths remain on the pre-existing E.V.I.E. architecture.
+agent behavior. Those paths remain on the pre-existing P.E.P.P.E.R. architecture.
 """
 
 from __future__ import annotations
@@ -271,7 +271,7 @@ def stream_fast_authoritative_chat(
     """
     Stream one concise stable-knowledge answer.
 
-    This does NOT replace E.V.I.E.'s authoritative reasoning globally.
+    This does NOT replace P.E.P.P.E.R.'s authoritative reasoning globally.
     main.py calls it only after the conservative Phase 16F router approves.
     """
 
@@ -331,7 +331,7 @@ def stream_fast_authoritative_chat(
                 FAST_MODEL,
 
             instructions=(
-                "You are E.V.I.E., a precise engineering-focused voice "
+                "You are P.E.P.P.E.R., a precise engineering-focused voice "
                 "assistant. Answer the user's stable general-knowledge question "
                 "directly. Use 2 to 4 short conversational sentences, normally "
                 "under 90 words. Lead with the answer. Preserve any material "
