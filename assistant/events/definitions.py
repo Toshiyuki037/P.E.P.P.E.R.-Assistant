@@ -1,6 +1,6 @@
 """
 P.E.P.P.E.R. Core Event Definitions
-Phase 16D through Phase 16H
+Phase 16D through Phase 16I
 """
 
 from __future__ import annotations
@@ -40,6 +40,10 @@ VERIFICATION_FAILED = "verification.failed"
 RECOVERY_ATTEMPTED = "recovery.attempted"
 RECOVERY_EXHAUSTED = "recovery.exhausted"
 
+AUTONOMY_ALLOWED = "autonomy.allowed"
+AUTONOMY_BLOCKED = "autonomy.blocked"
+AUTONOMY_APPROVAL_REQUIRED = "autonomy.approval_required"
+
 CORE_EVENT_TOPICS = frozenset({
     WORLD_STATE_CHANGED,
     WORLD_STATE_DELETED,
@@ -68,4 +72,7 @@ CORE_EVENT_TOPICS = frozenset({
     VERIFICATION_FAILED,
     RECOVERY_ATTEMPTED,
     RECOVERY_EXHAUSTED,
+    AUTONOMY_ALLOWED,
+    AUTONOMY_BLOCKED,
+    AUTONOMY_APPROVAL_REQUIRED,
 })

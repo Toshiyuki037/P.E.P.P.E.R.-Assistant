@@ -11,6 +11,9 @@ from .bus import (
     unsubscribe,
 )
 from .definitions import (
+    AUTONOMY_ALLOWED,
+    AUTONOMY_APPROVAL_REQUIRED,
+    AUTONOMY_BLOCKED,
     BACKGROUND_JOB_FINISHED,
     BACKGROUND_JOB_STARTED,
     BACKGROUND_WORKER_STARTED,
@@ -50,6 +53,9 @@ __all__ = [
     "publish",
     "subscribe",
     "unsubscribe",
+    "AUTONOMY_ALLOWED",
+    "AUTONOMY_APPROVAL_REQUIRED",
+    "AUTONOMY_BLOCKED",
     "BACKGROUND_JOB_FINISHED",
     "BACKGROUND_JOB_STARTED",
     "BACKGROUND_WORKER_STARTED",
