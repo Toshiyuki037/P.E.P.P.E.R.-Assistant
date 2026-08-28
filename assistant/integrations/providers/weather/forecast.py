@@ -1,12 +1,17 @@
 """
 P.E.P.P.E.R. - Weather Forecast
 
-Phase 9
+Phase 9 / Phase 16A.4
 
 Provides normalized current, daily, and hourly weather data.
+
+Phase 16A.4 adds diagnostic timing only. It does not change weather routing,
+network behavior, provider parameters, caching, permissions, or returned data.
 """
 
 from __future__ import annotations
+
+from time import perf_counter
 
 from .api import (
     forecast_get,
@@ -15,6 +20,36 @@ from .api import (
 from .geocoding import (
     resolve_weather_location,
 )
+
+
+# ---------------------------------------------------------------------------
+# Timing
+# ---------------------------------------------------------------------------
+
+def _print_weather_timing(
+    *,
+    coordinate_resolution: float,
+    forecast_request: float,
+    normalization: float,
+    weather_total: float,
+):
+    print("\n[Weather Timing]")
+    print(
+        "coordinate_resolution: "
+        f"{coordinate_resolution:.3f}s"
+    )
+    print(
+        "forecast_request: "
+        f"{forecast_request:.3f}s"
+    )
+    print(
+        "normalization: "
+        f"{normalization:.3f}s"
+    )
+    print(
+        "weather_total: "
+        f"{weather_total:.3f}s"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -115,6 +150,10 @@ def weather_current(
 ):
     del account_id
 
+    total_started = perf_counter()
+
+
+    coordinate_started = perf_counter()
 
     resolved = _resolve_coordinates(
         location=location,
@@ -122,6 +161,13 @@ def weather_current(
         longitude=longitude,
     )
 
+    coordinate_resolution = (
+        perf_counter()
+        - coordinate_started
+    )
+
+
+    forecast_started = perf_counter()
 
     result = forecast_get(
         "/forecast",
@@ -162,8 +208,15 @@ def weather_current(
         },
     )
 
+    forecast_request = (
+        perf_counter()
+        - forecast_started
+    )
 
-    return {
+
+    normalization_started = perf_counter()
+
+    payload = {
         "location":
             _location_label(
                 resolved
@@ -196,6 +249,34 @@ def weather_current(
                 {},
             ),
     }
+
+    normalization = (
+        perf_counter()
+        - normalization_started
+    )
+
+    weather_total = (
+        perf_counter()
+        - total_started
+    )
+
+
+    _print_weather_timing(
+        coordinate_resolution=
+            coordinate_resolution,
+
+        forecast_request=
+            forecast_request,
+
+        normalization=
+            normalization,
+
+        weather_total=
+            weather_total,
+    )
+
+
+    return payload
 
 
 # ---------------------------------------------------------------------------

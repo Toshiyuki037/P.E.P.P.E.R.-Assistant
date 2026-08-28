@@ -1,4 +1,4 @@
-﻿"""
+"""
 P.E.P.P.E.R. - Single Tool Planner
 
 Created: August 9, 2026
@@ -75,6 +75,14 @@ from assistant.intelligence.resolver import (
 
 from assistant.intelligence.normalize import (
     normalize_user_input,
+)
+
+from assistant.intelligence.preferences import (
+    get_default_weather_location,
+)
+
+from assistant.world_state.location import (
+    get_foreground_location,
 )
 
 # ---------------------------------------------------------------------------
@@ -2999,7 +3007,7 @@ def _fast_tool_plan(
         )
 
     # -----------------------------------------------------------------------
-    # Weather - simple explicit-location queries only
+    # Weather - deterministic current-weather routing
     # -----------------------------------------------------------------------
 
     current_weather = re.fullmatch(
@@ -3010,6 +3018,105 @@ def _fast_tool_plan(
     if current_weather:
 
         location = current_weather.group(1).strip()
+
+        if location:
+
+            return ToolPlan(
+                use_tool=True,
+                tool_name="integration_execute",
+                arguments_json=json.dumps(
+                    {
+                        "capability":
+                            "weather.current",
+                        "provider":
+                            "weather",
+                        "account_id":
+                            "public",
+                        "routing_mode":
+                            "explicit_account",
+                        "arguments": {
+                            "location":
+                                location,
+                        },
+                    }
+                ),
+                confidence=100,
+                summary=(
+                    f"Read current weather for {location}."
+                ),
+            )
+
+    # Current-weather requests without an explicit location use the
+    # existing saved weather preference.
+
+    default_weather_patterns = {
+        "weather",
+        "weather today",
+        "current weather",
+        "weather right now",
+        "what's the weather",
+        "whats the weather",
+        "what is the weather",
+        "what's the weather like",
+        "whats the weather like",
+        "what is the weather like",
+        "how's the weather",
+        "hows the weather",
+        "how is the weather",
+        "what's it like outside",
+        "whats it like outside",
+        "what is it like outside",
+    }
+
+    if text in default_weather_patterns:
+
+        current_location = None
+
+        try:
+
+            current_location = (
+                get_foreground_location()
+            )
+
+        except Exception:
+
+            current_location = None
+
+
+        if current_location is not None:
+
+            return ToolPlan(
+                use_tool=True,
+                tool_name="integration_execute",
+                arguments_json=json.dumps(
+                    {
+                        "capability":
+                            "weather.current",
+                        "provider":
+                            "weather",
+                        "account_id":
+                            "public",
+                        "routing_mode":
+                            "explicit_account",
+                        "arguments": {
+                            "latitude":
+                                current_location.latitude,
+                            "longitude":
+                                current_location.longitude,
+                        },
+                    }
+                ),
+                confidence=100,
+                summary=(
+                    "Read current weather for "
+                    "the device location."
+                ),
+            )
+
+
+        location = (
+            get_default_weather_location()
+        )
 
         if location:
 

@@ -87,6 +87,8 @@ _CAPABILITIES: dict[
 
 _DEFAULTS_LOADED = False
 
+_MOCK_LOADED = False
+
 
 # ---------------------------------------------------------------------------
 # Normalize Names
@@ -343,63 +345,78 @@ def load_default_integrations(
     """
 
     global _DEFAULTS_LOADED
+    global _MOCK_LOADED
 
-
-    # -----------------------------------------------------------------------
-    # Future Real Providers
-    # -----------------------------------------------------------------------
 
     # -----------------------------------------------------------------------
     # Real Providers
     # -----------------------------------------------------------------------
+    #
+    # Provider definitions are process-level registry state. Re-running every
+    # provider loader for every integration request adds avoidable latency.
+    # Load the real provider definitions once per Python process.
+    # -----------------------------------------------------------------------
 
-    from .providers.google.provider import (
-        load_google_provider,
-    )
+    if not _DEFAULTS_LOADED:
 
-    load_google_provider()
+        from .providers.google.provider import (
+            load_google_provider,
+        )
 
-    from .providers.spotify.provider import (
-        load_spotify_provider,
-    )
+        load_google_provider()
 
-    load_spotify_provider()
+        from .providers.spotify.provider import (
+            load_spotify_provider,
+        )
 
-    from .providers.apple_bridge.provider import (
-        load_apple_bridge_provider,
-    )
+        load_spotify_provider()
 
-    load_apple_bridge_provider()
+        from .providers.apple_bridge.provider import (
+            load_apple_bridge_provider,
+        )
 
-    from .providers.schwab.provider import (
-        load_schwab_provider,
-    )
+        load_apple_bridge_provider()
 
-    load_schwab_provider()
+        from .providers.schwab.provider import (
+            load_schwab_provider,
+        )
 
-    from .providers.weather.provider import (
-        load_weather_provider,
-    )
+        load_schwab_provider()
 
-    load_weather_provider()
+        from .providers.weather.provider import (
+            load_weather_provider,
+        )
 
-    from .providers.github.provider import (
-        load_github_provider,
-    )
+        load_weather_provider()
 
-    load_github_provider()
+        from .providers.github.provider import (
+            load_github_provider,
+        )
 
-    from .providers.notion.provider import (
-        load_notion_provider,
-    )
+        load_github_provider()
 
-    load_notion_provider()
+        from .providers.notion.provider import (
+            load_notion_provider,
+        )
+
+        load_notion_provider()
+
+        _DEFAULTS_LOADED = True
+
 
     # -----------------------------------------------------------------------
     # Development Mock
     # -----------------------------------------------------------------------
+    #
+    # Mock loading remains independently opt-in. This preserves standalone
+    # diagnostics that request include_mock=True after the real providers have
+    # already been loaded.
+    # -----------------------------------------------------------------------
 
-    if include_mock:
+    if (
+        include_mock
+        and not _MOCK_LOADED
+    ):
 
         from .providers.mock import (
             load_mock_provider,
@@ -408,8 +425,7 @@ def load_default_integrations(
 
         load_mock_provider()
 
-
-    _DEFAULTS_LOADED = True
+        _MOCK_LOADED = True
 
 
     return list_integration_capabilities()
@@ -440,11 +456,13 @@ def clear_integration_registry():
     """
 
     global _DEFAULTS_LOADED
+    global _MOCK_LOADED
 
 
     _CAPABILITIES.clear()
 
     _DEFAULTS_LOADED = False
+    _MOCK_LOADED = False
 
 
 # ---------------------------------------------------------------------------

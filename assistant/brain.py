@@ -26,6 +26,7 @@ Most Recent Change:
 """
 
 import json
+from time import perf_counter
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -116,6 +117,10 @@ from .integrations.selection import (
     set_pending_integration_selection,
 )
 
+from .integrations.presentation import (
+    render_integration_response,
+)
+
 
 # ---------------------------------------------------------------------------
 # Environment
@@ -133,7 +138,7 @@ client = OpenAI()
 SYSTEM_PROMPT = """
 You are P.E.P.P.E.R.
 
-P.E.P.P.E.R. stands for Enhanced Virtual Intelligence Engine.
+P.E.P.P.E.R. stands for Personal Engineering Partner for People Eventually Replaced.
 
 You are Max's personal AI assistant and engineering partner.
 
@@ -160,6 +165,11 @@ Rules:
 - Forgotten or archived memories must not be treated as known.
 - Never invent memories.
 - If memory evidence is incomplete, say so.
+- For short follow-ups such as "tell me more", "explain more", "why?",
+  "how so?", or "what do you mean?", continue from the MOST RECENT
+  completed user/assistant turn unless the user explicitly names an older topic.
+- Do not jump back to an older tool result or earlier subject merely because it
+  contains more detailed structured data.
 
 
 LIVE COMPUTER CONTEXT
@@ -383,9 +393,26 @@ def build_conversation_context(
 
     formatted = []
 
-    for user_message, response in conversations:
+    # get_recent_conversations() returns the selected rows in
+    # chronological order (oldest -> newest). Reverse them here so index 0
+    # is genuinely the most recent completed turn for follow-up reasoning.
+    for index, (
+        user_message,
+        response,
+    ) in enumerate(
+        reversed(
+            conversations
+        )
+    ):
+
+        recency_label = (
+            "MOST RECENT COMPLETED TURN"
+            if index == 0
+            else f"OLDER TURN {index}"
+        )
 
         formatted.append(
+            f"[{recency_label}]\n"
             f"User: {user_message}\n"
             f"P.E.P.P.E.R.: {response}"
         )
@@ -854,23 +881,39 @@ def render_tool_result_response(
     Converts deterministic tool output into a concise natural-language
     P.E.P.P.E.R. response.
 
-    The model is not allowed to reinterpret failure as success.
+    Structured integration results use a deterministic renderer when one
+    can interpret the result confidently. Unsupported or ambiguous results
+    keep the existing GPT renderer as a fallback.
     """
 
+    if (
+        tool_name == "integration_execute"
+        and verification.successful
+    ):
+        try:
+            deterministic_response = render_integration_response(
+                arguments=arguments,
+                execution=execution,
+            )
+        except Exception as error:
+            print("\n[Integration Presentation Warning]")
+            print(error)
+            deterministic_response = None
+
+        if deterministic_response:
+            print(
+                "[Integration Presentation] "
+                "deterministic renderer"
+            )
+            return deterministic_response
+
     payload = {
-        "tool":
-            tool_name,
-
-        "arguments":
-            arguments,
-
-        "execution":
-            execution,
-
-        "verification":
-            verification_to_dict(
-                verification
-            ),
+        "tool": tool_name,
+        "arguments": arguments,
+        "execution": execution,
+        "verification": verification_to_dict(
+            verification
+        ),
     }
 
     instructions = """
@@ -888,7 +931,6 @@ Rules:
 """
 
     try:
-
         response = client.responses.create(
             model="gpt-5.5",
             instructions=instructions,
@@ -899,30 +941,17 @@ Rules:
             ),
         )
 
-        reply = (
-            response.output_text.strip()
-        )
+        reply = response.output_text.strip()
 
         if reply:
-
             return reply
 
     except Exception as error:
+        print("\n[Tool Result Response Warning]")
+        print(error)
 
-        print(
-            "\n[Tool Result Response Warning]"
-        )
-
-        print(
-            error
-        )
-
-    # Deterministic fallback.
     if verification.successful:
-
-        return (
-            f"{tool_name} completed successfully."
-        )
+        return f"{tool_name} completed successfully."
 
     return (
         f"{tool_name} did not complete successfully: "
@@ -1252,6 +1281,9 @@ def handle_tool_request(
     """
     Plans and executes at most one immediate computer action.
 
+    Phase 16A timing instrumentation records the major Phase 6 stages
+    without changing routing, permissions, execution, or verification.
+
     Returns:
         {
             "handled": bool,
@@ -1260,9 +1292,22 @@ def handle_tool_request(
         }
     """
 
-    if not should_consider_tools(
-        user_message
-    ):
+    phase6_started = perf_counter()
+
+    gate_started = perf_counter()
+
+    consider_tools = (
+        should_consider_tools(
+            user_message
+        )
+    )
+
+    gate_elapsed = (
+        perf_counter()
+        - gate_started
+    )
+
+    if not consider_tools:
 
         return {
             "handled":
@@ -1275,10 +1320,17 @@ def handle_tool_request(
                 False,
         }
 
+    planning_started = perf_counter()
+
     plan = (
         plan_tool_request(
             user_message
         )
+    )
+
+    planning_elapsed = (
+        perf_counter()
+        - planning_started
     )
 
     if (
@@ -1287,6 +1339,20 @@ def handle_tool_request(
         or plan.confidence < 60
     ):
 
+        print(
+            "\n[Phase 6 Timing]"
+        )
+        print(
+            f"consideration_gate: {gate_elapsed:.3f}s"
+        )
+        print(
+            f"planning: {planning_elapsed:.3f}s"
+        )
+        print(
+            f"phase6_total: "
+            f"{perf_counter() - phase6_started:.3f}s"
+        )
+
         return {
             "handled":
                 False,
@@ -1297,6 +1363,8 @@ def handle_tool_request(
             "approval_required":
                 False,
         }
+
+    binding_started = perf_counter()
 
     arguments = (
         bind_workspace_to_tool_arguments(
@@ -1311,7 +1379,12 @@ def handle_tool_request(
         )
     )
 
-        # -----------------------------------------------------------------------
+    binding_elapsed = (
+        perf_counter()
+        - binding_started
+    )
+
+    # -----------------------------------------------------------------------
     # Planner-Owned Approval Is Forbidden
     # -----------------------------------------------------------------------
 
@@ -1325,10 +1398,11 @@ def handle_tool_request(
             None,
         )
 
-
     # -----------------------------------------------------------------------
     # Phase 9 Account Preflight
     # -----------------------------------------------------------------------
+
+    preflight_started = perf_counter()
 
     preflight = (
         preflight_integration_action(
@@ -1346,8 +1420,32 @@ def handle_tool_request(
         )
     )
 
+    preflight_elapsed = (
+        perf_counter()
+        - preflight_started
+    )
 
     if preflight is not None:
+
+        print(
+            "\n[Phase 6 Timing]"
+        )
+        print(
+            f"consideration_gate: {gate_elapsed:.3f}s"
+        )
+        print(
+            f"planning: {planning_elapsed:.3f}s"
+        )
+        print(
+            f"workspace_binding: {binding_elapsed:.3f}s"
+        )
+        print(
+            f"account_preflight: {preflight_elapsed:.3f}s"
+        )
+        print(
+            f"phase6_total: "
+            f"{perf_counter() - phase6_started:.3f}s"
+        )
 
         return preflight
 
@@ -1370,6 +1468,8 @@ def handle_tool_request(
         plan.confidence,
     )
 
+    execution_started = perf_counter()
+
     execution = (
         execute_tool(
             tool_name=
@@ -1381,6 +1481,11 @@ def handle_tool_request(
             approved=
                 False,
         )
+    )
+
+    execution_elapsed = (
+        perf_counter()
+        - execution_started
     )
 
     if (
@@ -1429,6 +1534,29 @@ def handle_tool_request(
             "Approve it? Say yes to proceed or no to cancel."
         )
 
+        print(
+            "\n[Phase 6 Timing]"
+        )
+        print(
+            f"consideration_gate: {gate_elapsed:.3f}s"
+        )
+        print(
+            f"planning: {planning_elapsed:.3f}s"
+        )
+        print(
+            f"workspace_binding: {binding_elapsed:.3f}s"
+        )
+        print(
+            f"account_preflight: {preflight_elapsed:.3f}s"
+        )
+        print(
+            f"execution: {execution_elapsed:.3f}s"
+        )
+        print(
+            f"phase6_total: "
+            f"{perf_counter() - phase6_started:.3f}s"
+        )
+
         return {
             "handled":
                 True,
@@ -1440,15 +1568,24 @@ def handle_tool_request(
                 True,
         }
 
+    verification_started = perf_counter()
+
     verification = (
         verify_tool_result(
             execution
         )
     )
 
+    verification_elapsed = (
+        perf_counter()
+        - verification_started
+    )
+
     # -----------------------------------------------------------------------
     # Phase 10B - Record Successfully Verified Context
     # -----------------------------------------------------------------------
+
+    context_record_started = perf_counter()
 
     if verification.successful:
 
@@ -1462,6 +1599,13 @@ def handle_tool_request(
             user_request=
                 user_message,
         )
+
+    context_record_elapsed = (
+        perf_counter()
+        - context_record_started
+    )
+
+    rendering_started = perf_counter()
 
     response = (
         render_tool_result_response(
@@ -1482,6 +1626,47 @@ def handle_tool_request(
         )
     )
 
+    rendering_elapsed = (
+        perf_counter()
+        - rendering_started
+    )
+
+    phase6_elapsed = (
+        perf_counter()
+        - phase6_started
+    )
+
+    print(
+        "\n[Phase 6 Timing]"
+    )
+    print(
+        f"consideration_gate: {gate_elapsed:.3f}s"
+    )
+    print(
+        f"planning: {planning_elapsed:.3f}s"
+    )
+    print(
+        f"workspace_binding: {binding_elapsed:.3f}s"
+    )
+    print(
+        f"account_preflight: {preflight_elapsed:.3f}s"
+    )
+    print(
+        f"execution: {execution_elapsed:.3f}s"
+    )
+    print(
+        f"verification: {verification_elapsed:.3f}s"
+    )
+    print(
+        f"context_record: {context_record_elapsed:.3f}s"
+    )
+    print(
+        f"response_rendering: {rendering_elapsed:.3f}s"
+    )
+    print(
+        f"phase6_total: {phase6_elapsed:.3f}s"
+    )
+
     return {
         "handled":
             True,
@@ -1492,6 +1677,7 @@ def handle_tool_request(
         "approval_required":
             False,
     }
+
 
 # ---------------------------------------------------------------------------
 # Pending Integration Account Selection

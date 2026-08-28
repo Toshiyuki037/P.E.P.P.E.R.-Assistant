@@ -26,6 +26,8 @@ from dataclasses import (
 
 from typing import Any
 
+from time import perf_counter
+
 from .account_router import (
     RoutedAccount,
     route_accounts,
@@ -297,9 +299,31 @@ def execute_routed_account(
 
     try:
 
+        provider_started = (
+            perf_counter()
+        )
+
+
         result = (
             registered.function(
                 **call_arguments
+            )
+        )
+
+
+        provider_elapsed = (
+            perf_counter()
+            - provider_started
+        )
+
+
+        print(
+            (
+                "[Integration Aggregate Timing] "
+                f"provider_execution="
+                f"{provider_elapsed:.3f}s "
+                f"provider={routed.provider} "
+                f"capability={routed.capability}"
             )
         )
 
@@ -386,8 +410,24 @@ def execute_aggregate(
     several accounts.
     """
 
+    aggregate_started = (
+        perf_counter()
+    )
+
+
+    registry_started = (
+        perf_counter()
+    )
+
+
     load_default_integrations(
         include_mock=False
+    )
+
+
+    registry_elapsed = (
+        perf_counter()
+        - registry_started
     )
 
 
@@ -437,6 +477,11 @@ def execute_aggregate(
     # Route
     # -----------------------------------------------------------------------
 
+    routing_started = (
+        perf_counter()
+    )
+
+
     routed_accounts = (
         route_accounts(
             capability=
@@ -454,6 +499,12 @@ def execute_aggregate(
     )
 
 
+    routing_elapsed = (
+        perf_counter()
+        - routing_started
+    )
+
+
     if routed_accounts:
 
         registered_for_risk = (
@@ -467,6 +518,11 @@ def execute_aggregate(
         )
 
 
+    policy_started = (
+        perf_counter()
+    )
+
+
     risk = get_capability_risk(
         capability,
         registered_for_risk,
@@ -478,6 +534,12 @@ def execute_aggregate(
             capability,
             registered_for_risk,
         )
+    )
+
+
+    policy_elapsed = (
+        perf_counter()
+        - policy_started
     )
 
 
@@ -531,6 +593,11 @@ def execute_aggregate(
     evidence = []
 
 
+    execution_started = (
+        perf_counter()
+    )
+
+
     for routed in routed_accounts:
 
         evidence.append(
@@ -545,6 +612,12 @@ def execute_aggregate(
                     approved,
             )
         )
+
+
+    execution_elapsed = (
+        perf_counter()
+        - execution_started
+    )
 
 
     succeeded = [
@@ -576,6 +649,33 @@ def execute_aggregate(
             f"{capability} is a {risk}-risk action "
             "and requires user approval."
         )
+
+
+    aggregate_elapsed = (
+        perf_counter()
+        - aggregate_started
+    )
+
+
+    print()
+    print(
+        "[Integration Aggregate Timing]"
+    )
+    print(
+        f"registry_load: {registry_elapsed:.3f}s"
+    )
+    print(
+        f"routing: {routing_elapsed:.3f}s"
+    )
+    print(
+        f"policy: {policy_elapsed:.3f}s"
+    )
+    print(
+        f"routed_execution: {execution_elapsed:.3f}s"
+    )
+    print(
+        f"aggregate_total: {aggregate_elapsed:.3f}s"
+    )
 
 
     return AggregatedIntegrationResult(

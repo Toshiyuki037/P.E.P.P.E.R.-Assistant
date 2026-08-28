@@ -101,6 +101,64 @@ VAD_END_SILENCE_MS = 2000
 VAD_MINIMUM_UTTERANCE_MS = 180
 
 
+# ---------------------------------------------------------------------------
+# Voice Front-End Timing
+# ---------------------------------------------------------------------------
+
+_LAST_VOICE_TIMING = {}
+
+
+def _set_last_voice_timing(
+    **values,
+):
+    _LAST_VOICE_TIMING.clear()
+    _LAST_VOICE_TIMING.update(
+        values
+    )
+
+
+def _update_last_voice_timing(
+    **values,
+):
+    _LAST_VOICE_TIMING.update(
+        values
+    )
+
+
+def _print_voice_latency():
+    if not _LAST_VOICE_TIMING:
+        return
+
+    print()
+    print(
+        "[Voice Latency]"
+    )
+
+    for key in (
+        "speech_duration",
+        "vad_end_silence_config",
+        "recording_total",
+        "audio_state_store",
+        "owner_gate",
+        "final_stt",
+        "transcript_finalize",
+        "speech_complete_to_transcript",
+        "speech_detected_to_transcript",
+    ):
+        value = (
+            _LAST_VOICE_TIMING.get(
+                key
+            )
+        )
+
+        if value is None:
+            continue
+
+        print(
+            f"{key}: {value:.3f}s"
+        )
+
+
 PRE_ROLL_FRAMES = max(
     1,
     int(
@@ -576,6 +634,17 @@ def record_utterance(
         "\nListening..."
     )
 
+    recording_started_at = (
+        time.monotonic()
+    )
+
+    _set_last_voice_timing(
+        vad_end_silence_config=(
+            VAD_END_SILENCE_MS
+            / 1000.0
+        ),
+    )
+
     detector = (
         create_vad()
     )
@@ -662,6 +731,11 @@ def record_utterance(
                             time.monotonic()
                         )
 
+                        _update_last_voice_timing(
+                            speech_started_at=
+                                speech_started_at,
+                        )
+
                         # Strict owner gate:
                         # do not start/schedule any Whisper work before
                         # ECAPA verifies the captured speaker.
@@ -724,6 +798,24 @@ def record_utterance(
 
                 if vad_result.speech_ended:
 
+                    speech_complete_at = (
+                        time.monotonic()
+                    )
+
+                    _update_last_voice_timing(
+                        speech_complete_at=
+                            speech_complete_at,
+                        speech_duration=(
+                            (
+                                speech_complete_at
+                                - speech_started_at
+                            )
+                            if speech_started_at
+                            is not None
+                            else None
+                        ),
+                    )
+
                     print(
                         "Speech complete."
                     )
@@ -740,6 +832,24 @@ def record_utterance(
                     >= MAX_UTTERANCE_SECONDS
                 ):
 
+                    speech_complete_at = (
+                        time.monotonic()
+                    )
+
+                    _update_last_voice_timing(
+                        speech_complete_at=
+                            speech_complete_at,
+                        speech_duration=(
+                            (
+                                speech_complete_at
+                                - speech_started_at
+                            )
+                            if speech_started_at
+                            is not None
+                            else None
+                        ),
+                    )
+
                     print(
                         "Maximum utterance length reached."
                     )
@@ -750,6 +860,17 @@ def record_utterance(
 
         # Strict owner gate: partial Whisper is not started before ECAPA.
         pass
+
+    recording_finished_at = (
+        time.monotonic()
+    )
+
+    _update_last_voice_timing(
+        recording_total=(
+            recording_finished_at
+            - recording_started_at
+        ),
+    )
 
     return (
         buffer.audio(),
@@ -779,10 +900,21 @@ def listen(
 
         return ""
 
+    audio_state_started = (
+        time.monotonic()
+    )
+
     set_last_utterance_audio(
         audio,
         sample_rate=
             SAMPLE_RATE,
+    )
+
+    _update_last_voice_timing(
+        audio_state_store=(
+            time.monotonic()
+            - audio_state_started
+        ),
     )
 
     # -----------------------------------------------------------------------
@@ -796,6 +928,11 @@ def listen(
     # -----------------------------------------------------------------------
 
     OWNER_VOICE_GATE_ENABLED = False
+
+
+    owner_gate_started = (
+        time.monotonic()
+    )
 
 
     if OWNER_VOICE_GATE_ENABLED:
@@ -836,14 +973,38 @@ def listen(
 
             return ""
 
+
+    _update_last_voice_timing(
+        owner_gate=(
+            time.monotonic()
+            - owner_gate_started
+        ),
+    )
+
+
     print(
         "Finalizing transcription..."
+    )
+
+    final_stt_started = (
+        time.monotonic()
     )
 
     result = (
         transcribe_final_audio_result(
             audio
         )
+    )
+
+    final_stt_finished = (
+        time.monotonic()
+    )
+
+    _update_last_voice_timing(
+        final_stt=(
+            final_stt_finished
+            - final_stt_started
+        ),
     )
 
     text = (
@@ -854,9 +1015,56 @@ def listen(
 
         return ""
 
+    transcript_finalize_started = (
+        time.monotonic()
+    )
+
     transcript_controller.finalize(
         result
     )
+
+    transcript_ready_at = (
+        time.monotonic()
+    )
+
+    speech_complete_at = (
+        _LAST_VOICE_TIMING.get(
+            "speech_complete_at"
+        )
+    )
+
+    speech_started_at = (
+        _LAST_VOICE_TIMING.get(
+            "speech_started_at"
+        )
+    )
+
+    _update_last_voice_timing(
+        transcript_finalize=(
+            transcript_ready_at
+            - transcript_finalize_started
+        ),
+        speech_complete_to_transcript=(
+            (
+                transcript_ready_at
+                - speech_complete_at
+            )
+            if speech_complete_at
+            is not None
+            else None
+        ),
+        speech_detected_to_transcript=(
+            (
+                transcript_ready_at
+                - speech_started_at
+            )
+            if speech_started_at
+            is not None
+            else None
+        ),
+    )
+
+    _print_voice_latency()
 
     return text
 

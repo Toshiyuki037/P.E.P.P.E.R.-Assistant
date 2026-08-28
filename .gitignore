@@ -21,3 +21,4 @@ runtime/voice_identity/
 .idea/
 .vscode/
 runtime/phase13f/
+/runtime/world_state/

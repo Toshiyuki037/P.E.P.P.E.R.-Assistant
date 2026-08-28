@@ -115,7 +115,6 @@ _BLOCK_PHRASES = (
     ".cpp",
     ".vhd",
     ".vhdl",
-    "fpga",
     "screen",
     "screenshot",
     "image",
@@ -171,6 +170,26 @@ _BLOCK_PHRASES = (
 )
 
 
+# Natural voice wrappers that should still qualify for the fast factual path.
+#
+# Important: only the wrapper is ignored. The actual request body is still
+# checked against every authoritative/full-model block phrase below.
+_FAST_FACTUAL_WRAPPERS = (
+    re.compile(
+        r"^(?:can|could|would) you explain"
+        r"(?: to me)?"
+        r"(?: (?:briefly|concisely|simply))?"
+        r"\s+(?P<request>.+)$"
+    ),
+    re.compile(
+        r"^please explain"
+        r"(?: to me)?"
+        r"(?: (?:briefly|concisely|simply))?"
+        r"\s+(?P<request>.+)$"
+    ),
+)
+
+
 def _normalize(text: str):
     return re.sub(
         r"\s+",
@@ -188,6 +207,46 @@ def _contains_block_phrase(text: str):
                 return True
         elif phrase in text:
             return True
+
+    return False
+
+
+def _safe_wrapped_factual_request(
+    text: str,
+):
+    """
+    Return True when a natural conversational wrapper surrounds an otherwise
+    ordinary factual request.
+
+    Example:
+        "Can you explain to me concisely what a circuit board is?"
+
+    The wrapper may contain "me", but the request body must remain free of
+    personal/project/current/tool/debug/detail block phrases.
+    """
+
+    for pattern in _FAST_FACTUAL_WRAPPERS:
+        match = pattern.fullmatch(
+            text
+        )
+
+        if match is None:
+            continue
+
+        request = (
+            match.group("request")
+            .strip()
+        )
+
+        if not request:
+            return False
+
+        if _contains_block_phrase(
+            request
+        ):
+            return False
+
+        return True
 
     return False
 
@@ -280,13 +339,22 @@ def should_use_fast_voice_reasoning(
         ):
             return True
 
+    # Phase 16F repair:
+    # Natural wrappers such as "Can you explain to me concisely ..." contain
+    # the generic word "me", which must not by itself force a safe factual
+    # question onto the authoritative model. Strip only the known wrapper and
+    # validate the remaining request body against all normal hard blocks.
+    if _safe_wrapped_factual_request(
+        text
+    ):
+        return True
 
     if _contains_block_phrase(
         text
     ):
         return False
 
-        # -----------------------------------------------------------------------
+    # -----------------------------------------------------------------------
     # Phase 16F repair — ordinary social conversation
     # -----------------------------------------------------------------------
     #
