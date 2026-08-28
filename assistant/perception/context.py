@@ -567,6 +567,34 @@ Window:
 
 
 # ---------------------------------------------------------------------------
+# Snapshot Formatting
+# ---------------------------------------------------------------------------
+
+def format_live_context_snapshot(
+    context: dict,
+):
+    """
+    Formats an already-collected live-context snapshot.
+
+    Phase 16B.6 uses this when operational RAM already contains a usable
+    computer.context record. No perception collection occurs here.
+    """
+
+    if not isinstance(
+        context,
+        dict,
+    ):
+        return (
+            "Live computer context is "
+            "currently unavailable."
+        )
+
+    return format_live_context(
+        context
+    )
+
+
+# ---------------------------------------------------------------------------
 # Main Context Formatter
 # ---------------------------------------------------------------------------
 

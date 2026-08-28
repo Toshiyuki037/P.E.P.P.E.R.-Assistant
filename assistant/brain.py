@@ -49,7 +49,9 @@ from .intelligence.context import (
 )
 
 from .perception.context import (
+    determine_context_needs,
     format_live_context,
+    format_live_context_snapshot,
     get_live_context,
 )
 
@@ -119,6 +121,19 @@ from .integrations.selection import (
 
 from .integrations.presentation import (
     render_integration_response,
+)
+
+
+from .world_state.computer_adapter import (
+    publish_live_context_snapshot,
+)
+
+from .world_state.integration_adapter import (
+    publish_integration_execution,
+)
+
+from .world_state.policy import (
+    get_usable_world_state,
 )
 
 
@@ -1600,6 +1615,38 @@ def handle_tool_request(
                 user_message,
         )
 
+        if (
+            plan.tool_name
+            == "integration_execute"
+        ):
+            try:
+                publish_integration_execution(
+                    execution,
+                    capability=
+                        arguments.get(
+                            "capability"
+                        ),
+                    provider=
+                        arguments.get(
+                            "provider"
+                        ),
+                    account_id=
+                        arguments.get(
+                            "account_id"
+                        ),
+                    routing_mode=
+                        arguments.get(
+                            "routing_mode"
+                        ),
+                )
+            except Exception as error:
+                print(
+                    "\n[World State Integration Warning]"
+                )
+                print(
+                    error
+                )
+
     context_record_elapsed = (
         perf_counter()
         - context_record_started
@@ -2181,16 +2228,127 @@ def handle_pending_tool_approval(
 # Live Computer Context
 # ---------------------------------------------------------------------------
 
+def cached_live_context_satisfies_needs(
+    cached_context: dict,
+    requested_needs: dict,
+):
+    """
+    Returns True only when a cached computer.context snapshot contains every
+    optional live-context section required by the current request.
+
+    A fresh cache entry is not automatically compatible with every request.
+    For example, an application-only snapshot cannot satisfy a later
+    clipboard request.
+    """
+
+    if not isinstance(
+        cached_context,
+        dict,
+    ):
+        return False
+
+    cached_needs = (
+        cached_context.get(
+            "needs"
+        )
+        if isinstance(
+            cached_context.get(
+                "needs"
+            ),
+            dict,
+        )
+        else {}
+    )
+
+    for need in (
+        "workspace",
+        "all_workspaces",
+        "applications",
+        "terminal",
+        "clipboard",
+    ):
+        if (
+            requested_needs.get(
+                need
+            )
+            and not cached_needs.get(
+                need
+            )
+        ):
+            return False
+
+    if (
+        requested_needs.get(
+            "workspace"
+        )
+        and not isinstance(
+            cached_context.get(
+                "workspace"
+            ),
+            dict,
+        )
+    ):
+        return False
+
+    if (
+        requested_needs.get(
+            "clipboard"
+        )
+        and cached_context.get(
+            "clipboard"
+        ) is None
+    ):
+        return False
+
+    return True
+
+
 def build_live_context(
     user_message: str,
     workspace_snapshot: dict,
 ):
     """
-    Builds live context using the workspace snapshot already captured
-    for this request.
+    Builds live context using operational RAM when a usable snapshot exists.
+
+    If RAM is absent or expired, the existing perception collector remains
+    the authoritative fallback. Any newly collected snapshot is then
+    published back into RAM.
+
+    This does not dump unrelated world state into the reasoning prompt.
     """
 
     try:
+
+        requested_needs = (
+            determine_context_needs(
+                user_message
+            )
+        )
+
+        ram_record = (
+            get_usable_world_state(
+                "computer.context",
+                allow_stale=True,
+            )
+        )
+
+        if ram_record is not None:
+
+            cached_context = (
+                ram_record.value
+            )
+
+            if cached_live_context_satisfies_needs(
+                cached_context,
+                requested_needs,
+            ):
+
+                return (
+                    format_live_context_snapshot(
+                        cached_context
+                    )
+                )
+
 
         context = get_live_context(
             user_message=
@@ -2199,6 +2357,23 @@ def build_live_context(
             workspace_snapshot=
                 workspace_snapshot,
         )
+
+
+        try:
+
+            publish_live_context_snapshot(
+                context
+            )
+
+        except Exception as error:
+
+            print(
+                "\n[World State Perception Warning]"
+            )
+
+            print(
+                error
+            )
 
 
         return format_live_context(
