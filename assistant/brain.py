@@ -123,6 +123,18 @@ from .integrations.presentation import (
     render_integration_response,
 )
 
+from .integrations.parallel_reads import (
+    IntegrationReadRequest,
+)
+
+from .integrations.prefetch import (
+    prefetch_integrations_to_world_state,
+)
+
+from .integrations.prefetch_planner import (
+    plan_integration_prefetch,
+)
+
 
 from .world_state.computer_adapter import (
     publish_live_context_snapshot,
@@ -2789,6 +2801,62 @@ after this reasoning request completes.
 
 
 # ---------------------------------------------------------------------------
+# Phase 16C - Relevant Integration Prefetch
+# ---------------------------------------------------------------------------
+
+def prefetch_relevant_integrations(
+    user_message: str,
+):
+    """
+    Deterministically prefetch independent low-risk integration reads that
+    are relevant to the current request.
+
+    The prefetch engine preserves the existing aggregator/provider path and
+    publishes successful results into Phase 16B world state.
+
+    This helper is intentionally best-effort. Prefetch failure must never
+    prevent the normal reasoning path from continuing.
+    """
+
+    try:
+        intents = (
+            plan_integration_prefetch(
+                user_message
+            )
+        )
+
+        if not intents:
+            return []
+
+        requests = [
+            IntegrationReadRequest(
+                name=intent.capability,
+                capability=intent.capability,
+            )
+            for intent in intents
+        ]
+
+        return (
+            prefetch_integrations_to_world_state(
+                requests,
+                max_workers=min(
+                    4,
+                    len(requests),
+                ),
+            )
+        )
+
+    except Exception as error:
+        print(
+            "\n[Integration Prefetch Warning]"
+        )
+        print(
+            error
+        )
+        return []
+
+
+# ---------------------------------------------------------------------------
 # Combined Context
 # ---------------------------------------------------------------------------
 
@@ -2821,6 +2889,15 @@ def build_context(
         )
 
         workspace_snapshot = {}
+
+
+    # -----------------------------------------------------------------------
+    # Phase 16C - Relevant Integration Prefetch
+    # -----------------------------------------------------------------------
+
+    prefetch_relevant_integrations(
+        user_message
+    )
 
 
     # -----------------------------------------------------------------------
