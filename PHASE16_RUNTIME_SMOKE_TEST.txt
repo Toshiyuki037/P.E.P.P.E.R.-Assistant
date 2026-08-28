@@ -1,0 +1,51 @@
+P.E.P.P.E.R. Phase 16 Real Runtime Smoke Test
+==============================================
+
+Run this only AFTER validate_phase16_full.py passes.
+
+1. Launch the production entry point exactly as you normally do:
+   python main.py
+
+2. Confirm startup:
+   - Pepper reaches Online/ready state.
+   - No new import errors from autonomy, verification, proactive,
+     background, executive, events, or world_state.
+   - Existing wake/auth/STT/TTS path initializes normally.
+
+3. Normal conversation regression:
+   - Ask a simple factual question.
+   - Ask a reasoning/project question.
+   - Confirm responses are normal and not duplicated.
+
+4. Local/system context:
+   - Ask what application/window is active.
+   - Ask a workspace-aware question if applicable.
+   - Confirm operational RAM does not return obviously stale/wrong context.
+
+5. Integration regression:
+   - Ask for current weather without naming a location.
+   - Confirm the existing foreground-location behavior still works.
+   - Ask for an integration you already have configured.
+   - Confirm no duplicate provider execution is visible.
+
+6. Voice regression:
+   - Wake Pepper normally.
+   - Speak one normal request.
+   - Confirm STT finalization still respects the existing 2000 ms
+     end-silence behavior.
+   - Confirm TTS playback works normally.
+   - DO NOT test or enable barge-in/interruption in this pass.
+
+7. Failure behavior:
+   - Do not intentionally trigger destructive/external actions merely
+     for testing.
+   - If a safe test action naturally fails, confirm Pepper does not
+     report it as successfully completed.
+
+8. Exit/restart:
+   - Shut Pepper down normally.
+   - Restart main.py.
+   - Confirm startup remains clean.
+
+If all eight areas pass, checkpoint the Phase 16 baseline before adding
+the Good Morning Protocol.
