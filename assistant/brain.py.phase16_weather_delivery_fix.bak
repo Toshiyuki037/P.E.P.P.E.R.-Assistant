@@ -141,7 +141,6 @@ from .world_state.computer_adapter import (
 )
 
 from .world_state.integration_adapter import (
-    get_integration_world_state,
     publish_integration_execution,
 )
 
@@ -1315,21 +1314,8 @@ def _deterministic_current_computer_state_response(
     user_message: str,
 ):
     # Answer obvious read-only computer-state questions from fresh Phase 16B RAM.
-    # Normalize harmless speech-transcript punctuation before exact
-    # deterministic intent matching. Whisper commonly appends ?, !, or .
-    # to otherwise identical utterances.
     text = " ".join(
-        str(user_message or "")
-        .strip()
-        .lower()
-        .translate(
-            str.maketrans(
-                "",
-                "",
-                "?!.,;:",
-            )
-        )
-        .split()
+        str(user_message or "").strip().lower().split()
     )
 
     application_patterns = {
@@ -1368,31 +1354,7 @@ def _deterministic_current_computer_state_response(
             allow_stale=False,
         )
     except Exception:
-        record = None
-
-    if record is None:
-        try:
-            refreshed_context = get_live_context(
-                user_message=user_message,
-                workspace_snapshot=None,
-            )
-            publish_live_context_snapshot(
-                refreshed_context
-            )
-            record = get_usable_world_state(
-                key,
-                allow_stale=False,
-            )
-            if record is not None:
-                print(
-                    "[Phase 16 RAM Fast Path] refreshed local computer state"
-                )
-        except Exception as error:
-            print(
-                "[Phase 16 RAM Fast Path Warning] "
-                f"local refresh failed: {error}"
-            )
-            record = None
+        return None
 
     if record is None:
         return None
@@ -1442,43 +1404,6 @@ def handle_tool_request(
             "approval_required": bool,
         }
     """
-
-    try:
-        deterministic_intents = plan_integration_prefetch(
-            user_message
-        )
-    except Exception:
-        deterministic_intents = []
-
-    if (
-        len(deterministic_intents) == 1
-        and deterministic_intents[0].capability == "weather.current"
-    ):
-        try:
-            prefetch_relevant_integrations(
-                user_message
-            )
-            deterministic_integration_response = (
-                render_prefetched_integration_response(
-                    user_message
-                )
-            )
-        except Exception as error:
-            print(
-                "[Phase 16 Deterministic Integration Warning] "
-                f"{error}"
-            )
-            deterministic_integration_response = None
-
-        if deterministic_integration_response:
-            print(
-                "[Phase 16 Deterministic Route] weather.current"
-            )
-            return {
-                "handled": True,
-                "response": deterministic_integration_response,
-                "approval_required": False,
-            }
 
     deterministic_state = (
         _deterministic_current_computer_state_response(
@@ -3074,64 +2999,12 @@ def prefetch_relevant_integrations(
         return []
 
 
-def render_prefetched_integration_response(
-    user_message: str,
-):
-    # Deliver a fresh, successfully-prefetched weather result through the
-    # already-certified deterministic Phase 16A renderer.
-    intents = plan_integration_prefetch(user_message)
-
-    if len(intents) != 1 or intents[0].capability != "weather.current":
-        return None
-
-    record = get_integration_world_state(
-        "weather.current",
-        require_fresh=True,
-    )
-
-    if record is None:
-        return None
-
-    execution = {
-        "success": True,
-        "executed": True,
-        "tool": "integration_execute",
-        "result": {
-            "success": True,
-            "capability": "weather.current",
-            "evidence": [
-                {
-                    "success": True,
-                    "executed": True,
-                    "capability": "weather.current",
-                    "data": record.value,
-                }
-            ],
-        },
-    }
-
-    response = render_integration_response(
-        arguments={"capability": "weather.current"},
-        execution=execution,
-    )
-
-    if response:
-        print(
-            "[Integration Presentation] "
-            "prefetched deterministic renderer"
-        )
-
-    return response
-
-
 # ---------------------------------------------------------------------------
 # Combined Context
 # ---------------------------------------------------------------------------
 
 def build_context(
     user_message: str,
-    *,
-    run_prefetch: bool = True,
 ):
     """
     Captures workspace state ONCE and sends that same snapshot to
@@ -3165,10 +3038,9 @@ def build_context(
     # Phase 16C - Relevant Integration Prefetch
     # -----------------------------------------------------------------------
 
-    if run_prefetch:
-        prefetch_relevant_integrations(
-            user_message
-        )
+    prefetch_relevant_integrations(
+        user_message
+    )
 
 
     # -----------------------------------------------------------------------
@@ -3505,30 +3377,12 @@ def chat(
     try:
 
         # -------------------------------------------------------------------
-        # Phase 16C -> 16B -> deterministic integration delivery
-        # -------------------------------------------------------------------
-
-        prefetch_relevant_integrations(
-            user_message
-        )
-
-        prefetched_response = (
-            render_prefetched_integration_response(
-                user_message
-            )
-        )
-
-        if prefetched_response:
-            return prefetched_response
-
-        # -------------------------------------------------------------------
         # Build Unified Context
         # -------------------------------------------------------------------
 
         context, visual_input = (
             build_context(
-                user_message,
-                run_prefetch=False,
+                user_message
             )
         )
 

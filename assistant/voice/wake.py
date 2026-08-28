@@ -1,9 +1,6 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
-
-WAKE_FORMS = (
-    "pepper",
-)
+import re
 
 
 SLEEP_COMMANDS = {
@@ -19,6 +16,9 @@ SLEEP_COMMANDS = {
     "that's all pepper",
     "thats all pepper",
 
+    "that's all piper",
+    "thats all piper",
+
     "you can go to sleep",
     "you can sleep now",
 
@@ -26,29 +26,81 @@ SLEEP_COMMANDS = {
 }
 
 
-def normalize_voice_text(text: str) -> str:
-    return " ".join(
-        str(text or "").strip().lower().split()
-    ).rstrip(".!?")
+_WAKE_PATTERN = re.compile(
+    r"""
+    ^
+    (?:
+        (?:
+            hey|
+            hi|
+            hello|
+            morning|
+            good\s+morning|
+            good\s+afternoon|
+            good\s+evening
+        )
+        \s*[,;:\-]?\s*
+    )?
+    (?:pepper|piper)
+    (?:
+        \s*[,;:\-]?\s*
+        (?P<request>.*)
+    )?
+    $
+    """,
+    re.IGNORECASE | re.VERBOSE,
+)
 
 
-def is_sleep_command(text: str) -> bool:
-    return normalize_voice_text(text) in SLEEP_COMMANDS
+def normalize_voice_text(
+    text: str,
+) -> str:
+    return (
+        " ".join(
+            str(text or "")
+            .strip()
+            .lower()
+            .split()
+        )
+        .rstrip(".!?")
+    )
 
 
-def extract_wake_request(text: str) -> tuple[bool, str]:
-    lowered = normalize_voice_text(text)
+def is_sleep_command(
+    text: str,
+) -> bool:
+    return (
+        normalize_voice_text(text)
+        in SLEEP_COMMANDS
+    )
 
-    for form in WAKE_FORMS:
-        if lowered == form:
-            return True, ""
 
-        comma_prefix = form + ","
-        if lowered.startswith(comma_prefix):
-            return True, lowered[len(comma_prefix):].strip()
+def extract_wake_request(
+    text: str,
+) -> tuple[bool, str]:
+    normalized = normalize_voice_text(
+        text
+    )
 
-        space_prefix = form + " "
-        if lowered.startswith(space_prefix):
-            return True, lowered[len(space_prefix):].strip()
+    if not normalized:
+        return False, ""
 
-    return False, ""
+    match = _WAKE_PATTERN.fullmatch(
+        normalized
+    )
+
+    if match is None:
+        return False, ""
+
+    request = (
+        match.group("request")
+        or ""
+    )
+
+    request = (
+        request
+        .strip(" \t,;:-")
+        .strip()
+    )
+
+    return True, request

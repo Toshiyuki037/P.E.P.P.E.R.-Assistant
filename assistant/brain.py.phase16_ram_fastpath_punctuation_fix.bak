@@ -1315,21 +1315,8 @@ def _deterministic_current_computer_state_response(
     user_message: str,
 ):
     # Answer obvious read-only computer-state questions from fresh Phase 16B RAM.
-    # Normalize harmless speech-transcript punctuation before exact
-    # deterministic intent matching. Whisper commonly appends ?, !, or .
-    # to otherwise identical utterances.
     text = " ".join(
-        str(user_message or "")
-        .strip()
-        .lower()
-        .translate(
-            str.maketrans(
-                "",
-                "",
-                "?!.,;:",
-            )
-        )
-        .split()
+        str(user_message or "").strip().lower().split()
     )
 
     application_patterns = {
@@ -1368,31 +1355,7 @@ def _deterministic_current_computer_state_response(
             allow_stale=False,
         )
     except Exception:
-        record = None
-
-    if record is None:
-        try:
-            refreshed_context = get_live_context(
-                user_message=user_message,
-                workspace_snapshot=None,
-            )
-            publish_live_context_snapshot(
-                refreshed_context
-            )
-            record = get_usable_world_state(
-                key,
-                allow_stale=False,
-            )
-            if record is not None:
-                print(
-                    "[Phase 16 RAM Fast Path] refreshed local computer state"
-                )
-        except Exception as error:
-            print(
-                "[Phase 16 RAM Fast Path Warning] "
-                f"local refresh failed: {error}"
-            )
-            record = None
+        return None
 
     if record is None:
         return None
@@ -1442,43 +1405,6 @@ def handle_tool_request(
             "approval_required": bool,
         }
     """
-
-    try:
-        deterministic_intents = plan_integration_prefetch(
-            user_message
-        )
-    except Exception:
-        deterministic_intents = []
-
-    if (
-        len(deterministic_intents) == 1
-        and deterministic_intents[0].capability == "weather.current"
-    ):
-        try:
-            prefetch_relevant_integrations(
-                user_message
-            )
-            deterministic_integration_response = (
-                render_prefetched_integration_response(
-                    user_message
-                )
-            )
-        except Exception as error:
-            print(
-                "[Phase 16 Deterministic Integration Warning] "
-                f"{error}"
-            )
-            deterministic_integration_response = None
-
-        if deterministic_integration_response:
-            print(
-                "[Phase 16 Deterministic Route] weather.current"
-            )
-            return {
-                "handled": True,
-                "response": deterministic_integration_response,
-                "approval_required": False,
-            }
 
     deterministic_state = (
         _deterministic_current_computer_state_response(
