@@ -29,6 +29,14 @@ from datetime import datetime, timezone
 from threading import RLock
 from typing import Any
 
+from assistant.events import publish
+from assistant.events.definitions import (
+    WORLD_STATE_CHANGED,
+    WORLD_STATE_DELETED,
+    WORLD_STATE_CLEARED,
+)
+
+
 
 # ---------------------------------------------------------------------------
 # Time
@@ -298,13 +306,32 @@ class WorldStateStore:
         )
 
         with self._lock:
+            previous_record = self._records.get(
+                normalized_key
+            )
             self._records[
                 normalized_key
             ] = record
 
-        return deepcopy(
+        result = deepcopy(
             record
         )
+
+        publish(
+            WORLD_STATE_CHANGED,
+            {
+                "key": normalized_key,
+                "record": result.to_dict(),
+                "previous_record": (
+                    deepcopy(previous_record).to_dict()
+                    if previous_record is not None
+                    else None
+                ),
+            },
+            source="assistant.world_state.core",
+        )
+
+        return result
 
     def get(
         self,
@@ -386,19 +413,43 @@ class WorldStateStore:
         )
 
         with self._lock:
-            return (
-                self._records.pop(
-                    normalized_key,
-                    None,
-                )
-                is not None
+            removed = self._records.pop(
+                normalized_key,
+                None,
             )
+
+        if removed is None:
+            return False
+
+        publish(
+            WORLD_STATE_DELETED,
+            {
+                "key": normalized_key,
+                "record": deepcopy(removed).to_dict(),
+            },
+            source="assistant.world_state.core",
+        )
+
+        return True
 
     def clear(
         self,
     ) -> None:
         with self._lock:
+            removed_keys = list(
+                self._records.keys()
+            )
             self._records.clear()
+
+        if removed_keys:
+            publish(
+                WORLD_STATE_CLEARED,
+                {
+                    "keys": removed_keys,
+                    "count": len(removed_keys),
+                },
+                source="assistant.world_state.core",
+            )
 
     def keys(
         self,

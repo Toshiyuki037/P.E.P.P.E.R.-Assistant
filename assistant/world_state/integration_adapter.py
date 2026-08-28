@@ -19,6 +19,10 @@ from __future__ import annotations
 
 from typing import Any
 
+from assistant.events import publish
+from assistant.events.definitions import INTEGRATION_UPDATED
+
+
 from .core import (
     get_world_state,
     get_world_state_snapshot,
@@ -383,7 +387,7 @@ def publish_integration_execution(
         resolved_capability
     )
 
-    return set_world_state(
+    record = set_world_state(
         key,
         payload,
         source=resolved_provider,
@@ -411,6 +415,21 @@ def publish_integration_execution(
                 resolved_routing_mode,
         },
     )
+
+    publish(
+        INTEGRATION_UPDATED,
+        {
+            "capability": resolved_capability,
+            "world_state_key": key,
+            "record": record.to_dict(),
+            "provider": resolved_provider,
+            "account_id": resolved_account_id,
+            "routing_mode": resolved_routing_mode,
+        },
+        source="assistant.world_state.integration_adapter",
+    )
+
+    return record
 
 
 def get_integration_world_state(
