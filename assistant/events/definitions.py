@@ -1,6 +1,6 @@
 """
 P.E.P.P.E.R. Core Event Definitions
-Phase 16D + 16E
+Phase 16D + 16E + 16F
 """
 
 from __future__ import annotations
@@ -26,6 +26,11 @@ TASK_COMPLETED = "task.completed"
 TASK_FAILED = "task.failed"
 TASK_CANCELLED = "task.cancelled"
 
+BACKGROUND_WORKER_STARTED = "background.worker_started"
+BACKGROUND_WORKER_STOPPED = "background.worker_stopped"
+BACKGROUND_JOB_STARTED = "background.job_started"
+BACKGROUND_JOB_FINISHED = "background.job_finished"
+
 CORE_EVENT_TOPICS = frozenset({
     WORLD_STATE_CHANGED,
     WORLD_STATE_DELETED,
@@ -43,4 +48,8 @@ CORE_EVENT_TOPICS = frozenset({
     TASK_COMPLETED,
     TASK_FAILED,
     TASK_CANCELLED,
+    BACKGROUND_WORKER_STARTED,
+    BACKGROUND_WORKER_STOPPED,
+    BACKGROUND_JOB_STARTED,
+    BACKGROUND_JOB_FINISHED,
 })

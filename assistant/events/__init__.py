@@ -11,6 +11,10 @@ from .bus import (
     unsubscribe,
 )
 from .definitions import (
+    BACKGROUND_JOB_FINISHED,
+    BACKGROUND_JOB_STARTED,
+    BACKGROUND_WORKER_STARTED,
+    BACKGROUND_WORKER_STOPPED,
     CORE_EVENT_TOPICS,
     GOAL_COMPLETED,
     GOAL_CREATED,
@@ -39,6 +43,10 @@ __all__ = [
     "publish",
     "subscribe",
     "unsubscribe",
+    "BACKGROUND_JOB_FINISHED",
+    "BACKGROUND_JOB_STARTED",
+    "BACKGROUND_WORKER_STARTED",
+    "BACKGROUND_WORKER_STOPPED",
     "CORE_EVENT_TOPICS",
     "GOAL_COMPLETED",
     "GOAL_CREATED",
