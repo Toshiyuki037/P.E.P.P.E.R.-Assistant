@@ -1,14 +1,14 @@
 """
 P.E.P.P.E.R. Controlled Background Worker
-Phase 16F.2 - 16F.6
+Phase 16F + Phase 16H verification/recovery integration
 
 Design:
 - bounded worker pool
 - explicit handler allow-list through registry
 - persistent task lifecycle through Phase 16E
-- no automatic retries
+- optional explicit verifier + bounded recovery
+- no automatic retry of arbitrary original actions
 - no approval bypass
-- no async rewrite
 - duplicate in-flight task protection
 - graceful shutdown
 """
@@ -29,6 +29,10 @@ from assistant.events.definitions import (
     BACKGROUND_WORKER_STOPPED,
 )
 from assistant.executive import EXECUTIVE, TaskExecutive
+from assistant.verification import (
+    VERIFICATION_ENGINE,
+    VerificationEngine,
+)
 
 from .registry import HANDLERS, BackgroundHandlerRegistry
 
@@ -40,6 +44,8 @@ class BackgroundJobResult:
     elapsed_seconds: float
     value: Any = None
     error: str = ""
+    verification_reason: str = ""
+    recovery_attempts: int = 0
 
 
 class BackgroundWorker:
@@ -48,10 +54,12 @@ class BackgroundWorker:
         *,
         executive: TaskExecutive = EXECUTIVE,
         registry: BackgroundHandlerRegistry = HANDLERS,
+        verification_engine: VerificationEngine = VERIFICATION_ENGINE,
         max_workers: int = 4,
     ):
         self.executive = executive
         self.registry = registry
+        self.verification_engine = verification_engine
         self.max_workers = max(1, int(max_workers))
         self._executor: ThreadPoolExecutor | None = None
         self._lock = RLock()
@@ -115,11 +123,18 @@ class BackgroundWorker:
             source="assistant.background",
         )
 
-    def _handler_name_for_task(self, task) -> str:
-        metadata = dict(task.metadata or {})
-        name = str(
-            metadata.get("background_handler") or ""
+    @staticmethod
+    def _metadata_name(task, key: str) -> str | None:
+        value = str(
+            dict(task.metadata or {}).get(key) or ""
         ).strip()
+        return value or None
+
+    def _handler_name_for_task(self, task) -> str:
+        name = self._metadata_name(
+            task,
+            "background_handler",
+        )
         if not name:
             raise ValueError(
                 "Task has no metadata['background_handler']; "
@@ -148,6 +163,15 @@ class BackgroundWorker:
                     f"Unregistered background handler: {handler_name}"
                 )
 
+            verifier_name = self._metadata_name(
+                task,
+                "verifier",
+            )
+            recovery_handler_name = self._metadata_name(
+                task,
+                "recovery_handler",
+            )
+
             running_task = self.executive.start_task(task_id)
 
             publish(
@@ -155,11 +179,26 @@ class BackgroundWorker:
                 {
                     "task_id": task_id,
                     "handler": handler_name,
+                    "verifier": verifier_name,
+                    "recovery_handler": recovery_handler_name,
                 },
                 source="assistant.background",
             )
 
-            value = handler(running_task)
+            raw_value = handler(running_task)
+
+            verified = self.verification_engine.execute(
+                task=running_task,
+                value=raw_value,
+                verifier_name=verifier_name,
+                recovery_handler_name=recovery_handler_name,
+            )
+
+            if not verified.success:
+                raise RuntimeError(
+                    "Verification failed: "
+                    f"{verified.error or verified.verification.reason}"
+                )
 
             self.executive.complete_task(task_id)
 
@@ -167,7 +206,9 @@ class BackgroundWorker:
                 task_id=task_id,
                 success=True,
                 elapsed_seconds=perf_counter() - started,
-                value=value,
+                value=verified.value,
+                verification_reason=verified.verification.reason,
+                recovery_attempts=verified.recovery_attempts,
             )
 
         except Exception as error:
@@ -200,6 +241,10 @@ class BackgroundWorker:
                 "success": result.success,
                 "elapsed_seconds": result.elapsed_seconds,
                 "error": result.error,
+                "verification_reason":
+                    result.verification_reason,
+                "recovery_attempts":
+                    result.recovery_attempts,
             },
             source="assistant.background",
         )
@@ -227,7 +272,6 @@ class BackgroundWorker:
             if task is None:
                 raise KeyError(f"Unknown task: {task_id}")
 
-            # Validate authorization before consuming a worker slot.
             handler_name = self._handler_name_for_task(task)
             if self.registry.get(handler_name) is None:
                 raise KeyError(

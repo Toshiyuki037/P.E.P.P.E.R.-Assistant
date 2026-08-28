@@ -1,6 +1,6 @@
 """
 P.E.P.P.E.R. Core Event Definitions
-Phase 16D + 16E + 16F + 16G
+Phase 16D through Phase 16H
 """
 
 from __future__ import annotations
@@ -35,6 +35,11 @@ PROACTIVE_SURFACED = "proactive.surfaced"
 PROACTIVE_SUPPRESSED = "proactive.suppressed"
 PROACTIVE_DEFERRED = "proactive.deferred"
 
+VERIFICATION_PASSED = "verification.passed"
+VERIFICATION_FAILED = "verification.failed"
+RECOVERY_ATTEMPTED = "recovery.attempted"
+RECOVERY_EXHAUSTED = "recovery.exhausted"
+
 CORE_EVENT_TOPICS = frozenset({
     WORLD_STATE_CHANGED,
     WORLD_STATE_DELETED,
@@ -59,4 +64,8 @@ CORE_EVENT_TOPICS = frozenset({
     PROACTIVE_SURFACED,
     PROACTIVE_SUPPRESSED,
     PROACTIVE_DEFERRED,
+    VERIFICATION_PASSED,
+    VERIFICATION_FAILED,
+    RECOVERY_ATTEMPTED,
+    RECOVERY_EXHAUSTED,
 })
