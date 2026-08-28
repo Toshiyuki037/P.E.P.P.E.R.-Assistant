@@ -1,6 +1,6 @@
 """
 P.E.P.P.E.R. Core Event Definitions
-Phase 16D + 16E + 16F
+Phase 16D + 16E + 16F + 16G
 """
 
 from __future__ import annotations
@@ -31,6 +31,10 @@ BACKGROUND_WORKER_STOPPED = "background.worker_stopped"
 BACKGROUND_JOB_STARTED = "background.job_started"
 BACKGROUND_JOB_FINISHED = "background.job_finished"
 
+PROACTIVE_SURFACED = "proactive.surfaced"
+PROACTIVE_SUPPRESSED = "proactive.suppressed"
+PROACTIVE_DEFERRED = "proactive.deferred"
+
 CORE_EVENT_TOPICS = frozenset({
     WORLD_STATE_CHANGED,
     WORLD_STATE_DELETED,
@@ -52,4 +56,7 @@ CORE_EVENT_TOPICS = frozenset({
     BACKGROUND_WORKER_STOPPED,
     BACKGROUND_JOB_STARTED,
     BACKGROUND_JOB_FINISHED,
+    PROACTIVE_SURFACED,
+    PROACTIVE_SUPPRESSED,
+    PROACTIVE_DEFERRED,
 })
