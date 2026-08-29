@@ -180,6 +180,11 @@ from .briefings.morning import (
     run_good_morning_protocol,
 )
 
+from .briefings.scheduler import (
+    GoodMorningScheduler,
+    protocol_status,
+)
+
 # ---------------------------------------------------------------------------
 # Speak Model Response
 # ---------------------------------------------------------------------------
@@ -825,6 +830,126 @@ def handle_native_good_morning_protocol(user_text: str):
 
 
 # ---------------------------------------------------------------------------
+# Native Protocol Status
+# ---------------------------------------------------------------------------
+
+_PROTOCOL_STATUS_COMMANDS = {
+    "what protocols are active", "what protocols are on",
+    "which protocols are active", "which protocols are on",
+    "what protocols do i have active", "what scheduled protocols do i have",
+    "what protocols do i have", "list my protocols", "show my protocols",
+}
+
+def _normalize_protocol_status_command(user_text: str) -> str:
+    text = " ".join(str(user_text).strip().lower().replace("?", "").replace(",", "").split())
+    for prefix in ("hey pepper ", "pepper ", "hey piper ", "piper "):
+        if text.startswith(prefix):
+            text = text[len(prefix):].strip()
+            break
+    return text
+
+def _is_protocol_status_command(user_text: str) -> bool:
+    text = _normalize_protocol_status_command(user_text)
+    if text in _PROTOCOL_STATUS_COMMANDS: return True
+    return "protocol" in text and any(p in text for p in ("active", "turned on", "on right now", "scheduled", "do i have", "list", "show"))
+
+def handle_native_protocol_status(user_text: str):
+    if not _is_protocol_status_command(user_text): return None
+    print("[Native Protocol Route] protocol_status")
+    status = protocol_status(_GOOD_MORNING_SCHEDULER)
+    if not status["enabled"]: return "You have no active scheduled protocols, sir."
+    if status["running_now"]: return "The Good Morning Protocol is active and running right now, sir."
+    hour, minute = status["local_time"].split(":")
+    hour_number = int(hour)
+    suffix = "AM" if hour_number < 12 else "PM"
+    display_hour = hour_number % 12 or 12
+    return f"You have one active protocol, sir. The Good Morning Protocol runs daily at {display_hour}:{minute} {suffix}."
+
+
+# ---------------------------------------------------------------------------
+# Generic Native Protocol Runner
+# ---------------------------------------------------------------------------
+
+_PROTOCOL_RUNNERS = {
+    "good morning": lambda: run_good_morning_protocol(
+        surface=False
+    ).spoken_text,
+}
+
+
+def _normalize_protocol_run_command(user_text: str) -> str:
+    text = " ".join(
+        str(user_text)
+        .strip()
+        .lower()
+        .replace("?", "")
+        .split()
+    )
+
+    for prefix in (
+        "hey pepper ",
+        "pepper ",
+        "hey piper ",
+        "piper ",
+    ):
+        if text.startswith(prefix):
+            text = text[len(prefix):].strip()
+            break
+
+    if "," in text:
+        first, remainder = text.split(",", 1)
+        if first and " " not in first.strip() and remainder.strip():
+            text = remainder.strip()
+
+    return text
+
+
+def _parse_protocol_run_command(user_text: str):
+    text = _normalize_protocol_run_command(user_text)
+
+    remainder = None
+    for verb in ("run ", "start ", "execute "):
+        if text.startswith(verb):
+            remainder = text[len(verb):].strip()
+            break
+
+    if remainder is None:
+        return None
+
+    for prefix in ("my ", "the "):
+        if remainder.startswith(prefix):
+            remainder = remainder[len(prefix):].strip()
+            break
+
+    if not remainder.endswith(" protocol"):
+        return None
+
+    protocol_name = remainder[:-len(" protocol")].strip()
+    return protocol_name or None
+
+
+def handle_native_protocol_run(user_text: str):
+    protocol_name = _parse_protocol_run_command(user_text)
+
+    if protocol_name is None:
+        return None
+
+    runner = _PROTOCOL_RUNNERS.get(protocol_name)
+    if runner is None:
+        return f"I don't have an active {protocol_name} protocol, sir."
+
+    print(f"[Native Protocol Route] run:{protocol_name}")
+
+    spoken_text = str(runner() or "").strip()
+    if not spoken_text:
+        raise RuntimeError(
+            f"{protocol_name} protocol returned no speech"
+        )
+
+    return spoken_text
+
+
+# ---------------------------------------------------------------------------
 # Process User Prompt
 # ---------------------------------------------------------------------------
 
@@ -984,6 +1109,38 @@ def process_prompt(
     # -----------------------------------------------------------------------
     # Native Protocol Commands
     # -----------------------------------------------------------------------
+
+    native_protocol_run_response = (
+        handle_native_protocol_run(
+            user_text
+        )
+    )
+
+    if native_protocol_run_response is not None:
+
+        complete_response(
+            user_text,
+            native_protocol_run_response,
+        )
+
+        return
+
+
+    native_protocol_status_response = (
+        handle_native_protocol_status(
+            user_text
+        )
+    )
+
+    if native_protocol_status_response is not None:
+
+        complete_response(
+            user_text,
+            native_protocol_status_response,
+        )
+
+        return
+
 
     native_good_morning_response = (
         handle_native_good_morning_protocol(
@@ -2029,6 +2186,61 @@ def speak_unrecognized_wake():
         NOT_RECOGNIZED_LINE
     )
 
+
+# ---------------------------------------------------------------------------
+# Automatic Good Morning Scheduler
+# ---------------------------------------------------------------------------
+
+_GOOD_MORNING_SCHEDULER = None
+
+
+def _scheduled_good_morning_delivery():
+    briefing = run_good_morning_protocol(
+        surface=False,
+    )
+    spoken_text = str(
+        briefing.spoken_text
+        or ""
+    ).strip()
+    if not spoken_text:
+        raise RuntimeError(
+            "Good Morning Protocol returned no spoken text."
+        )
+    print(
+        f"\nP.E.P.P.E.R.: {spoken_text}\n"
+    )
+    speak_response(
+        "scheduled good morning protocol",
+        spoken_text,
+    )
+
+
+def start_good_morning_scheduler(
+    *,
+    is_busy_fn=None,
+    deliver_fn=None,
+):
+    global _GOOD_MORNING_SCHEDULER
+
+    if (
+        _GOOD_MORNING_SCHEDULER is not None
+        and _GOOD_MORNING_SCHEDULER.running
+    ):
+        return _GOOD_MORNING_SCHEDULER
+
+    _GOOD_MORNING_SCHEDULER = GoodMorningScheduler(
+        deliver_fn=(
+            deliver_fn
+            or _scheduled_good_morning_delivery
+        ),
+        is_busy_fn=is_busy_fn,
+        hour=7,
+        minute=0,
+    )
+    _GOOD_MORNING_SCHEDULER.start()
+    return _GOOD_MORNING_SCHEDULER
+
+
 # ---------------------------------------------------------------------------
 # Startup
 # ---------------------------------------------------------------------------
@@ -2063,6 +2275,10 @@ start_background_prewarm(
 
 # Phase 16E - non-blocking first-inference F5 warmup.
 start_tts_prewarm()
+
+
+# Automatic 7:00 AM local Good Morning Protocol.
+start_good_morning_scheduler()
 
 print(
     "\nP.E.P.P.E.R. Online"

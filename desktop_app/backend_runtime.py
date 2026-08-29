@@ -222,6 +222,8 @@ class BackendRuntime:
 
         self.ready = True
 
+        self._start_good_morning_scheduler()
+
         self._activity(
             "Backend initialized",
             "now",
@@ -233,6 +235,76 @@ class BackendRuntime:
         )
 
         self.ensure_voice_active()
+
+    def _scheduled_good_morning_busy(self):
+        if self.shutting_down or not self.ready:
+            return True
+        if self._command_capture_active:
+            return True
+        try:
+            if self.module.audio_is_speaking():
+                return True
+        except Exception:
+            return True
+
+        acquired = self._process_lock.acquire(
+            blocking=False
+        )
+        if not acquired:
+            return True
+        self._process_lock.release()
+        return False
+
+    def _deliver_scheduled_good_morning(self):
+        with self._process_lock:
+            if (
+                self.shutting_down
+                or self._command_capture_active
+            ):
+                raise RuntimeError(
+                    "desktop voice interaction became busy"
+                )
+
+            self._state(
+                "thinking",
+                "Preparing Good Morning Protocol...",
+            )
+
+            briefing = self.module.run_good_morning_protocol(
+                surface=False,
+            )
+            spoken_text = str(
+                briefing.spoken_text
+                or ""
+            ).strip()
+            if not spoken_text:
+                raise RuntimeError(
+                    "Good Morning Protocol returned no spoken text."
+                )
+
+            self._state(
+                "speaking",
+                "Good Morning Protocol.",
+            )
+            print(
+                f"\nP.E.P.P.E.R.: {spoken_text}\n"
+            )
+            self.module.speak_response(
+                "scheduled good morning protocol",
+                spoken_text,
+            )
+
+            if self.voice_enabled:
+                self._state(
+                    "standing by",
+                    "Online. Wake word armed.",
+                )
+
+    def _start_good_morning_scheduler(self):
+        return self.module.start_good_morning_scheduler(
+            is_busy_fn=self._scheduled_good_morning_busy,
+            deliver_fn=self._deliver_scheduled_good_morning,
+        )
 
     def _load_frozen_main_without_cli(self):
         if not self.backend_main_path.exists():
