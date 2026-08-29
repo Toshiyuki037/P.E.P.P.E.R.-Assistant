@@ -1,21 +1,2 @@
-"""P.E.P.P.E.R. controlled background execution subsystem."""
-
-from .registry import (
-    HANDLERS,
-    BackgroundHandler,
-    BackgroundHandlerRegistry,
-)
-from .worker import (
-    BACKGROUND_WORKER,
-    BackgroundJobResult,
-    BackgroundWorker,
-)
-
-__all__ = [
-    "HANDLERS",
-    "BackgroundHandler",
-    "BackgroundHandlerRegistry",
-    "BACKGROUND_WORKER",
-    "BackgroundJobResult",
-    "BackgroundWorker",
-]
+# Compatibility shim. Canonical implementation moved in Wave 1.
+from assistant.core.background import *  # noqa: F401,F403

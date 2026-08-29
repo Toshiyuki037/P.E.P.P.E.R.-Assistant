@@ -32,7 +32,7 @@ from .parallel_reads import (
     execute_parallel_integration_reads,
 )
 
-from assistant.world_state.integration_adapter import (
+from assistant.core.world_state.integration_adapter import (
     publish_integration_execution,
 )
 

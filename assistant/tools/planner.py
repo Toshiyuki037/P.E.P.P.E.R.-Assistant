@@ -81,7 +81,7 @@ from assistant.intelligence.preferences import (
     get_default_weather_location,
 )
 
-from assistant.world_state.location import (
+from assistant.core.world_state.location import (
     get_foreground_location,
 )
 

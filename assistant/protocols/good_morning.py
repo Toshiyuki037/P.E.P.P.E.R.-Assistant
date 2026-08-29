@@ -322,7 +322,7 @@ def compose_good_morning_briefing(
 
 def _good_morning_weather_arguments() -> dict[str, Any]:
     try:
-        from assistant.world_state.location import get_foreground_location
+        from assistant.core.world_state.location import get_foreground_location
         location = get_foreground_location()
         if location is not None:
             if isinstance(location, dict):
@@ -407,7 +407,7 @@ def collect_good_morning_briefing(
     # Preserve the original Step-1 injection hook used by its validator.
     if prefetch_fn is not None:
         prefetch_fn(PREFETCH_PROMPT)
-        from assistant.world_state.integration_adapter import get_integration_world_state
+        from assistant.core.world_state.integration_adapter import get_integration_world_state
         values = {}
         for capability in CAPABILITIES:
             record = get_integration_world_state(capability, require_fresh=True)
@@ -467,8 +467,8 @@ def run_good_morning_protocol(
 
     if surface:
         try:
-            from assistant.proactive import PROACTIVE_ENGINE
-            from assistant.proactive.models import ProactiveCandidate
+            from assistant.core.proactive import PROACTIVE_ENGINE
+            from assistant.core.proactive.models import ProactiveCandidate
 
             PROACTIVE_ENGINE.consider(
                 ProactiveCandidate(

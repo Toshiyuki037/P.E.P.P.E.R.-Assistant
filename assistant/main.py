@@ -63,21 +63,21 @@ from .voice.presentation import (
     prepare_voice_presentation,
 )
 
-from .performance import (
+from .observability.performance import (
     classify_request_cost,
     performance_request_context,
     start_background_prewarm,
 )
 
-from .performance.conversation_fastpath import (
+from .observability.performance.conversation_fastpath import (
     handle_fast_conversation,
 )
 
-from .performance.context_budget import (
+from .observability.performance.context_budget import (
     context_budget_for_profile,
 )
 
-from .performance.project_bridge import (
+from .observability.performance.project_bridge import (
     augment_with_project_evidence,
 )
 
@@ -85,7 +85,7 @@ from .voice.tts_prewarm import (
     start_tts_prewarm,
 )
 
-from .performance.model_router import (
+from .observability.performance.model_router import (
     should_use_fast_voice_reasoning,
 )
 
@@ -143,7 +143,7 @@ from .computer.integration import (
     handle_computer_message,
 )
 
-from .telemetry import (
+from .observability.telemetry import (
     clear_request,
     finish_request,
     mark,
@@ -927,11 +927,21 @@ def _parse_protocol_run_command(user_text: str):
             text = text[len(prefix):].strip()
             break
     text = text.rstrip(' .!?').strip()
+    suffixes = (' for me please',' please for me',' for me',' please')
+    changed = True
+    while changed:
+        changed = False
+        for suffix in suffixes:
+            if text.endswith(suffix):
+                text = text[:-len(suffix)].rstrip(' .!?').strip()
+                changed = True
+                break
     if text.endswith(' protocol'):
         text = text[:-len(' protocol')].strip()
     if text in _PROTOCOL_RUNNERS:
         return text
     return None
+
 
 
 def handle_native_protocol_run(user_text: str):

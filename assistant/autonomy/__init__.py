@@ -1,14 +1,2 @@
-"""P.E.P.P.E.R. autonomy/security boundary subsystem."""
-
-from .gate import AUTONOMY_GATE, AutonomyGate
-from .models import AutonomyDecision, AutonomyRequest
-from .policy import AUTONOMY_POLICY, AutonomyPolicy
-
-__all__ = [
-    "AUTONOMY_GATE",
-    "AUTONOMY_POLICY",
-    "AutonomyDecision",
-    "AutonomyGate",
-    "AutonomyPolicy",
-    "AutonomyRequest",
-]
+# Compatibility shim. Canonical implementation moved in Wave 1.
+from assistant.core.autonomy import *  # noqa: F401,F403

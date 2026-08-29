@@ -136,20 +136,20 @@ from .integrations.prefetch_planner import (
 )
 
 
-from .world_state.computer_adapter import (
+from .core.world_state.computer_adapter import (
     publish_live_context_snapshot,
 )
 
-from .world_state.integration_adapter import (
+from .core.world_state.integration_adapter import (
     get_integration_world_state,
     publish_integration_execution,
 )
 
-from .world_state.policy import (
+from .core.world_state.policy import (
     get_usable_world_state,
 )
 
-from .world_state.location import (
+from .core.world_state.location import (
     get_foreground_location,
 )
 
