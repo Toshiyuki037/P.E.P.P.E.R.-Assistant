@@ -176,6 +176,10 @@ from .system.integration import (
     handle_system_message,
 )
 
+from .briefings.morning import (
+    run_good_morning_protocol,
+)
+
 # ---------------------------------------------------------------------------
 # Speak Model Response
 # ---------------------------------------------------------------------------
@@ -779,6 +783,48 @@ def process_intelligent_memory(
 
 
 # ---------------------------------------------------------------------------
+# Native Good Morning Protocol
+# ---------------------------------------------------------------------------
+
+def _is_good_morning_protocol_command(user_text: str) -> bool:
+    normalized = " ".join(
+        user_text.lower().strip().replace("-", " ").split()
+    )
+
+    for prefix in (
+        "hey pepper ",
+        "pepper ",
+        "hey piper ",
+        "piper ",
+    ):
+        if normalized.startswith(prefix):
+            normalized = normalized[len(prefix):].strip()
+            break
+
+    return normalized in {
+        "run my good morning protocol",
+        "run good morning protocol",
+        "run the good morning protocol",
+        "start my good morning protocol",
+        "start good morning protocol",
+        "good morning protocol",
+    }
+
+
+def handle_native_good_morning_protocol(user_text: str):
+    if not _is_good_morning_protocol_command(user_text):
+        return None
+
+    print("[Native Protocol Route] good_morning")
+
+    briefing = run_good_morning_protocol(
+        surface=False,
+    )
+
+    return briefing.spoken_text
+
+
+# ---------------------------------------------------------------------------
 # Process User Prompt
 # ---------------------------------------------------------------------------
 
@@ -934,6 +980,25 @@ def process_prompt(
     print(
         f"\nYou: {user_text}"
     )
+
+    # -----------------------------------------------------------------------
+    # Native Protocol Commands
+    # -----------------------------------------------------------------------
+
+    native_good_morning_response = (
+        handle_native_good_morning_protocol(
+            user_text
+        )
+    )
+
+    if native_good_morning_response is not None:
+
+        complete_response(
+            user_text,
+            native_good_morning_response,
+        )
+
+        return
 
     # -----------------------------------------------------------------------
     # Phase 11 - Pending Workflow Approval
