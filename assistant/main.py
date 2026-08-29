@@ -870,11 +870,9 @@ def handle_native_protocol_status(user_text: str):
 # Generic Native Protocol Runner
 # ---------------------------------------------------------------------------
 
-_PROTOCOL_RUNNERS = {
-    "good morning": lambda: run_good_morning_protocol(
-        surface=False
-    ).spoken_text,
-}
+from assistant.protocols.registry import PROTOCOL_REGISTRY
+
+_PROTOCOL_RUNNERS = PROTOCOL_REGISTRY.runner_map()
 
 
 def _normalize_protocol_run_command(user_text: str) -> str:
@@ -906,26 +904,34 @@ def _normalize_protocol_run_command(user_text: str) -> str:
 
 def _parse_protocol_run_command(user_text: str):
     text = _normalize_protocol_run_command(user_text)
-
-    remainder = None
-    for verb in ("run ", "start ", "execute "):
-        if text.startswith(verb):
-            remainder = text[len(verb):].strip()
+    for prefix in ('hey pepper ', 'pepper ', 'hey piper ', 'piper '):
+        if text.startswith(prefix):
+            text = text[len(prefix):].strip()
             break
-
-    if remainder is None:
-        return None
-
-    for prefix in ("my ", "the "):
-        if remainder.startswith(prefix):
-            remainder = remainder[len(prefix):].strip()
+    if ',' in text:
+        _, remainder = text.split(',', 1)
+        remainder = remainder.strip()
+        if remainder.startswith(('run ', 'start ', 'execute ')):
+            text = remainder
+    verb = None
+    for candidate in ('run', 'start', 'execute'):
+        prefix = candidate + ' '
+        if text.startswith(prefix):
+            verb = candidate
+            text = text[len(prefix):].strip()
             break
-
-    if not remainder.endswith(" protocol"):
+    if verb is None:
         return None
-
-    protocol_name = remainder[:-len(" protocol")].strip()
-    return protocol_name or None
+    for prefix in ('the ', 'my '):
+        if text.startswith(prefix):
+            text = text[len(prefix):].strip()
+            break
+    text = text.rstrip(' .!?').strip()
+    if text.endswith(' protocol'):
+        text = text[:-len(' protocol')].strip()
+    if text in _PROTOCOL_RUNNERS:
+        return text
+    return None
 
 
 def handle_native_protocol_run(user_text: str):
