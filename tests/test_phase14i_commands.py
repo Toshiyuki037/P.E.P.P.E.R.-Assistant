@@ -1,4 +1,4 @@
-from assistant.voice.commands import (
+from assistant.interaction.voice.commands import (
     classify_live_voice_command,
 )
 

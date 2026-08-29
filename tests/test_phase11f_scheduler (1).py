@@ -7,9 +7,9 @@ from datetime import (
     timezone,
 )
 
-import assistant.workflows.schedules as schedules
+import assistant.capabilities.workflows.schedules as schedules
 
-from assistant.workflows.scheduler import (
+from assistant.capabilities.workflows.scheduler import (
     schedule_is_due,
 )
 

@@ -6,7 +6,7 @@ No network, API, microphone, CUDA, tools, or memory mutation required.
 
 import time
 
-from assistant.voice.reasoning_stream import (
+from assistant.interaction.voice.reasoning_stream import (
     ProvisionalReasoningWorker,
     ResponseSentenceAccumulator,
 )

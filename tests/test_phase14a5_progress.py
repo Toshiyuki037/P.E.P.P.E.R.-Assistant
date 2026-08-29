@@ -1,4 +1,4 @@
-from assistant.telemetry.progress import ProgressEvent, ProgressReporter, progress_message_for_step
+from assistant.observability.telemetry.progress import ProgressEvent, ProgressReporter, progress_message_for_step
 
 def test_emit():
     events = []

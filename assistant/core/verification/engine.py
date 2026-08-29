@@ -125,7 +125,7 @@ class VerificationEngine:
                     "reason": verification.reason,
                     "recovery_attempts": 0,
                 },
-                source="assistant.verification",
+                source="assistant.core.verification",
             )
             return VerifiedExecutionResult(
                 success=True,
@@ -140,7 +140,7 @@ class VerificationEngine:
                 "reason": verification.reason,
                 "attempt": 0,
             },
-            source="assistant.verification",
+            source="assistant.core.verification",
         )
 
         attempt = 0
@@ -162,7 +162,7 @@ class VerificationEngine:
                         "verification_reason":
                             verification.reason,
                     },
-                    source="assistant.verification",
+                    source="assistant.core.verification",
                 )
                 return VerifiedExecutionResult(
                     success=False,
@@ -192,7 +192,7 @@ class VerificationEngine:
                         "verification_reason":
                             verification.reason,
                     },
-                    source="assistant.verification",
+                    source="assistant.core.verification",
                 )
                 return VerifiedExecutionResult(
                     success=False,
@@ -213,7 +213,7 @@ class VerificationEngine:
                     "verification_reason":
                         verification.reason,
                 },
-                source="assistant.verification",
+                source="assistant.core.verification",
             )
 
             try:
@@ -244,7 +244,7 @@ class VerificationEngine:
                         "reason": verification.reason,
                         "recovery_attempts": attempt,
                     },
-                    source="assistant.verification",
+                    source="assistant.core.verification",
                 )
                 return VerifiedExecutionResult(
                     success=True,
@@ -260,7 +260,7 @@ class VerificationEngine:
                     "reason": verification.reason,
                     "attempt": attempt,
                 },
-                source="assistant.verification",
+                source="assistant.core.verification",
             )
 
 

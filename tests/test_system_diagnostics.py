@@ -1,5 +1,5 @@
-from assistant.system.diagnostics import format_health_report
-from assistant.system.health import HEALTHY, DEGRADED, HealthResult
+from assistant.core.system.diagnostics import format_health_report
+from assistant.core.system.health import HEALTHY, DEGRADED, HealthResult
 
 def test_format_health_report():
     report = format_health_report([

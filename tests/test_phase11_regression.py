@@ -4,20 +4,20 @@ E.V.I.E. - Phase 11 Final Regression Tests
 
 from types import SimpleNamespace
 
-import assistant.workflows.protocols as protocols
+import assistant.capabilities.workflows.protocols as protocols
 
-from assistant.workflows.authoring import (
+from assistant.capabilities.workflows.authoring import (
     add_action_to_protocol,
     create_protocol_from_actions,
     describe_protocol,
     remove_action_from_protocol,
 )
 
-from assistant.workflows.planner import (
+from assistant.capabilities.workflows.planner import (
     plan_workflow_command,
 )
 
-from assistant.workflows.presentation import (
+from assistant.capabilities.workflows.presentation import (
     format_workflow_outputs,
 )
 

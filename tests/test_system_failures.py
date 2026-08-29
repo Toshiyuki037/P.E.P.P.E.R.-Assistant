@@ -1,4 +1,4 @@
-from assistant.system import failures
+from assistant.core.system import failures
 
 
 def test_failure_success_lifecycle(

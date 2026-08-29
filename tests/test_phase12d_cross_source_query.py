@@ -2,14 +2,14 @@
 Phase 12D cross-source query tests.
 """
 
-from assistant.workspace.models import (
+from assistant.capabilities.workspace.models import (
     EvidenceItem,
     WorkspaceQuery,
 )
-from assistant.workspace.ranking import (
+from assistant.capabilities.workspace.ranking import (
     rank_evidence,
 )
-from assistant.workspace.query import (
+from assistant.capabilities.workspace.query import (
     _dedupe,
 )
 

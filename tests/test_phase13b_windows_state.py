@@ -1,6 +1,6 @@
 import sys, pytest
-from assistant.computer import windows
-from assistant.computer.windows_models import WindowInfo,MonitorInfo
+from assistant.capabilities.computer import windows
+from assistant.capabilities.computer.windows_models import WindowInfo,MonitorInfo
 
 def _w(h,t,minimized=False): return WindowInfo(h,t,h+100,10,20,800,600,True,minimized,False)
 
@@ -20,6 +20,6 @@ def test_desktop_state_serializes(monkeypatch):
 
 @pytest.mark.skipif(sys.platform!='win32',reason='Native Windows smoke test')
 def test_native_windows_backend_reads_desktop():
-    from assistant.computer.windows_backend import get_foreground_window,list_monitors,list_windows
+    from assistant.capabilities.computer.windows_backend import get_foreground_window,list_monitors,list_windows
     assert len(list_monitors())>=1; assert isinstance(list_windows(),list)
     fg=get_foreground_window(); assert fg is None or fg.handle>0

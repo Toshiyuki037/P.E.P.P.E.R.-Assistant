@@ -1,4 +1,4 @@
-from assistant.system.repair_scope import (
+from assistant.core.system.repair_scope import (
     build_repair_scope,
 )
 

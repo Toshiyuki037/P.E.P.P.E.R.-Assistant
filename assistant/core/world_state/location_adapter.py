@@ -105,7 +105,7 @@ def publish_location_state(
         ),
         metadata={
             "producer":
-                "assistant.world_state.location",
+                "assistant.core.world_state.location",
 
             "captured_at":
                 state.captured_at,

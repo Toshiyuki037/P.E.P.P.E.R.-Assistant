@@ -2,9 +2,9 @@ import os
 
 import pytest
 
-import assistant.computer.applications as applications
-import assistant.computer.processes as processes
-from assistant.computer.process_models import (
+import assistant.capabilities.computer.applications as applications
+import assistant.capabilities.computer.processes as processes
+from assistant.capabilities.computer.process_models import (
     ProcessInfo,
 )
 
@@ -79,7 +79,7 @@ def test_self_termination_is_blocked_even_when_approved():
 
 
 def test_resource_state_has_cpu_memory_and_disk():
-    import assistant.computer.resources as resources
+    import assistant.capabilities.computer.resources as resources
 
     if resources.psutil is None:
         pytest.skip("psutil not installed")

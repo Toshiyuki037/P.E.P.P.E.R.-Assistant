@@ -1,6 +1,6 @@
 import numpy as np
 
-from assistant.voice.voiceprint import (
+from assistant.interaction.voice.voiceprint import (
     _feature_vector,
     verify_voiceprint_audio,
 )

@@ -1,12 +1,12 @@
 import threading
 import time
 
-from assistant.speech_formatter import (
+from assistant.interaction.presentation.speech_formatter import (
     prepare_spoken_chunks,
     prepare_spoken_text,
 )
 
-from assistant.voice.authoritative_speech import (
+from assistant.interaction.voice.authoritative_speech import (
     AuthoritativeSpeechPipeline,
 )
 

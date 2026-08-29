@@ -1,13 +1,13 @@
 import pytest
 
-import assistant.computer.accessibility as accessibility
-from assistant.computer.accessibility_models import (
+import assistant.capabilities.computer.accessibility as accessibility
+from assistant.capabilities.computer.accessibility_models import (
     UIElementInfo,
 )
-from assistant.computer.capabilities import (
+from assistant.capabilities.computer.capabilities import (
     get_action_risk,
 )
-from assistant.computer.models import (
+from assistant.capabilities.computer.models import (
     DeviceRisk,
 )
 

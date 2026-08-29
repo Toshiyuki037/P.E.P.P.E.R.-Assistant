@@ -2,7 +2,7 @@
 Phase 14C2 transcript-state tests.
 """
 
-from assistant.voice.transcript_state import (
+from assistant.interaction.voice.transcript_state import (
     TranscriptState,
     normalize_text,
     split_complete_sentences,

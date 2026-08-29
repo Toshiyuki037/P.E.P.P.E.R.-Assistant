@@ -32,67 +32,67 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 
-from .performance.request_context import (
+from .observability.performance.request_context import (
     current_performance_hints,
 )
 
-from .memory.database import (
+from .cognition.memory.database import (
     get_recent_conversations,
 )
 
-from .memory.retriever import (
+from .cognition.memory.retriever import (
     retrieve_memories,
 )
 
-from .intelligence.context import (
+from .cognition.intelligence.context import (
     record_tool_context,
 )
 
-from .perception.context import (
+from .interaction.perception.context import (
     determine_context_needs,
     format_live_context,
     format_live_context_snapshot,
     get_live_context,
 )
 
-from .perception.workspace import (
+from .interaction.perception.workspace import (
     get_workspace_context,
 )
 
 
-from .knowledge.project import (
+from .cognition.knowledge.project import (
     format_project_overview,
     get_project_overview,
 )
 
-from .knowledge.retriever import (
+from .cognition.knowledge.retriever import (
     format_knowledge_results,
     retrieve_knowledge,
 )
 
-from .vision.context import (
+from .interaction.vision.context import (
     capture_visual_context,
     should_use_screen_vision,
 )
 
-from .vision.analyzer import (
+from .interaction.vision.analyzer import (
     build_visual_input,
 )
 
-from .vision.lifecycle import (
+from .interaction.vision.lifecycle import (
     delete_visual_artifact,
 )
 
-from .tools.executor import (
+from .capabilities.tools.executor import (
     execute_tool,
 )
 
-from .tools.planner import (
+from .capabilities.tools.planner import (
     plan_tool_request,
     should_consider_tools,
 )
 
-from .tools.session import (
+from .capabilities.tools.session import (
     classify_approval_response,
     clear_pending_action,
     get_pending_action,
@@ -101,16 +101,16 @@ from .tools.session import (
     parse_approval_response,
 )
 
-from .tools.verifier import (
+from .capabilities.tools.verifier import (
     verification_to_dict,
     verify_tool_result,
 )
 
-from .integrations.account_router import (
+from .capabilities.integrations.account_router import (
     route_accounts,
 )
 
-from .integrations.selection import (
+from .capabilities.integrations.selection import (
     clear_pending_integration_selection,
     format_account_choices,
     get_pending_integration_selection,
@@ -119,19 +119,19 @@ from .integrations.selection import (
     set_pending_integration_selection,
 )
 
-from .integrations.presentation import (
+from .capabilities.integrations.presentation import (
     render_integration_response,
 )
 
-from .integrations.parallel_reads import (
+from .capabilities.integrations.parallel_reads import (
     IntegrationReadRequest,
 )
 
-from .integrations.prefetch import (
+from .capabilities.integrations.prefetch import (
     prefetch_integrations_to_world_state,
 )
 
-from .integrations.prefetch_planner import (
+from .capabilities.integrations.prefetch_planner import (
     plan_integration_prefetch,
 )
 
@@ -153,7 +153,7 @@ from .core.world_state.location import (
     get_foreground_location,
 )
 
-from .intelligence.preferences import (
+from .cognition.intelligence.preferences import (
     get_default_weather_location,
 )
 
@@ -1218,7 +1218,7 @@ def preflight_integration_action(
     # Writes require account selection.
     # -----------------------------------------------------------------------
 
-    from .integrations.permissions import (
+    from .capabilities.integrations.permissions import (
         get_permission as
         get_integration_permission,
     )

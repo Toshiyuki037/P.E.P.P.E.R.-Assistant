@@ -4,9 +4,9 @@ Phase 12I safe coding transaction tests.
 
 import subprocess
 
-import assistant.coding.state as coding_state
+import assistant.capabilities.coding.state as coding_state
 
-from assistant.coding.transaction import (
+from assistant.capabilities.coding.transaction import (
     create_transaction,
     detect_changed_paths,
     rollback_transaction,

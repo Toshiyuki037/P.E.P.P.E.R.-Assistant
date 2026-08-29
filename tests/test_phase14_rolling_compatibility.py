@@ -1,4 +1,4 @@
-from assistant.voice.authoritative_speech import (
+from assistant.interaction.voice.authoritative_speech import (
     AuthoritativeSpeechPipeline,
 )
 

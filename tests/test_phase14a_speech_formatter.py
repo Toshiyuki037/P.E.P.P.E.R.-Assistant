@@ -1,4 +1,4 @@
-from assistant.speech_formatter import (
+from assistant.interaction.presentation.speech_formatter import (
     MAX_SENTENCES,
     MAX_SPEECH_CHARACTERS,
     prepare_spoken_text,

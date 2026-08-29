@@ -83,7 +83,7 @@ class TaskExecutive:
         publish(
             GOAL_CREATED,
             self._event_payload(saved),
-            source="assistant.executive",
+            source="assistant.core.executive",
         )
 
         return saved
@@ -152,14 +152,14 @@ class TaskExecutive:
         publish(
             GOAL_UPDATED,
             self._event_payload(saved),
-            source="assistant.executive",
+            source="assistant.core.executive",
         )
 
         if saved.status == "completed":
             publish(
                 GOAL_COMPLETED,
                 self._event_payload(saved),
-                source="assistant.executive",
+                source="assistant.core.executive",
             )
 
         return saved
@@ -203,7 +203,7 @@ class TaskExecutive:
         publish(
             TASK_CREATED,
             self._event_payload(saved),
-            source="assistant.executive",
+            source="assistant.core.executive",
         )
 
         return saved
@@ -310,7 +310,7 @@ class TaskExecutive:
         publish(
             TASK_UPDATED,
             self._event_payload(saved),
-            source="assistant.executive",
+            source="assistant.core.executive",
         )
 
         topic = {
@@ -324,7 +324,7 @@ class TaskExecutive:
             publish(
                 topic,
                 self._event_payload(saved),
-                source="assistant.executive",
+                source="assistant.core.executive",
             )
 
         return saved

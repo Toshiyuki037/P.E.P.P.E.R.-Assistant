@@ -1,14 +1,14 @@
 import pytest
 
-import assistant.computer.notifications as notifications
-import assistant.computer.settings as settings
-from assistant.computer.capabilities import (
+import assistant.capabilities.computer.notifications as notifications
+import assistant.capabilities.computer.settings as settings
+from assistant.capabilities.computer.capabilities import (
     get_action_risk,
 )
-from assistant.computer.models import (
+from assistant.capabilities.computer.models import (
     DeviceRisk,
 )
-from assistant.computer.system_actions import (
+from assistant.capabilities.computer.system_actions import (
     lock_workstation,
     supported_system_actions,
 )

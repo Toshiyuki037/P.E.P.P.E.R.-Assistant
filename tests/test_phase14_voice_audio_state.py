@@ -1,6 +1,6 @@
 import numpy as np
 
-from assistant.voice.audio_state import (
+from assistant.interaction.voice.audio_state import (
     get_last_utterance_audio,
     set_last_utterance_audio,
 )

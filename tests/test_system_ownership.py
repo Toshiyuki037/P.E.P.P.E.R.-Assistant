@@ -1,4 +1,4 @@
-from assistant.system.ownership import (
+from assistant.core.system.ownership import (
     find_ownership,
     get_ownership,
     list_ownership_records,

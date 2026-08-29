@@ -1,4 +1,4 @@
-from assistant.voice.response_length import (
+from assistant.interaction.voice.response_length import (
     apply_response_length_policy,
     choose_response_length_policy,
     explicitly_requests_detail,

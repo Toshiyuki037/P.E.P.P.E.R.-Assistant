@@ -1,14 +1,14 @@
 
 import pytest
 
-import assistant.computer.control_executor as executor
-from assistant.computer.control_context import ControlContext
-from assistant.computer.control_models import (
+import assistant.capabilities.computer.control_executor as executor
+from assistant.capabilities.computer.control_context import ControlContext
+from assistant.capabilities.computer.control_models import (
     AttemptStatus,
     ComputerControlRequest,
     ControlMethod,
 )
-from assistant.computer.control_policy import (
+from assistant.capabilities.computer.control_policy import (
     may_fallback_after,
     ordered_methods,
 )

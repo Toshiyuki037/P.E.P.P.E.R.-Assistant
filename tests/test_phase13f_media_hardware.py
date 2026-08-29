@@ -1,12 +1,12 @@
 import pytest
 
-import assistant.computer.audio as audio
-import assistant.computer.camera as camera
-import assistant.computer.microphone as microphone
-from assistant.computer.capabilities import (
+import assistant.capabilities.computer.audio as audio
+import assistant.capabilities.computer.camera as camera
+import assistant.capabilities.computer.microphone as microphone
+from assistant.capabilities.computer.capabilities import (
     get_action_risk,
 )
-from assistant.computer.models import (
+from assistant.capabilities.computer.models import (
     DeviceRisk,
 )
 

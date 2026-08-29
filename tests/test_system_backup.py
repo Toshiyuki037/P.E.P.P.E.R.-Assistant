@@ -4,7 +4,7 @@ from pathlib import (
     Path,
 )
 
-from assistant.system import backup
+from assistant.core.system import backup
 
 
 def test_backup_verify_restore_dry_run(

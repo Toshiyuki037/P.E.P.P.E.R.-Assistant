@@ -1,4 +1,4 @@
-from assistant.voice.authoritative_reasoning import ResponseSentenceAccumulator
+from assistant.interaction.voice.authoritative_reasoning import ResponseSentenceAccumulator
 
 
 def test_sentence_accumulator_emits_complete_sentences():

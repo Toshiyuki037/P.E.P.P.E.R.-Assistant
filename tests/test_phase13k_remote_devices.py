@@ -1,15 +1,15 @@
 
 import pytest
 
-import assistant.computer.remote_controller as controller
-from assistant.computer.remote_auth import (
+import assistant.capabilities.computer.remote_controller as controller
+from assistant.capabilities.computer.remote_auth import (
     sign_payload,
     verify_payload_signature,
 )
-from assistant.computer.remote_models import (
+from assistant.capabilities.computer.remote_models import (
     RemoteDeviceDescriptor,
 )
-from assistant.computer.remote_registry import (
+from assistant.capabilities.computer.remote_registry import (
     get_remote_device,
     register_remote_device,
 )

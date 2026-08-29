@@ -1,4 +1,4 @@
-from assistant.voice.session import (
+from assistant.interaction.voice.session import (
     safe_go_back_prompt,
 )
 

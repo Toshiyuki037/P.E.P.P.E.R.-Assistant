@@ -2,11 +2,11 @@
 Phase 12C repository graph tests.
 """
 
-from assistant.workspace.repository.graph import (
+from assistant.capabilities.workspace.repository.graph import (
     build_repository_graph,
 )
 
-from assistant.workspace.repository.models import (
+from assistant.capabilities.workspace.repository.models import (
     EDGE_IMPORTS,
     NODE_FILE,
     NODE_FUNCTION,

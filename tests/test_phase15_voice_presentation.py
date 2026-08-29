@@ -1,4 +1,4 @@
-from assistant.voice.presentation import (
+from assistant.interaction.voice.presentation import (
     build_contextual_expansion_prompt,
     is_contextual_expansion_request,
     prepare_voice_presentation,

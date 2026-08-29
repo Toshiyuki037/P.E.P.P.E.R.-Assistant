@@ -1,12 +1,12 @@
-from assistant.system.component_health import (
+from assistant.core.system.component_health import (
     _with_failure_history,
 )
 
-from assistant.system.failures import (
+from assistant.core.system.failures import (
     ComponentFailureState,
 )
 
-from assistant.system.health import (
+from assistant.core.system.health import (
     DEGRADED,
     HEALTHY,
     HealthResult,
@@ -17,7 +17,7 @@ def test_recent_failure_degrades_passive_health(
     monkeypatch,
 ):
     monkeypatch.setattr(
-        "assistant.system.component_health.get_component_state",
+        "assistant.core.system.component_health.get_component_state",
         lambda component:
             ComponentFailureState(
                 component=

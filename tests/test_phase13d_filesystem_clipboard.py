@@ -2,7 +2,7 @@ import sys
 
 import pytest
 
-from assistant.computer.filesystem import (
+from assistant.capabilities.computer.filesystem import (
     copy_path,
     create_directory,
     delete_path,
@@ -13,10 +13,10 @@ from assistant.computer.filesystem import (
     search_files,
     write_text_file,
 )
-from assistant.computer.filesystem_models import (
+from assistant.capabilities.computer.filesystem_models import (
     PathRisk,
 )
-from assistant.computer.path_policy import (
+from assistant.capabilities.computer.path_policy import (
     classify_path,
 )
 
@@ -133,7 +133,7 @@ def test_sensitive_path_requires_approval(
     reason="Native Windows clipboard test",
 )
 def test_native_clipboard_round_trip():
-    from assistant.computer.clipboard import (
+    from assistant.capabilities.computer.clipboard import (
         read_clipboard_text,
         write_clipboard_text,
     )

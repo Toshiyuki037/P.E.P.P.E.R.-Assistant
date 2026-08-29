@@ -85,7 +85,7 @@ class BackgroundWorker:
         publish(
             BACKGROUND_WORKER_STARTED,
             {"max_workers": self.max_workers},
-            source="assistant.background",
+            source="assistant.core.background",
         )
 
     def stop(
@@ -120,7 +120,7 @@ class BackgroundWorker:
                 "waited": bool(wait),
                 "cancel_pending": bool(cancel_pending),
             },
-            source="assistant.background",
+            source="assistant.core.background",
         )
 
     @staticmethod
@@ -182,7 +182,7 @@ class BackgroundWorker:
                     "verifier": verifier_name,
                     "recovery_handler": recovery_handler_name,
                 },
-                source="assistant.background",
+                source="assistant.core.background",
             )
 
             raw_value = handler(running_task)
@@ -246,7 +246,7 @@ class BackgroundWorker:
                 "recovery_attempts":
                     result.recovery_attempts,
             },
-            source="assistant.background",
+            source="assistant.core.background",
         )
 
         return result

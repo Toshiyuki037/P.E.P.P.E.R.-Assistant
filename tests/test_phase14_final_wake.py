@@ -1,5 +1,5 @@
 
-from assistant.voice.wake import (
+from assistant.interaction.voice.wake import (
     extract_wake_request,
     is_sleep_command,
 )

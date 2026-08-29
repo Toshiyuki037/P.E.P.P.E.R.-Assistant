@@ -8,9 +8,9 @@ from __future__ import annotations
 
 import numpy as np
 
-import assistant.voice.playback as playback_module
+import assistant.interaction.voice.playback as playback_module
 
-from assistant.voice.playback import (
+from assistant.interaction.voice.playback import (
     PersistentAudioPlayer,
 )
 

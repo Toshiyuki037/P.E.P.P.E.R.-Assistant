@@ -1,4 +1,4 @@
-from assistant.voice.acknowledgements import ACK_FILES, acknowledgement_path, available_acknowledgements
+from assistant.interaction.voice.acknowledgements import ACK_FILES, acknowledgement_path, available_acknowledgements
 
 def test_contract():
     assert "on_it" in ACK_FILES

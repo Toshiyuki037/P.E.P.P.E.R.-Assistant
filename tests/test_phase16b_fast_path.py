@@ -1,5 +1,5 @@
-from assistant.performance.fast_path import classify_request_cost, should_run_intelligent_memory
-from assistant.performance.request_context import current_performance_hints, performance_request_context
+from assistant.observability.performance.fast_path import classify_request_cost, should_run_intelligent_memory
+from assistant.observability.performance.request_context import current_performance_hints, performance_request_context
 
 def test_general_question_is_fast():
     p = classify_request_cost("How does a transistor work?")

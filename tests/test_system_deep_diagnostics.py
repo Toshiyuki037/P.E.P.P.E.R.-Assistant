@@ -1,10 +1,10 @@
-from assistant.system.deep_diagnostics import (
+from assistant.core.system.deep_diagnostics import (
     DeepDiagnosticResult,
     _run_check,
     format_deep_diagnostic_report,
 )
 
-from assistant.system.health import (
+from assistant.core.system.health import (
     DEGRADED,
     HEALTHY,
     HealthResult,

@@ -7,23 +7,23 @@ Repair planning is monkeypatched with a deterministic bounded plan.
 
 import subprocess
 
-import assistant.coding.state as coding_state
-import assistant.coding.repair_loop as repair_loop_module
+import assistant.capabilities.coding.state as coding_state
+import assistant.capabilities.coding.repair_loop as repair_loop_module
 
-from assistant.coding.branch import (
+from assistant.capabilities.coding.branch import (
     create_transaction_branch,
 )
-from assistant.coding.editing import (
+from assistant.capabilities.coding.editing import (
     write_transaction_file,
 )
-from assistant.coding.execution import (
+from assistant.capabilities.coding.execution import (
     run_transaction_command,
 )
-from assistant.coding.repair_models import (
+from assistant.capabilities.coding.repair_models import (
     RepairEdit,
     RepairPlan,
 )
-from assistant.coding.transaction import (
+from assistant.capabilities.coding.transaction import (
     create_transaction,
 )
 

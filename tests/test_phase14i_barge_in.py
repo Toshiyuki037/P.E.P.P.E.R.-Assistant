@@ -3,7 +3,7 @@ from __future__ import annotations
 import threading
 import time
 
-from assistant.voice.session import (
+from assistant.interaction.voice.session import (
     run_voice_session,
 )
 

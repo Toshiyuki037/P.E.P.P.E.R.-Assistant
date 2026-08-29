@@ -2,7 +2,7 @@
 Phase 12N request routing tests.
 """
 
-from assistant.coding.request_planner import (
+from assistant.capabilities.coding.request_planner import (
     plan_coding_request,
 )
 

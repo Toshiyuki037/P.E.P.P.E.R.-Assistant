@@ -2,11 +2,11 @@
 Phase 11G deterministic natural-language workflow tests.
 """
 
-from assistant.workflows.integration import (
+from assistant.capabilities.workflows.integration import (
     _format_schedules,
 )
 
-from assistant.workflows.planner import (
+from assistant.capabilities.workflows.planner import (
     plan_workflow_command,
 )
 

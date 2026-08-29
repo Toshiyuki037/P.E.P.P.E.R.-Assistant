@@ -1,7 +1,7 @@
 from pathlib import Path
 
-import assistant.research.state as state
-from assistant.research.controller import (
+import assistant.cognition.research.state as state
+from assistant.cognition.research.controller import (
     create_project,
     add_paper,
     add_hypothesis,

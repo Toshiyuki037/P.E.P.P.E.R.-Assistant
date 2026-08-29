@@ -2,10 +2,10 @@
 Phase 12N candidate discovery v3 regressions.
 """
 
-import assistant.workspace.repository.store as repo_store
+import assistant.capabilities.workspace.repository.store as repo_store
 
-from assistant.workspace.repository.controller import index_repository
-from assistant.coding.discovery import discover_candidate_paths
+from assistant.capabilities.workspace.repository.controller import index_repository
+from assistant.capabilities.coding.discovery import discover_candidate_paths
 
 
 def _build_repo(tmp_path):

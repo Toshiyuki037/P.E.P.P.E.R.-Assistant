@@ -1,9 +1,9 @@
 
 import pytest
 
-import assistant.computer.integration as integration
-import assistant.computer.integration_runtime as runtime
-from assistant.computer.integration_planner import (
+import assistant.capabilities.computer.integration as integration
+import assistant.capabilities.computer.integration_runtime as runtime
+from assistant.capabilities.computer.integration_planner import (
     plan_computer_message,
 )
 

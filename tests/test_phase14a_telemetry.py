@@ -1,14 +1,14 @@
 import time
 
-from assistant.telemetry.models import (
+from assistant.observability.telemetry.models import (
     RequestTelemetry,
 )
 
-from assistant.telemetry.reporter import (
+from assistant.observability.telemetry.reporter import (
     telemetry_to_dict,
 )
 
-from assistant.telemetry.timer import (
+from assistant.observability.telemetry.timer import (
     clear_request,
     current_request,
     finish_request,

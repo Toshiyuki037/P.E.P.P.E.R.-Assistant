@@ -30,7 +30,7 @@ from __future__ import annotations
 import threading
 import time
 
-from assistant.voice.reasoning_stream import (
+from assistant.interaction.voice.reasoning_stream import (
     ProvisionalReasoningWorker,
     ResponseSentenceAccumulator,
 )

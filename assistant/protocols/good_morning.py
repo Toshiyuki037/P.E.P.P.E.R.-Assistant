@@ -15,11 +15,11 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Callable
 
-from assistant.integrations.aggregator import (
+from assistant.capabilities.integrations.aggregator import (
     aggregate_result_to_dict,
     execute_aggregate,
 )
-from assistant.performance.parallel import (
+from assistant.observability.performance.parallel import (
     ParallelJob,
     execute_parallel,
 )
@@ -337,7 +337,7 @@ def _good_morning_weather_arguments() -> dict[str, Any]:
         print(f"[Good Morning] Foreground location unavailable: {exc}")
 
     try:
-        from assistant.intelligence.preferences import get_default_weather_location
+        from assistant.cognition.intelligence.preferences import get_default_weather_location
         saved_location = get_default_weather_location()
         if saved_location:
             return {"location": saved_location}
@@ -479,7 +479,7 @@ def run_good_morning_protocol(
                         "briefing.good_morning:"
                         + (now or datetime.now()).strftime("%Y-%m-%d")
                     ),
-                    source="assistant.briefings",
+                    source="assistant.protocols.good_morning",
                     metadata={
                         "generated_at": briefing.generated_at,
                         "available": dict(briefing.available),

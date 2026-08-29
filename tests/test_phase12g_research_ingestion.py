@@ -2,17 +2,17 @@
 Phase 12G research ingestion tests.
 """
 
-import assistant.research.state as research_state
-import assistant.workspace.evidence as evidence_store
+import assistant.cognition.research.state as research_state
+import assistant.capabilities.workspace.evidence as evidence_store
 
-from assistant.research.controller import (
+from assistant.cognition.research.controller import (
     create_project,
     add_hypothesis,
 )
-from assistant.research.ingestion import (
+from assistant.cognition.research.ingestion import (
     register_local_research_document,
 )
-from assistant.research.planning import (
+from assistant.cognition.research.planning import (
     next_research_actions,
 )
 

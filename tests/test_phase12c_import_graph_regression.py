@@ -2,10 +2,10 @@
 Phase 12C import graph regression tests.
 """
 
-from assistant.workspace.repository.graph import (
+from assistant.capabilities.workspace.repository.graph import (
     build_repository_graph,
 )
-from assistant.workspace.repository.models import (
+from assistant.capabilities.workspace.repository.models import (
     EDGE_IMPORTS,
 )
 

@@ -6,16 +6,16 @@ These tests use explicit EngineeringPlan objects and do not call the LLM.
 
 import subprocess
 
-import assistant.coding.state as coding_state
+import assistant.capabilities.coding.state as coding_state
 
-from assistant.coding.models import (
+from assistant.capabilities.coding.models import (
     EngineeringEdit,
     EngineeringPlan,
 )
-from assistant.coding.controller import (
+from assistant.capabilities.coding.controller import (
     execute_engineering_plan,
 )
-from assistant.coding.approval import (
+from assistant.capabilities.coding.approval import (
     approve_and_commit_engineering_transaction,
 )
 

@@ -1,5 +1,5 @@
 
-from assistant.voice.runtime_state import (
+from assistant.interaction.voice.runtime_state import (
     VoiceRuntimeMode,
     VoiceRuntimeState,
 )

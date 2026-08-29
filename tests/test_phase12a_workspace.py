@@ -2,15 +2,15 @@
 Phase 12A - Unified Workspace Model Tests
 """
 
-import assistant.workspace.evidence as store
+import assistant.capabilities.workspace.evidence as store
 
-from assistant.workspace.controller import (
+from assistant.capabilities.workspace.controller import (
     create_entity,
     create_evidence,
     create_relationship,
 )
 
-from assistant.workspace.models import (
+from assistant.capabilities.workspace.models import (
     ENTITY_FILE,
     ENTITY_REPOSITORY,
     REL_CONTAINS,

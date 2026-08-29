@@ -4,9 +4,9 @@ Phase 12B source adapter tests.
 
 from pathlib import Path
 
-from assistant.workspace.adapters.base import AdapterContext
-from assistant.workspace.adapters.local import LocalWorkspaceAdapter
-from assistant.workspace.adapters.registry import (
+from assistant.capabilities.workspace.adapters.base import AdapterContext
+from assistant.capabilities.workspace.adapters.local import LocalWorkspaceAdapter
+from assistant.capabilities.workspace.adapters.registry import (
     load_default_adapters,
 )
 

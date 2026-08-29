@@ -77,7 +77,7 @@ class ProactiveEngine:
                     "source": notification.source,
                     "metadata": dict(notification.metadata),
                 },
-                source="assistant.proactive",
+                source="assistant.core.proactive",
             )
 
         elif decision.action == "defer":
@@ -90,7 +90,7 @@ class ProactiveEngine:
                     "dedupe_key": candidate.dedupe_key,
                     "reason": decision.reason,
                 },
-                source="assistant.proactive",
+                source="assistant.core.proactive",
             )
 
         else:
@@ -102,7 +102,7 @@ class ProactiveEngine:
                     "dedupe_key": candidate.dedupe_key,
                     "reason": decision.reason,
                 },
-                source="assistant.proactive",
+                source="assistant.core.proactive",
             )
 
         return decision
@@ -179,7 +179,7 @@ class ProactiveEngine:
                 if task_id
                 else "background.task_failed"
             ),
-            source="assistant.background",
+            source="assistant.core.background",
             metadata={
                 "task_id": task_id,
                 "error": error,

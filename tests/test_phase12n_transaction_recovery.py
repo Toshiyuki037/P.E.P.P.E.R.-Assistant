@@ -1,14 +1,14 @@
 import subprocess
 
-import assistant.coding.state as coding_state
+import assistant.capabilities.coding.state as coding_state
 
-from assistant.coding.branch import create_transaction_branch
-from assistant.coding.editing import write_transaction_file
-from assistant.coding.recovery import (
+from assistant.capabilities.coding.branch import create_transaction_branch
+from assistant.capabilities.coding.editing import write_transaction_file
+from assistant.capabilities.coding.recovery import (
     find_latest_recoverable_transaction,
     resume_engineering_transaction,
 )
-from assistant.coding.transaction import create_transaction
+from assistant.capabilities.coding.transaction import create_transaction
 
 
 def _git(root, *args):

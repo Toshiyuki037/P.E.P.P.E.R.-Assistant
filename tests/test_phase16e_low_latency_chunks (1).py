@@ -1,4 +1,4 @@
-from assistant.voice.low_latency import (
+from assistant.interaction.voice.low_latency import (
     prepare_low_latency_chunks,
 )
 

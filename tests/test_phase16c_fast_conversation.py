@@ -1,4 +1,4 @@
-from assistant.performance.conversation_fastpath import handle_fast_conversation
+from assistant.observability.performance.conversation_fastpath import handle_fast_conversation
 
 def test_social_fast_path():
     assert handle_fast_conversation("Thank you.").handled is True

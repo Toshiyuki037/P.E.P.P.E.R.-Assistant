@@ -1,4 +1,4 @@
-from assistant.performance.project_bridge import (
+from assistant.observability.performance.project_bridge import (
     augment_with_project_evidence,
 )
 

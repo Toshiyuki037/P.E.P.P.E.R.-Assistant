@@ -1,4 +1,4 @@
-from assistant.system.maintenance import (
+from assistant.core.system.maintenance import (
     list_maintenance_actions,
     run_maintenance_action,
 )

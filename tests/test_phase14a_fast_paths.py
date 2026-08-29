@@ -1,8 +1,8 @@
-from assistant.agent.integration import (
+from assistant.cognition.agent.integration import (
     should_consider_agent,
 )
 
-from assistant.memory.manager import (
+from assistant.cognition.memory.manager import (
     should_consider_memory,
 )
 

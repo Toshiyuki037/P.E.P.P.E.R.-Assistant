@@ -328,7 +328,7 @@ class WorldStateStore:
                     else None
                 ),
             },
-            source="assistant.world_state.core",
+            source="assistant.core.world_state.core",
         )
 
         return result
@@ -427,7 +427,7 @@ class WorldStateStore:
                 "key": normalized_key,
                 "record": deepcopy(removed).to_dict(),
             },
-            source="assistant.world_state.core",
+            source="assistant.core.world_state.core",
         )
 
         return True
@@ -448,7 +448,7 @@ class WorldStateStore:
                     "keys": removed_keys,
                     "count": len(removed_keys),
                 },
-                source="assistant.world_state.core",
+                source="assistant.core.world_state.core",
             )
 
     def keys(

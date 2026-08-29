@@ -2,16 +2,16 @@
 Phase 12G research synthesis-context tests.
 """
 
-import assistant.research.state as research_state
-import assistant.workspace.evidence as evidence_store
+import assistant.cognition.research.state as research_state
+import assistant.capabilities.workspace.evidence as evidence_store
 
-from assistant.research.controller import (
+from assistant.cognition.research.controller import (
     create_project,
 )
-from assistant.research.synthesis import (
+from assistant.cognition.research.synthesis import (
     build_research_context,
 )
-from assistant.workspace.controller import (
+from assistant.capabilities.workspace.controller import (
     create_evidence,
 )
 

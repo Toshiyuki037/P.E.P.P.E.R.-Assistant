@@ -1,4 +1,4 @@
-from assistant.system.manifest import (
+from assistant.core.system.manifest import (
     EVIE_VERSION, capability_supported, completed_phase,
     get_capability, get_system_manifest, list_capabilities,
 )

@@ -4,7 +4,7 @@ Phase 14B VAD regression tests.
 
 import numpy as np
 
-from assistant.voice.vad import (
+from assistant.interaction.voice.vad import (
     VoiceActivityDetector,
     frame_samples,
 )

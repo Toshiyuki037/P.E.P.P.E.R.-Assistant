@@ -1,5 +1,5 @@
 
-from assistant.voice.conversation_state import VoiceConversationState
+from assistant.interaction.voice.conversation_state import VoiceConversationState
 
 
 def test_go_back_is_safe():

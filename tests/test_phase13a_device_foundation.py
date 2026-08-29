@@ -1,7 +1,7 @@
-from assistant.computer.capabilities import get_action_risk
-from assistant.computer.controller import describe_devices, ensure_local_device
-from assistant.computer.models import DeviceCapability, DeviceRisk
-from assistant.computer.registry import clear_device_registry, list_devices
+from assistant.capabilities.computer.capabilities import get_action_risk
+from assistant.capabilities.computer.controller import describe_devices, ensure_local_device
+from assistant.capabilities.computer.models import DeviceCapability, DeviceRisk
+from assistant.capabilities.computer.registry import clear_device_registry, list_devices
 
 def setup_function():
     clear_device_registry()

@@ -2,11 +2,11 @@
 E.V.I.E. Phase 14C3 live transcript integration tests.
 """
 
-from assistant.listen import (
+from assistant.interaction.voice.listen import (
     LiveTranscriptController,
 )
 
-from assistant.voice.transcription import (
+from assistant.interaction.voice.transcription import (
     TranscriptEvent,
     TranscriptionResult,
 )

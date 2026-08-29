@@ -400,7 +400,7 @@ def publish_integration_execution(
         confidence=confidence,
         metadata={
             "producer":
-                "assistant.world_state.integration_adapter",
+                "assistant.core.world_state.integration_adapter",
 
             "capability":
                 resolved_capability,
@@ -426,7 +426,7 @@ def publish_integration_execution(
             "account_id": resolved_account_id,
             "routing_mode": resolved_routing_mode,
         },
-        source="assistant.world_state.integration_adapter",
+        source="assistant.core.world_state.integration_adapter",
     )
 
     return record

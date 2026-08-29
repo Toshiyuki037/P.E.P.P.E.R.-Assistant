@@ -1,4 +1,4 @@
-from assistant.system.health import (
+from assistant.core.system.health import (
     HEALTHY, DEGRADED, UNAVAILABLE, UNKNOWN,
     HealthResult, health_result_to_dict, overall_health_status,
 )

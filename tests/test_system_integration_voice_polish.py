@@ -1,4 +1,4 @@
-from assistant.system.integration import (
+from assistant.core.system.integration import (
     _normalize,
     handle_system_message,
 )

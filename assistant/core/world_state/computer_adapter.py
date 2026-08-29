@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from assistant.perception.context import get_live_context
+from assistant.interaction.perception.context import get_live_context
 
 from .core import (
     get_world_state,
@@ -89,7 +89,7 @@ def publish_live_context_snapshot(
         fresh_for_seconds=DEFAULT_COMPUTER_FRESH_SECONDS,
         metadata={
             "producer":
-                "assistant.perception.context",
+                "assistant.interaction.perception.context",
             "snapshot_timestamp":
                 context.get(
                     "timestamp"
@@ -183,7 +183,7 @@ def publish_live_context_snapshot(
             fresh_for_seconds=DEFAULT_WORKSPACE_FRESH_SECONDS,
             metadata={
                 "producer":
-                    "assistant.perception.workspace",
+                    "assistant.interaction.perception.workspace",
                 "detection_source":
                     workspace.get(
                         "detection_source"
@@ -204,7 +204,7 @@ def publish_live_context_snapshot(
             fresh_for_seconds=DEFAULT_SYSTEM_FRESH_SECONDS,
             metadata={
                 "producer":
-                    "assistant.perception.system",
+                    "assistant.interaction.perception.system",
             },
         )
 

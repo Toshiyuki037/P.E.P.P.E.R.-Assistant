@@ -2,7 +2,7 @@
 Phase 12D retrieval regression tests.
 """
 
-from assistant.workspace.query_expansion import (
+from assistant.capabilities.workspace.query_expansion import (
     expand_query,
     significant_tokens,
     text_matches_query,

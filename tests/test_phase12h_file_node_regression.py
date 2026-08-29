@@ -5,13 +5,13 @@ The repository graph gives function/class nodes the same path as their
 containing file. Impact analysis must select the module-level file node.
 """
 
-import assistant.workspace.repository.store as repo_store
+import assistant.capabilities.workspace.repository.store as repo_store
 
-from assistant.workspace.repository.controller import (
+from assistant.capabilities.workspace.repository.controller import (
     index_repository,
 )
 
-from assistant.coding.impact import (
+from assistant.capabilities.coding.impact import (
     analyze_file_impact,
 )
 

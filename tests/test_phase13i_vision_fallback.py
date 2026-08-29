@@ -1,7 +1,7 @@
 import pytest
-from assistant.computer.capabilities import get_action_risk
-from assistant.computer.models import DeviceRisk
-from assistant.computer.vision_fallback import (
+from assistant.capabilities.computer.capabilities import get_action_risk
+from assistant.capabilities.computer.models import DeviceRisk
+from assistant.capabilities.computer.vision_fallback import (
     choose_visual_target,
     normalize_visual_target,
     validate_visual_target,
@@ -54,7 +54,7 @@ def test_visual_target_ambiguity_is_rejected():
         choose_visual_target(items, min_confidence=0.8)
 
 def test_visual_click_requires_explicit_approval():
-    from assistant.computer.vision_actions import click_visual_target
+    from assistant.capabilities.computer.vision_actions import click_visual_target
     target = normalize_visual_target({
         "label": "Test",
         "x": 10,

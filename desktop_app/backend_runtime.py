@@ -867,7 +867,7 @@ class BackendRuntime:
         try:
             health = (
                 importlib.import_module(
-                    "assistant.system.health"
+                    "assistant.core.system.health"
                 )
             )
 
@@ -923,7 +923,7 @@ class BackendRuntime:
         try:
             registry = (
                 importlib.import_module(
-                    "assistant.tools.registry"
+                    "assistant.capabilities.tools.registry"
                 )
             )
 
@@ -992,7 +992,7 @@ class BackendRuntime:
         try:
             registry = (
                 importlib.import_module(
-                    "assistant.integrations.registry"
+                    "assistant.capabilities.integrations.registry"
                 )
             )
 
@@ -1026,7 +1026,7 @@ class BackendRuntime:
         try:
             connections = (
                 importlib.import_module(
-                    "assistant.integrations.connections"
+                    "assistant.capabilities.integrations.connections"
                 )
             )
 
@@ -1089,7 +1089,7 @@ class BackendRuntime:
         try:
             database = (
                 importlib.import_module(
-                    "assistant.memory.database"
+                    "assistant.cognition.memory.database"
                 )
             )
 
@@ -1131,7 +1131,7 @@ class BackendRuntime:
 
         try:
             database = importlib.import_module(
-                "assistant.memory.database"
+                "assistant.cognition.memory.database"
             )
 
             with database.get_connection() as conn:

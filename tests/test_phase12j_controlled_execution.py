@@ -4,22 +4,22 @@ Phase 12J controlled branch/edit/execution tests.
 
 import subprocess
 
-import assistant.coding.state as coding_state
+import assistant.capabilities.coding.state as coding_state
 
-from assistant.coding.transaction import (
+from assistant.capabilities.coding.transaction import (
     create_transaction,
     rollback_transaction,
 )
-from assistant.coding.branch import (
+from assistant.capabilities.coding.branch import (
     create_transaction_branch,
 )
-from assistant.coding.editing import (
+from assistant.capabilities.coding.editing import (
     write_transaction_file,
 )
-from assistant.coding.execution import (
+from assistant.capabilities.coding.execution import (
     run_transaction_command,
 )
-from assistant.coding.verification import (
+from assistant.capabilities.coding.verification import (
     transaction_ready_for_review,
 )
 

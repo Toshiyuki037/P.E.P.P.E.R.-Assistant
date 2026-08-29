@@ -4,26 +4,26 @@ Phase 12L review and commit controls tests.
 
 import subprocess
 
-import assistant.coding.state as coding_state
+import assistant.capabilities.coding.state as coding_state
 
-from assistant.coding.transaction import (
+from assistant.capabilities.coding.transaction import (
     create_transaction,
 )
-from assistant.coding.branch import (
+from assistant.capabilities.coding.branch import (
     create_transaction_branch,
 )
-from assistant.coding.editing import (
+from assistant.capabilities.coding.editing import (
     write_transaction_file,
 )
-from assistant.coding.execution import (
+from assistant.capabilities.coding.execution import (
     run_transaction_command,
 )
-from assistant.coding.git_review import (
+from assistant.capabilities.coding.git_review import (
     stage_transaction_changes,
     approve_transaction_commit,
     commit_transaction,
 )
-from assistant.coding.completion import (
+from assistant.capabilities.coding.completion import (
     completion_gate,
 )
 

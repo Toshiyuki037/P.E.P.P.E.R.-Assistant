@@ -4,7 +4,7 @@ Phase 14B persistent voice-session tests.
 No microphone, CUDA, Whisper, F5-TTS, or reasoning model is required.
 """
 
-from assistant.voice.session import (
+from assistant.interaction.voice.session import (
     classify_voice_session_command,
     normalize_voice_command,
     run_voice_session,

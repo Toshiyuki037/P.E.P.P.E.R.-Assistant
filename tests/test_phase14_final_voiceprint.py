@@ -2,7 +2,7 @@
 import numpy as np
 import soundfile as sf
 
-from assistant.voice.voiceprint import (
+from assistant.interaction.voice.voiceprint import (
     save_voiceprint,
     verify_voiceprint,
 )

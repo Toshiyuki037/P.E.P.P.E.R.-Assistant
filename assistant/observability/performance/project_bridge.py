@@ -6,15 +6,15 @@ import inspect
 def _active_workspace_path():
     candidates = (
         (
-            "assistant.knowledge.workspace",
+            "assistant.cognition.knowledge.workspace",
             "get_active_workspace_path",
         ),
         (
-            "assistant.knowledge.scanner",
+            "assistant.cognition.knowledge.scanner",
             "get_active_workspace_path",
         ),
         (
-            "assistant.perception.workspace",
+            "assistant.interaction.perception.workspace",
             "get_active_workspace_path",
         ),
     )
@@ -56,7 +56,7 @@ def _call_retrieve_knowledge(
     workspace_path: str | None,
     limit: int,
 ):
-    from assistant.knowledge.retriever import (
+    from assistant.cognition.knowledge.retriever import (
         retrieve_knowledge,
     )
 

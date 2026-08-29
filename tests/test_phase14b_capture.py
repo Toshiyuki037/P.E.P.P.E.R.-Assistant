@@ -7,7 +7,7 @@ live microphone hardware or CUDA inference.
 
 import numpy as np
 
-from assistant.listen import (
+from assistant.interaction.voice.listen import (
     UtteranceBuffer,
 )
 

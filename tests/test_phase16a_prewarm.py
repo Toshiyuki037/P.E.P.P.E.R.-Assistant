@@ -1,4 +1,4 @@
-from assistant.performance import prewarm
+from assistant.observability.performance import prewarm
 
 def test_background_prewarm_is_idempotent(monkeypatch):
     prewarm._reset_for_tests()

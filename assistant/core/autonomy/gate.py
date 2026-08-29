@@ -57,7 +57,7 @@ class AutonomyGate:
         publish(
             topic,
             payload,
-            source="assistant.autonomy",
+            source="assistant.core.autonomy",
         )
 
         return decision

@@ -1,6 +1,6 @@
 from types import SimpleNamespace
 
-import assistant.voice.fast_reasoning as fast_reasoning
+import assistant.interaction.voice.fast_reasoning as fast_reasoning
 
 
 class FakeResponses:

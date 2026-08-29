@@ -9,7 +9,7 @@ import time
 
 import numpy as np
 
-from assistant.voice.transcription import (
+from assistant.interaction.voice.transcription import (
     PartialTranscriber,
     TranscriptionResult,
     normalize_transcript,

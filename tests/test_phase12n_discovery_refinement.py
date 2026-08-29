@@ -2,13 +2,13 @@
 Phase 12N hybrid candidate discovery regression.
 """
 
-import assistant.workspace.repository.store as repo_store
+import assistant.capabilities.workspace.repository.store as repo_store
 
-from assistant.workspace.repository.controller import (
+from assistant.capabilities.workspace.repository.controller import (
     index_repository,
 )
 
-from assistant.coding.discovery import (
+from assistant.capabilities.coding.discovery import (
     discover_candidate_paths,
 )
 

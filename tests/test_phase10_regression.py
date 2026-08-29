@@ -20,28 +20,28 @@ import json
 
 import pytest
 
-from assistant.intelligence.aliases import (
+from assistant.cognition.intelligence.aliases import (
     normalize_capability,
 )
 
-from assistant.intelligence.context import (
+from assistant.cognition.intelligence.context import (
     clear_conversation_state,
     get_planner_conversation_context,
     looks_like_contextual_followup,
     record_tool_context,
 )
 
-from assistant.intelligence.integration_runtime import (
+from assistant.cognition.intelligence.integration_runtime import (
     prepare_integration_arguments,
     prepare_tool_arguments,
 )
 
-from assistant.intelligence.normalize import (
+from assistant.cognition.intelligence.normalize import (
     input_was_normalized,
     normalize_user_input,
 )
 
-from assistant.intelligence.preferences import (
+from assistant.cognition.intelligence.preferences import (
     apply_integration_preferences,
     clear_default_provider_account,
     clear_default_weather_location,
@@ -53,11 +53,11 @@ from assistant.intelligence.preferences import (
     set_default_weather_location,
 )
 
-from assistant.intelligence.resolver import (
+from assistant.cognition.intelligence.resolver import (
     resolve_contextual_request,
 )
 
-import assistant.intelligence.preferences as preferences_module
+import assistant.cognition.intelligence.preferences as preferences_module
 
 
 # ---------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from assistant.performance.model_router import (
+from assistant.observability.performance.model_router import (
     should_use_fast_voice_reasoning,
 )
 

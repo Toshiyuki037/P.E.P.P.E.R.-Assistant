@@ -1,7 +1,7 @@
 import pytest
-import assistant.computer.browser_dom as browser_dom
-from assistant.computer.capabilities import get_action_risk
-from assistant.computer.models import DeviceRisk
+import assistant.capabilities.computer.browser_dom as browser_dom
+from assistant.capabilities.computer.capabilities import get_action_risk
+from assistant.capabilities.computer.models import DeviceRisk
 
 def test_dom_inspection_is_read_only():
     assert get_action_risk("browser.dom.inspect") == DeviceRisk.READ

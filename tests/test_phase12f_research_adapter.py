@@ -2,21 +2,21 @@
 Phase 12F Research Adapter Regression
 """
 
-import assistant.research.state as state
+import assistant.cognition.research.state as state
 
 
-from assistant.research.controller import (
+from assistant.cognition.research.controller import (
     create_project,
     add_hypothesis,
 )
 
 
-from assistant.workspace.adapters.base import (
+from assistant.capabilities.workspace.adapters.base import (
     AdapterContext,
 )
 
 
-from assistant.workspace.adapters.research import (
+from assistant.capabilities.workspace.adapters.research import (
     ResearchAdapter,
 )
 

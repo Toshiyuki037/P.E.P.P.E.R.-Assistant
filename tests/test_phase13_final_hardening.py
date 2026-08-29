@@ -1,7 +1,7 @@
-from assistant.computer.action_catalog import ACTION_SCHEMAS
-from assistant.computer.desktop_layout import resolve_user_path
-from assistant.computer.capabilities import get_action_risk
-from assistant.computer.models import DeviceRisk
+from assistant.capabilities.computer.action_catalog import ACTION_SCHEMAS
+from assistant.capabilities.computer.desktop_layout import resolve_user_path
+from assistant.capabilities.computer.capabilities import get_action_risk
+from assistant.capabilities.computer.models import DeviceRisk
 
 
 def test_required_actions():

@@ -2,13 +2,13 @@
 Phase 12N structural test expansion regression.
 """
 
-import assistant.workspace.repository.store as repo_store
+import assistant.capabilities.workspace.repository.store as repo_store
 
-from assistant.workspace.repository.controller import (
+from assistant.capabilities.workspace.repository.controller import (
     index_repository,
 )
 
-from assistant.coding.discovery import (
+from assistant.capabilities.coding.discovery import (
     discover_candidate_paths,
 )
 
@@ -80,7 +80,7 @@ def test_relevant_importing_test_is_added_to_candidates(
         / "test_workflow_commands.py"
     ).write_text(
         (
-            "from assistant.workflows.integration import (\n"
+            "from assistant.capabilities.workflows.integration import (\n"
             "    _format_schedule_next_run,\n"
             ")\n"
             "\n"

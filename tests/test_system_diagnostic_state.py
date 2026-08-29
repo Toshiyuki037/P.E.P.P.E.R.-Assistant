@@ -1,12 +1,12 @@
-from assistant.system.diagnostic_state import (
+from assistant.core.system.diagnostic_state import (
     format_diagnostic_snapshot,
 )
 
-from assistant.system.failures import (
+from assistant.core.system.failures import (
     ComponentFailureState,
 )
 
-from assistant.system.health import (
+from assistant.core.system.health import (
     DEGRADED,
     HEALTHY,
     HealthResult,

@@ -1,4 +1,4 @@
-from assistant.voice.session import (
+from assistant.interaction.voice.session import (
     run_voice_session,
 )
 

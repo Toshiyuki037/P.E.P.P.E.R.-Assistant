@@ -2,11 +2,11 @@
 Phase 12E full knowledge workspace tests.
 """
 
-from assistant.workspace.adapters.bridge import (
+from assistant.capabilities.workspace.adapters.bridge import (
     extract_text,
     flatten_records,
 )
-from assistant.workspace.adapters.registry import (
+from assistant.capabilities.workspace.adapters.registry import (
     load_default_adapters,
 )
 

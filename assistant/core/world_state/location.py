@@ -44,7 +44,7 @@ from typing import Any
 PROJECT_ROOT = (
     Path(__file__)
     .resolve()
-    .parents[2]
+    .parents[3]
 )
 
 RUNTIME_DIRECTORY = (

@@ -4,7 +4,7 @@ Phase 14 English-only STT configuration tests.
 No model is loaded.
 """
 
-from assistant.voice.stt_config import (
+from assistant.interaction.voice.stt_config import (
     FINAL_BEAM_SIZE,
     PARTIAL_BEAM_SIZE,
     WHISPER_HOTWORDS,

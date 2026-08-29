@@ -1,4 +1,4 @@
-from assistant.system.self_repair_bridge import (
+from assistant.core.system.self_repair_bridge import (
     build_repair_request,
     execute_repair_bridge,
     render_repair_prompt,

@@ -1,4 +1,4 @@
-from assistant.voice.wake import extract_wake_request
+from assistant.interaction.voice.wake import extract_wake_request
 
 
 def test_eevee_is_valid_stt_wake_alias():

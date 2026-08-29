@@ -2,7 +2,7 @@
 E.V.I.E. Phase 14D1 streaming-input coordinator tests.
 """
 
-from assistant.voice.streaming_input import (
+from assistant.interaction.voice.streaming_input import (
     StreamingInputCoordinator,
     is_action_sensitive,
     normalize_streaming_text,

@@ -9,17 +9,17 @@ Run manually:
     python -m pytest -q tests/test_phase15_live_fault_recovery.py -s
 """
 
-from assistant.system.failures import (
+from assistant.core.system.failures import (
     clear_component_state,
     record_component_failure,
     record_component_success,
 )
 
-from assistant.system.component_health import (
+from assistant.core.system.component_health import (
     check_tts,
 )
 
-from assistant.system.health import (
+from assistant.core.system.health import (
     DEGRADED,
     HEALTHY,
 )

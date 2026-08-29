@@ -1,7 +1,7 @@
-import assistant.workspace.repository.store as repo_store
+import assistant.capabilities.workspace.repository.store as repo_store
 
-from assistant.workspace.repository.controller import index_repository
-from assistant.coding.impact import analyze_file_impact, analyze_change_scope
+from assistant.capabilities.workspace.repository.controller import index_repository
+from assistant.capabilities.coding.impact import analyze_file_impact, analyze_change_scope
 
 
 def test_impact_analysis_finds_dependents(tmp_path, monkeypatch):

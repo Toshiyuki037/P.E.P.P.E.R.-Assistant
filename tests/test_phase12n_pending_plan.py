@@ -2,14 +2,14 @@
 Phase 12N pending-plan persistence tests.
 """
 
-import assistant.coding.pending as pending_module
+import assistant.capabilities.coding.pending as pending_module
 
-from assistant.coding.models import (
+from assistant.capabilities.coding.models import (
     EngineeringEdit,
     EngineeringPlan,
 )
 
-from assistant.coding.pending import (
+from assistant.capabilities.coding.pending import (
     load_pending_engineering,
     pending_plan_from_payload,
     save_pending_plan,

@@ -1,4 +1,4 @@
-from assistant.system.certification import (
+from assistant.core.system.certification import (
     CERTIFIED,
     DEGRADED_CERTIFICATION,
     FAILED,
@@ -8,7 +8,7 @@ from assistant.system.certification import (
     format_certification_report,
 )
 
-from assistant.system.health import (
+from assistant.core.system.health import (
     DEGRADED,
     HEALTHY,
     UNKNOWN,

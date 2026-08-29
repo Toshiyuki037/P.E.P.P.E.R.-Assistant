@@ -33,10 +33,10 @@ from .brain import (
     handle_pending_tool_approval,
     handle_tool_request,
 )
-from .listen import listen
-from .speech_formatter import prepare_spoken_text
+from .interaction.voice.listen import listen
+from .interaction.presentation.speech_formatter import prepare_spoken_text
 
-from .speak import (
+from .interaction.voice.speak import (
     play_audio,
     speak,
     speak_streaming_response,
@@ -46,19 +46,19 @@ from .speak import (
     synthesize_audio,
 )
 
-from .voice.authoritative_reasoning import (
+from .interaction.voice.authoritative_reasoning import (
     stream_authoritative_chat,
 )
 
-from .voice.authoritative_speech import (
+from .interaction.voice.authoritative_speech import (
     AuthoritativeSpeechPipeline,
 )
 
-from .voice.response_length import (
+from .interaction.voice.response_length import (
     apply_response_length_policy,
 )
 
-from .voice.presentation import (
+from .interaction.voice.presentation import (
     build_contextual_expansion_prompt,
     prepare_voice_presentation,
 )
@@ -81,7 +81,7 @@ from .observability.performance.project_bridge import (
     augment_with_project_evidence,
 )
 
-from .voice.tts_prewarm import (
+from .interaction.voice.tts_prewarm import (
     start_tts_prewarm,
 )
 
@@ -89,11 +89,11 @@ from .observability.performance.model_router import (
     should_use_fast_voice_reasoning,
 )
 
-from .voice.fast_reasoning import (
+from .interaction.voice.fast_reasoning import (
     stream_fast_authoritative_chat,
 )
 
-from .memory.database import (
+from .cognition.memory.database import (
     archive_memories,
     init_memory,
     save_conversation,
@@ -101,12 +101,12 @@ from .memory.database import (
     update_memory,
 )
 
-from .memory.embeddings import (
+from .cognition.memory.embeddings import (
     create_memory_embedding,
     sync_memory_embeddings,
 )
 
-from .memory.manager import (
+from .cognition.memory.manager import (
     RELATION_CONFIDENCE,
     analyze_memory,
     resolve_new_memory,
@@ -117,29 +117,29 @@ from .memory.manager import (
     should_auto_update,
 )
 
-from .memory.retriever import (
+from .cognition.memory.retriever import (
     retrieve_matching_memories,
     retrieve_memories,
 )
 
-from .agent.integration import (
+from .cognition.agent.integration import (
     handle_agent_message,
 )
 
-from .intelligence.preferences import (
+from .cognition.intelligence.preferences import (
     handle_preference_command,
 )
 
-from .workflows.integration import (
+from .capabilities.workflows.integration import (
     handle_pending_workflow_approval,
     handle_workflow_message,
 )
 
-from .coding.integration import (
+from .capabilities.coding.integration import (
     handle_coding_message,
 )
 
-from .computer.integration import (
+from .capabilities.computer.integration import (
     handle_computer_message,
 )
 
@@ -153,17 +153,17 @@ from .observability.telemetry import (
     start_request,
 )
 
-from .voice.session import (
+from .interaction.voice.session import (
     run_voice_session,
 )
 
-from .voice.authentication import (
+from .interaction.voice.authentication import (
     NOT_RECOGNIZED_LINE,
     authenticate_last_wake_utterance,
     authenticated_wake_line,
 )
 
-from .voice.acknowledgements import (
+from .interaction.voice.acknowledgements import (
     choose_acknowledgement,
     play_acknowledgement,
     suppress_next_acknowledgement,
@@ -172,15 +172,15 @@ from .voice.acknowledgements import (
 # P.E.P.P.E.R.: old prerecorded acknowledgements disabled.
 VOICE_ACKNOWLEDGEMENTS_ENABLED = False
 
-from .system.integration import (
+from .core.system.integration import (
     handle_system_message,
 )
 
-from .briefings.morning import (
+from .protocols.good_morning import (
     run_good_morning_protocol,
 )
 
-from .briefings.scheduler import (
+from .protocols.scheduler import (
     GoodMorningScheduler,
     protocol_status,
 )
@@ -903,44 +903,89 @@ def _normalize_protocol_run_command(user_text: str) -> str:
 
 
 def _parse_protocol_run_command(user_text: str):
-    text = _normalize_protocol_run_command(user_text)
-    for prefix in ('hey pepper ', 'pepper ', 'hey piper ', 'piper '):
-        if text.startswith(prefix):
-            text = text[len(prefix):].strip()
-            break
-    if ',' in text:
-        _, remainder = text.split(',', 1)
-        remainder = remainder.strip()
-        if remainder.startswith(('run ', 'start ', 'execute ')):
-            text = remainder
-    verb = None
-    for candidate in ('run', 'start', 'execute'):
-        prefix = candidate + ' '
-        if text.startswith(prefix):
-            verb = candidate
-            text = text[len(prefix):].strip()
-            break
-    if verb is None:
-        return None
-    for prefix in ('the ', 'my '):
-        if text.startswith(prefix):
-            text = text[len(prefix):].strip()
-            break
-    text = text.rstrip(' .!?').strip()
-    suffixes = (' for me please',' please for me',' for me',' please')
-    changed = True
-    while changed:
-        changed = False
-        for suffix in suffixes:
-            if text.endswith(suffix):
-                text = text[:-len(suffix)].rstrip(' .!?').strip()
-                changed = True
+    """
+    Resolve a registered native protocol command without sending it through
+    the tool planner or conversational model.
+
+    Voice transcription may occasionally prepend a short stray clause before
+    the intended command (for example: "Stop here. Run the good morning
+    protocol."). We only recover a suffix when it begins with an explicit
+    protocol verb and resolves to a currently registered protocol.
+    """
+
+    normalized = _normalize_protocol_run_command(user_text)
+    candidates = [normalized]
+
+    for separator in (".", ";", ","):
+        parts = normalized.split(separator)
+        if len(parts) > 1:
+            for index in range(1, len(parts)):
+                suffix = separator.join(parts[index:]).strip()
+                if suffix:
+                    candidates.append(suffix)
+
+    seen = set()
+    ordered_candidates = []
+    for candidate in candidates:
+        candidate = candidate.strip()
+        if candidate and candidate not in seen:
+            seen.add(candidate)
+            ordered_candidates.append(candidate)
+
+    for text in ordered_candidates:
+        for prefix in (
+            "hey pepper ",
+            "pepper ",
+            "hey piper ",
+            "piper ",
+        ):
+            if text.startswith(prefix):
+                text = text[len(prefix):].strip()
                 break
-    if text.endswith(' protocol'):
-        text = text[:-len(' protocol')].strip()
-    if text in _PROTOCOL_RUNNERS:
-        return text
+
+        if "," in text:
+            _, remainder = text.split(",", 1)
+            remainder = remainder.strip()
+            if remainder.startswith(("run ", "start ", "execute ")):
+                text = remainder
+
+        verb = None
+        for candidate_verb in ("run", "start", "execute"):
+            prefix = candidate_verb + " "
+            if text.startswith(prefix):
+                verb = candidate_verb
+                text = text[len(prefix):].strip()
+                break
+
+        if verb is None:
+            continue
+
+        for prefix in ("the ", "my "):
+            if text.startswith(prefix):
+                text = text[len(prefix):].strip()
+                break
+
+        text = text.rstrip(" .!?").strip()
+
+        for suffix in (
+            " for me please",
+            " please for me",
+            " for me",
+            " please",
+        ):
+            if text.endswith(suffix):
+                text = text[:-len(suffix)].rstrip(" .!?").strip()
+                break
+
+        if text.endswith(" protocol"):
+            text = text[:-len(" protocol")].strip()
+
+        if text in _PROTOCOL_RUNNERS:
+            return text
+
     return None
+
+
 
 
 
@@ -1555,7 +1600,7 @@ def process_prompt(
 
     try:
 
-        from .agent.integration import (
+        from .cognition.agent.integration import (
             handle_agent_message,
         )
 

@@ -2,13 +2,13 @@
 Phase 12D source diversity tests.
 """
 
-from assistant.workspace.models import (
+from assistant.capabilities.workspace.models import (
     EvidenceItem,
 )
-from assistant.workspace.query import (
+from assistant.capabilities.workspace.query import (
     _balanced_select,
 )
-from assistant.workspace.adapters.notion import (
+from assistant.capabilities.workspace.adapters.notion import (
     _collect_page_titles,
 )
 

@@ -1,4 +1,4 @@
-from assistant.system.self_awareness import (
+from assistant.core.system.self_awareness import (
     get_capability_status,
     get_self_awareness,
     get_version,

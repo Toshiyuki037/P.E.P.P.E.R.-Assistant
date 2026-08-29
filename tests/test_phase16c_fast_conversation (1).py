@@ -1,4 +1,4 @@
-from assistant.performance.conversation_fastpath import (
+from assistant.observability.performance.conversation_fastpath import (
     handle_fast_conversation,
 )
 

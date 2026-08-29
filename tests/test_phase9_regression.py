@@ -22,15 +22,15 @@ import pytest
 # ---------------------------------------------------------------------------
 
 def test_core_phase9_imports():
-    import assistant.integrations.accounts
-    import assistant.integrations.aggregator
-    import assistant.integrations.capabilities
-    import assistant.integrations.credentials
-    import assistant.integrations.permissions
-    import assistant.integrations.registry
-    import assistant.tools.executor
-    import assistant.tools.integrations
-    import assistant.tools.planner
+    import assistant.capabilities.integrations.accounts
+    import assistant.capabilities.integrations.aggregator
+    import assistant.capabilities.integrations.capabilities
+    import assistant.capabilities.integrations.credentials
+    import assistant.capabilities.integrations.permissions
+    import assistant.capabilities.integrations.registry
+    import assistant.capabilities.tools.executor
+    import assistant.capabilities.tools.integrations
+    import assistant.capabilities.tools.planner
 
 
 # ---------------------------------------------------------------------------
@@ -38,7 +38,7 @@ def test_core_phase9_imports():
 # ---------------------------------------------------------------------------
 
 def test_integration_execute_is_registered():
-    from assistant.tools.registry import (
+    from assistant.capabilities.tools.registry import (
         get_tool,
         load_default_tools,
     )
@@ -59,7 +59,7 @@ def test_integration_execute_is_registered():
 # ---------------------------------------------------------------------------
 
 def test_required_phase9_providers_register():
-    from assistant.integrations.registry import (
+    from assistant.capabilities.integrations.registry import (
         list_integration_providers,
         load_default_integrations,
     )
@@ -107,7 +107,7 @@ def test_integration_permission_risks(
     capability,
     expected_risk,
 ):
-    from assistant.integrations.permissions import (
+    from assistant.capabilities.integrations.permissions import (
         get_permission,
     )
 
@@ -120,7 +120,7 @@ def test_integration_permission_risks(
 
 
 def test_unknown_financial_write_is_not_permitted():
-    from assistant.integrations.permissions import (
+    from assistant.capabilities.integrations.permissions import (
         get_permission,
     )
 
@@ -164,11 +164,11 @@ def test_executor_integration_risk(
     capability,
     expected_risk,
 ):
-    from assistant.tools.executor import (
+    from assistant.capabilities.tools.executor import (
         determine_effective_risk,
     )
 
-    from assistant.tools.registry import (
+    from assistant.capabilities.tools.registry import (
         get_tool,
         load_default_tools,
     )
@@ -214,7 +214,7 @@ def test_executor_integration_risk(
 def test_planner_gate_accepts_tool_requests(
     message,
 ):
-    from assistant.tools.planner import (
+    from assistant.capabilities.tools.planner import (
         should_consider_tools,
     )
 
@@ -234,7 +234,7 @@ def test_planner_gate_accepts_tool_requests(
 def test_planner_gate_does_not_force_normal_questions(
     message,
 ):
-    from assistant.tools.planner import (
+    from assistant.capabilities.tools.planner import (
         should_consider_tools,
     )
 
@@ -248,7 +248,7 @@ def test_planner_gate_does_not_force_normal_questions(
 # ---------------------------------------------------------------------------
 
 def test_schwab_performance_signature_stays_read_only():
-    from assistant.integrations.providers.schwab.accounts import (
+    from assistant.capabilities.integrations.providers.schwab.accounts import (
         schwab_portfolio_performance,
     )
 
@@ -261,8 +261,8 @@ def test_schwab_performance_signature_stays_read_only():
 
 
 def test_schwab_provider_has_no_trade_functions():
-    import assistant.integrations.providers.schwab.accounts as accounts
-    import assistant.integrations.providers.schwab.provider as provider
+    import assistant.capabilities.integrations.providers.schwab.accounts as accounts
+    import assistant.capabilities.integrations.providers.schwab.provider as provider
 
     forbidden_names = (
         "schwab_place_order",
@@ -289,7 +289,7 @@ def test_schwab_provider_has_no_trade_functions():
 # ---------------------------------------------------------------------------
 
 def test_google_core_capability_names_exist():
-    from assistant.integrations.registry import (
+    from assistant.capabilities.integrations.registry import (
         get_integration_capability,
         load_default_integrations,
     )
@@ -323,7 +323,7 @@ def test_google_core_capability_names_exist():
 # ---------------------------------------------------------------------------
 
 def test_spotify_core_capability_names_exist():
-    from assistant.integrations.registry import (
+    from assistant.capabilities.integrations.registry import (
         get_integration_capability,
         load_default_integrations,
     )
@@ -361,7 +361,7 @@ def test_spotify_core_capability_names_exist():
 # ---------------------------------------------------------------------------
 
 def test_schwab_core_capability_names_exist():
-    from assistant.integrations.registry import (
+    from assistant.capabilities.integrations.registry import (
         get_integration_capability,
         load_default_integrations,
     )
@@ -402,7 +402,7 @@ def test_handle_tool_request_routes_schwab_performance_questions(monkeypatch):
     calls = []
 
     def fake_plan_tool_request(user_message):
-        from assistant.tools.planner import ToolPlan
+        from assistant.capabilities.tools.planner import ToolPlan
 
         lowered = user_message.lower()
         assert "portfolio" in lowered
@@ -483,7 +483,7 @@ def test_handle_tool_request_preserves_schwab_positions_and_balances(monkeypatch
     calls = []
 
     def fake_plan_tool_request(user_message):
-        from assistant.tools.planner import ToolPlan
+        from assistant.capabilities.tools.planner import ToolPlan
 
         capability = expected_by_message[user_message]
 

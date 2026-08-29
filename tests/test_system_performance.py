@@ -1,4 +1,4 @@
-from assistant.system.performance import (
+from assistant.core.system.performance import (
     summarize_performance,
 )
 

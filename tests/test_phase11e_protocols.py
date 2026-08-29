@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import assistant.workflows.protocols as protocols
+import assistant.capabilities.workflows.protocols as protocols
 
 
 def test_protocol_crud_and_clone(tmp_path, monkeypatch):
