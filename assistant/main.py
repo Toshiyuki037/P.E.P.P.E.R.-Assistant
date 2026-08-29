@@ -33,6 +33,12 @@ from .brain import (
     handle_pending_tool_approval,
     handle_tool_request,
 )
+# Phase 17A.8 world-model lifecycle
+from .core.world_state.runtime import (
+    start_world_model_runtime,
+    stop_world_model_runtime,
+)
+
 from .interaction.voice.listen import listen
 from .interaction.presentation.speech_formatter import prepare_spoken_text
 
@@ -2305,6 +2311,9 @@ def start_good_morning_scheduler(
 # ---------------------------------------------------------------------------
 # Startup
 # ---------------------------------------------------------------------------
+# Phase 17A.8 CLI activation
+start_world_model_runtime()
+
 
 init_memory()
 

@@ -152,6 +152,10 @@ from .core.world_state.policy import (
 from .core.world_state.location import (
     get_foreground_location,
 )
+from .core.world_state.queries import (
+    summarize_current_work,
+)
+
 
 from .cognition.intelligence.preferences import (
     get_default_weather_location,
@@ -3472,6 +3476,54 @@ def stream_provisional_reasoning(
         )
         .strip()
     )
+# Phase 17A.8 unified-model current-work route
+_CURRENT_WORK_QUERIES = {
+    "what am i currently working on",
+    "what am i working on",
+    "what am i working on right now",
+    "what project am i working on",
+    "what project am i currently working on",
+}
+
+
+def _normalize_current_work_query(value: str) -> str:
+    return str(value or "").strip().lower().rstrip("?.!").strip()
+
+
+def _format_current_work_from_world_model(user_message: str) -> str:
+    summary = summarize_current_work()
+    if not summary.get("has_active_work_context", False):
+        try:
+            context = get_live_context(user_message=user_message, workspace_snapshot=None)
+            publish_live_context_snapshot(context)
+            summary = summarize_current_work()
+        except Exception as error:
+            print(f"[Phase 17A World Model Warning] current-work refresh failed: {error}")
+
+    workspace = summary.get("workspace")
+    file_record = summary.get("file")
+    application = summary.get("application")
+    details = []
+    if workspace:
+        name = str(workspace.get("name") or "").strip()
+        if name:
+            details.append(f"the {name} workspace")
+    if file_record:
+        name = str(file_record.get("name") or "").strip()
+        if name:
+            details.append(f"the file {name}")
+    if details:
+        detail = details[0] if len(details) == 1 else details[0] + " and " + details[1]
+        app_name = str((application or {}).get("name") or "").strip()
+        if app_name:
+            return f"You're currently working in {detail}, with {app_name} active."
+        return f"You're currently working in {detail}."
+    app_name = str((application or {}).get("name") or "").strip()
+    if app_name:
+        return f"I can currently see {app_name} as your active application, but I don't have enough current evidence to name a workspace or file."
+    return "I don't have enough current world-model evidence to say what you're working on right now."
+
+
 # ---------------------------------------------------------------------------
 # Main Chat
 # ---------------------------------------------------------------------------
@@ -3493,6 +3545,9 @@ def chat(
     user_message = (
         user_message.strip()
     )
+
+    if _normalize_current_work_query(user_message) in _CURRENT_WORK_QUERIES:
+        return _format_current_work_from_world_model(user_message)
 
     if not user_message:
 
