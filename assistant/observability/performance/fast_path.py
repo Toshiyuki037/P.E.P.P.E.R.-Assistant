@@ -42,10 +42,40 @@ def classify_request_cost(user_text):
     text = _norm(user_text)
     if not text:
         return RequestCostProfile(False, False, False, "fast", "empty")
+    if _has(text, PERSONAL_RECALL):
+        # Phase 17B live-regression repair:
+        # explicit historical recall should use the hierarchical memory path
+        # without also cold-loading project-code embeddings/reranking simply
+        # because the remembered subject happens to be a project.
+        memory_only_recall = _has(
+            text,
+            (
+                "remember",
+                "what did i ",
+                "what did we ",
+                "last time",
+                "previously",
+                "earlier we",
+                "earlier i",
+                "we decided",
+                "we discussed",
+                "i told you",
+                "i said before",
+                "our previous",
+                "from before",
+            ),
+        )
+        return RequestCostProfile(
+            False,
+            True,
+            False if memory_only_recall else _project(text),
+            "contextual",
+            "personal_recall",
+        )
+
     if _has(text, EXPLICIT_MEMORY):
         return RequestCostProfile(True, True, False, "important", "explicit_memory")
-    if _has(text, PERSONAL_RECALL):
-        return RequestCostProfile(True, True, _project(text), "contextual", "personal_recall")
+
     if FIRST_PERSON_DURABLE.search(text) and not QUESTION_START.search(text):
         return RequestCostProfile(True, True, _project(text), "contextual", "durable_first_person_information")
     if _project(text):

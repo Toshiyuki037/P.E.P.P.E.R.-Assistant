@@ -20,6 +20,7 @@ The resident LuxTTS worker remains protected by one process-wide TTS lock.
 from __future__ import annotations
 
 import queue
+import re
 import threading
 
 from pathlib import (
@@ -96,6 +97,20 @@ print(
 )
 
 
+def _make_luxtts_safe_text(
+    text: str,
+) -> str:
+    """Prevent LuxTTS/ZipVoice failure on segments such as "20."."""
+    text = str(text or "").strip()
+    if not text:
+        return ""
+    if re.search(r"[A-Za-z\u4e00-\u9fff]", text):
+        return text
+    if any(character.isdigit() for character in text):
+        return f"Result: {text}"
+    return f"Response: {text}"
+
+
 def synthesize_audio(
     text: str,
 ):
@@ -129,6 +144,11 @@ def synthesize_audio(
             "P.E.P.P.E.R",
             "Pepper",
         )
+    )
+
+    # Final LuxTTS safety boundary. Displayed/reasoned text is unchanged.
+    text = _make_luxtts_safe_text(
+        text
     )
 
     if not text:

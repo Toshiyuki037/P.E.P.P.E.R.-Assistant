@@ -44,6 +44,10 @@ from .cognition.memory.retriever import (
     retrieve_memories,
 )
 
+from .cognition.memory.hierarchy import (
+    retrieve_hierarchical_memories,
+)
+
 from .cognition.intelligence.context import (
     record_tool_context,
 )
@@ -565,7 +569,7 @@ def build_memory_context(
     try:
 
         memories = (
-            retrieve_memories(
+            retrieve_hierarchical_memories(
                 query=
                     user_message,
 
@@ -2593,6 +2597,29 @@ def should_use_project_knowledge(
     text = (
         user_message.lower()
     )
+
+    # Phase 17B live-regression repair:
+    # an explicit recall request should use memory rather than re-index/rerank
+    # project source files. Explicit code/source/file questions continue below.
+    explicit_memory_recall = any(
+        phrase in text
+        for phrase in (
+            "do you remember",
+            "what do you remember",
+            "what did i",
+            "what did we",
+            "last time",
+            "previously",
+            "we discussed",
+            "we decided",
+            "i told you",
+            "i said before",
+            "from before",
+        )
+    )
+
+    if explicit_memory_recall:
+        return False
 
 
     triggers = (

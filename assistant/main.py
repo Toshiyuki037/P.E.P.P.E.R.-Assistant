@@ -1017,6 +1017,40 @@ def handle_native_protocol_run(user_text: str):
 
 
 # ---------------------------------------------------------------------------
+# Phase 15 System-Route Speech Normalization
+# ---------------------------------------------------------------------------
+
+def _normalize_system_route_text(
+    user_text: str,
+) -> str:
+    """Normalize harmless STT filler for known health-check aliases only."""
+    import re
+
+    original = str(user_text or "").strip()
+    if not original:
+        return original
+
+    text = original.lower()
+    text = re.sub(r"[?!.,;:]+", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"^(?:hey\s+)?(?:pepper|piper)\s+", "", text).strip()
+    text = re.sub(r"^(?:(?:um+|uh+|erm+|hmm+)\s+)+", "", text).strip()
+
+    aliases = {
+        "health check": "check system health",
+        "run health check": "check system health",
+        "run a health check": "check system health",
+        "do a health check": "check system health",
+        "check health": "check system health",
+        "check system health": "check system health",
+        "check system health please": "check system health",
+        "run a system health check": "check system health",
+    }
+
+    return aliases.get(text, original)
+
+
+# ---------------------------------------------------------------------------
 # Process User Prompt
 # ---------------------------------------------------------------------------
 
@@ -1477,7 +1511,9 @@ def process_prompt(
 
         system_result = (
             handle_system_message(
-                user_text
+                _normalize_system_route_text(
+                    user_text
+                )
             )
         )
 
