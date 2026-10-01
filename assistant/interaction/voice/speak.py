@@ -22,6 +22,7 @@ from __future__ import annotations
 import queue
 import re
 import threading
+import time
 
 from pathlib import (
     Path,
@@ -46,6 +47,13 @@ from .low_latency import (
 
 from .playback import (
     PLAYER,
+)
+
+from .hud_bridge import (
+    hud_speak,
+    hud_chunk,
+    hud_level,
+    hud_finish,
 )
 
 
@@ -255,6 +263,27 @@ def close_audio():
     CLIENT.stop()
 
 
+def _hud_audio_levels(audio, sample_rate: int, stop_event, response_id=None):
+    try:
+        import math
+        frame=max(1,int(sample_rate*0.025)); started=time.perf_counter(); index=0
+        while index<len(audio) and not stop_event.is_set():
+            seg=audio[index:index+frame]
+            try:
+                vals=seg.tolist() if hasattr(seg,"tolist") else list(seg)
+                if vals and isinstance(vals[0],list): vals=[x for row in vals for x in row]
+                if vals:
+                    rms=math.sqrt(max(0.0,sum(float(x)*float(x) for x in vals)/len(vals)))
+                    if rms>1.5: rms/=32768.0
+                    hud_level(max(0.0,min(1.0,math.sqrt(max(0.0,rms))*2.8)), response_id)
+            except Exception: pass
+            index+=frame
+            delay=(started+index/float(sample_rate))-time.perf_counter()
+            if delay>0: stop_event.wait(delay)
+    finally:
+        hud_level(0.0, response_id)
+
+
 def _audio_duration(
     audio,
     sample_rate: int,
@@ -322,6 +351,9 @@ def speak_streaming_response(
 
     if not chunks:
         return
+
+    # Phase 17B.7 - begin visual response.
+    hud_response_id = hud_speak()
 
     cancel_event = (
         threading.Event()
@@ -459,22 +491,37 @@ def speak_streaming_response(
                 )
             )
 
-            with span(
-                "tts_playback",
-                chunk_index=
-                    index,
-                audio_seconds=
-                    round(
-                        audio_duration,
-                        3,
-                    ),
-            ):
-                play_audio(
-                    audio,
-                    int(
-                        sample_rate
-                    ),
-                )
+            # Phase 17B.10.4 - drive transcript from this exact playback chunk.
+            hud_chunk(
+                chunk,
+                audio_duration,
+                hud_response_id,
+            )
+
+# Phase 17B.7 - exact TTS waveform.
+            hud_stop = threading.Event()
+            hud_thread = threading.Thread(target=_hud_audio_levels,args=(audio,int(sample_rate),hud_stop,hud_response_id),daemon=True)
+            hud_thread.start()
+            try:
+                with span(
+                    "tts_playback",
+                    chunk_index=
+                        index,
+                    audio_seconds=
+                        round(
+                            audio_duration,
+                            3,
+                        ),
+                ):
+                    play_audio(
+                        audio,
+                        int(
+                            sample_rate
+                        ),
+                    )
+            finally:
+                hud_stop.set()
+                hud_thread.join(timeout=0.25)
 
             if cancel_event.is_set():
                 break
@@ -482,6 +529,9 @@ def speak_streaming_response(
         mark(
             "audio_playback_finished"
         )
+
+        # Phase 17B.7 - finish visual response.
+        hud_finish(hud_response_id)
 
     finally:
         cancel_event.set()

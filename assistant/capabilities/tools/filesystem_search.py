@@ -368,6 +368,7 @@ def search_filesystem(
     max_results: int = 25,
     max_depth: int = 8,
     _allow_test_roots: bool = False,
+    workspace_path=None,
 ):
     """
     Searches user folders for matching files/directories.
@@ -435,6 +436,13 @@ def search_filesystem(
         allow_test_roots=
             _allow_test_roots,
     )
+    # Phase 17B.10.16 - explicit user/planner roots are authoritative.
+    # Workspace scope is fallback-only when no roots were requested.
+    if workspace_path and not roots:
+        _workspace_root = Path(workspace_path).expanduser().resolve()
+        if not _workspace_root.exists() or not _workspace_root.is_dir():
+            raise FileNotFoundError(f"Workspace does not exist: {_workspace_root}")
+        search_roots = [_workspace_root]
 
 
     needle = query_text.casefold()

@@ -37,6 +37,28 @@ from .system import (
 
 PEPPER_ROOT = Path(__file__).resolve().parents[3]
 
+# Phase 17B.4: preserve an explicit user-selected workspace across the
+# immediate voice follow-up. Foreground detection can still see P.E.P.P.E.R.'s
+# terminal right after VS Code launches.
+_LAST_EXPLICIT_WORKSPACE: Path | None = None
+
+
+def set_last_explicit_workspace(path) -> None:
+    global _LAST_EXPLICIT_WORKSPACE
+    if not path:
+        return
+    candidate = Path(path).expanduser().resolve()
+    if candidate.exists() and candidate.is_dir():
+        _LAST_EXPLICIT_WORKSPACE = candidate
+
+
+def get_last_explicit_workspace() -> str | None:
+    if _LAST_EXPLICIT_WORKSPACE is None:
+        return None
+    if not _LAST_EXPLICIT_WORKSPACE.exists():
+        return None
+    return str(_LAST_EXPLICIT_WORKSPACE)
+
 
 # ---------------------------------------------------------------------------
 # Command Helper

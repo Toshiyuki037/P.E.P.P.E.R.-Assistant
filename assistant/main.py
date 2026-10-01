@@ -1,3 +1,5 @@
+import re
+from pathlib import Path
 """
 P.E.P.P.E.R. - Main Application Controller
 
@@ -132,6 +134,10 @@ from .cognition.agent.integration import (
     handle_agent_message,
 )
 
+from .capabilities.tools.vscode import (
+    open_workspace_in_vscode,
+)
+
 from .cognition.intelligence.preferences import (
     handle_preference_command,
 )
@@ -169,6 +175,17 @@ from .interaction.voice.authentication import (
     authenticated_wake_line,
 )
 
+from .interaction.voice.heavy_processing import (
+    contextual_heavy_acknowledgement,
+    heavy_processing_reason,
+)
+
+from .interaction.voice.action_conversation import (
+    maybe_request_action_clarification,
+    naturalize_spoken_action,
+    resolve_pending_action,
+)
+
 from .interaction.voice.acknowledgements import (
     choose_acknowledgement,
     play_acknowledgement,
@@ -202,10 +219,13 @@ def speak_response(
     if not response:
         return
 
+    # Phase 17B.3 - concise voice, detailed terminal
+    spoken_source = naturalize_spoken_action(user_text, response)
+
     presentation = (
         prepare_voice_presentation(
             user_text,
-            response,
+            spoken_source,
         )
     )
 
@@ -213,6 +233,9 @@ def speak_response(
         presentation.text
         .strip()
     )
+
+    # Phase 17B.10.5 - spoken form of address is always sir.
+    spoken_response = re.sub(r"\bMax\b", "sir", spoken_response, flags=re.IGNORECASE)
 
     if not spoken_response:
         return
@@ -1051,8 +1074,61 @@ def _normalize_system_route_text(
 
 
 # ---------------------------------------------------------------------------
+# Phase 17B.10.21 - Natural long-work acknowledgement
+# ---------------------------------------------------------------------------
+def _pepper_workspace_acknowledgement(user_text: str):
+    text=" ".join(str(user_text or "").lower().split())
+    action=re.search(r"\b(figure\s+out|find|inspect|investigate|debug|diagnose|fix|repair|solve|edit|change|modify|update)\b",text)
+    workspace=re.search(r"\b(code|source|file|controller|script|project|workspace|function|class|module|bug|issue|error|test)\b",text)
+    if not (action and workspace):
+        return None
+    return "Certainly, sir. Let me take a look."
+
+# ---------------------------------------------------------------------------
 # Process User Prompt
 # ---------------------------------------------------------------------------
+
+
+# Phase 17B.10.25 - final demo voice lock.
+def _demo_voice_sentence(sentence: str) -> str:
+    text = str(sentence or "").strip()
+    if not text:
+        return ""
+
+    text = re.sub(r"```(?:[A-Za-z0-9_+-]+)?", " ", text)
+    text = text.replace("```", " ")
+    text = re.sub(r"!\[[^\]]*\]\([^)]+\)", " ", text)
+    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
+    text = re.sub(r"[*_#>`~]+", " ", text)
+
+    replacements = {
+        r"\Omega": " ohms ", r"\omega": " ohms ",
+        r"\cdot": " times ", r"\times": " times ",
+        r"\pm": " plus or minus ", r"\Delta": " delta ",
+        r"\theta": " theta ", r"\mu": " micro ",
+        r"\boxed": " ", r"\text": " ", r"\mathrm": " ",
+        r"\left": " ", r"\right": " ",
+    }
+    for old,new in replacements.items():
+        text=text.replace(old,new)
+
+    text=text.replace(r"\["," ").replace(r"\]"," ")
+    text=text.replace(r"\("," ").replace(r"\)"," ")
+    text=text.replace("$"," ")
+    text=re.sub(r"\\[A-Za-z]+", " ", text)
+    text=text.replace("\\"," ")
+    text=text.replace("{"," ").replace("}"," ")
+    text=re.sub(r"(?<=\d)\s*[Aa]\b", " amps", text)
+    text=re.sub(r"(?<=\d)\s*[Vv]\b", " volts", text)
+    text=re.sub(r"(?<=\d)\s*[Ww]\b", " watts", text)
+    text=re.sub(r"\s*=\s*", " equals ", text)
+    text=re.sub(r"\s+", " ", text).strip(" -:\n\t")
+    text=text.replace("\\","")
+    words=text.split()
+    if len(words)>40:
+        text=" ".join(words[:40]).rstrip(",;:")+"."
+    return text
+
 
 def complete_response(
     user_text: str,
@@ -1118,6 +1194,36 @@ def complete_response(
 
         clear_request()
 
+
+# Phase 17B.10.18 - native Desktop -> VS Code fast path
+def _native_desktop_vscode_open(user_text: str):
+    value=str(user_text or "").strip()
+    low=value.lower()
+    if not (("open" in low or "launch" in low) and "folder" in low and "desktop" in low and ("vs code" in low or "vscode" in low or "visual studio code" in low)):
+        return None
+    match=re.search(r"(?:open|launch)\s+(?:the\s+)?(.+?)\s+folder\s+(?:on|in)\s+(?:my\s+)?desktop",value,flags=re.IGNORECASE)
+    if not match: return None
+    wanted=" ".join(match.group(1).split()).strip()
+    if not wanted: return None
+    home=Path.home()
+    target=None
+    for desktop in (home/"OneDrive"/"Desktop", home/"Desktop"):
+        if not desktop.is_dir(): continue
+        for child in desktop.iterdir():
+            if child.is_dir() and child.name.casefold()==wanted.casefold():
+                target=child.resolve(); break
+        if target is not None: break
+    if target is None:
+        return f"I couldn't find the {wanted} folder directly on your Desktop."
+    try:
+        result=open_workspace_in_vscode(workspace_path=str(target),new_window=True)
+    except Exception as error:
+        return f"I found the folder, but VS Code could not open it: {error}"
+    if not result or not result.get("opened"):
+        return f"I found {target}, but VS Code did not confirm the open action."
+    return "It's open in VS Code, sir."
+
+
 def process_prompt(
     user_text,
     *,
@@ -1156,6 +1262,11 @@ def process_prompt(
     # -----------------------------------------------------------------------
     # Phase 14A - Request Telemetry
     # -----------------------------------------------------------------------
+
+    # Phase 17B.3 - resume a pending clarification before routing.
+    pending_action = resolve_pending_action(user_text)
+    if pending_action.rewritten_text:
+        user_text = pending_action.rewritten_text
 
     start_request(
         user_text
@@ -1206,6 +1317,49 @@ def process_prompt(
     print(
         f"\nYou: {user_text}"
     )
+
+    # Phase 17B.10.18 - deterministic Desktop folder -> VS Code execution.
+    _desktop_vscode_result = _native_desktop_vscode_open(user_text)
+    if _desktop_vscode_result is not None:
+        complete_response(user_text, _desktop_vscode_result)
+        return
+
+    # Phase 17B.3 - clarify a missing execution application conversationally.
+    if pending_action.handled:
+        complete_response(
+            user_text,
+            pending_action.response or "No problem, sir.",
+        )
+        return
+
+    action_clarification = maybe_request_action_clarification(user_text)
+    if action_clarification.handled:
+        complete_response(
+            user_text,
+            action_clarification.response,
+        )
+        return
+
+    # Phase 17B.10.21 - immediate workspace acknowledgement before blocking Phase 7.
+    _workspace_ack_spoken = False
+    if voice_streaming:
+        _workspace_ack = _pepper_workspace_acknowledgement(user_text)
+        if _workspace_ack is not None:
+            print(f"P.E.P.P.E.R.: {_workspace_ack}")
+            speak(_workspace_ack)
+            _workspace_ack_spoken = True
+
+    # Phase 17B.1 - Heavy-processing acknowledgement.
+    # Only finalized voice turns classified as genuinely expensive get this cue.
+    # speak() is intentionally synchronous: the cue cannot be cut off by the
+    # authoritative answer, and normal/lightweight turns pay zero TTS cost.
+    if voice_streaming and not _workspace_ack_spoken:
+        _heavy_reason = heavy_processing_reason(user_text)
+        if _heavy_reason is not None:
+            print(f"[Heavy Processing] {_heavy_reason}")
+            _heavy_line = contextual_heavy_acknowledgement(_heavy_reason)
+            print(f"P.E.P.P.E.R.: {_heavy_line}")
+            speak(_heavy_line)
 
     # -----------------------------------------------------------------------
     # Native Protocol Commands
@@ -1559,6 +1713,39 @@ def process_prompt(
 
 
     # -----------------------------------------------------------------------
+    # Phase 17B.6 - pending Phase 7 approval outranks coding approval
+    # -----------------------------------------------------------------------
+
+    try:
+        from .cognition.agent.state import task_waiting_for_approval
+        from .cognition.agent.integration import handle_agent_message as _pending_agent_handler
+
+        if task_waiting_for_approval():
+            pending_agent_result = _pending_agent_handler(
+                user_text
+            )
+            if (
+                isinstance(pending_agent_result, dict)
+                and pending_agent_result.get("handled", False)
+            ):
+                complete_response(
+                    user_text,
+                    pending_agent_result.get("response") or "Done.",
+                )
+                pending_follow_up = str(
+                    pending_agent_result.get("follow_up", "") or ""
+                ).strip()
+                if pending_follow_up:
+                    process_prompt(
+                        pending_follow_up,
+                        voice_streaming=voice_streaming,
+                    )
+                return
+    except (ImportError, AttributeError):
+        pass
+
+
+    # -----------------------------------------------------------------------
     # Phase 12N - Self-Engineering Integration
     # -----------------------------------------------------------------------
     #
@@ -1857,6 +2044,7 @@ def process_prompt(
             # -------------------------------------------------------------------
 
             first_sentence_marked = False
+            authoritative_spoken_count = 0
             first_audio_marked = False
 
             # Telemetry only: measure existing speech-pipeline events.
@@ -1877,22 +2065,23 @@ def process_prompt(
             ):
 
                 nonlocal first_sentence_marked
+                nonlocal authoritative_spoken_count
 
+                # Cap TTS only; keep full reasoning generation alive.
+                if authoritative_spoken_count >= 2:
+                    return True
+
+                spoken_sentence = _demo_voice_sentence(sentence)
+                if not spoken_sentence:
+                    return True
 
                 if not first_sentence_marked:
-
-                    mark(
-                        "first_authoritative_sentence"
-                    )
-
+                    mark("first_authoritative_sentence")
                     first_sentence_marked = True
 
-
-                return (
-                    speech_pipeline.submit_sentence(
-                        sentence
-                    )
-                )
+                authoritative_spoken_count += 1
+                speech_pipeline.submit_sentence(spoken_sentence)
+                return True
 
 
             def handle_authoritative_speech_event(
@@ -1986,7 +2175,7 @@ def process_prompt(
                         2,
 
                     max_characters=
-                        340,
+                        300,
 
                     rolling=
                         True,
@@ -2230,7 +2419,7 @@ def process_voice_prompt(
     sentence-by-sentence streaming for normal reasoning.
     """
 
-    return (
+    result = (
         process_prompt(
             user_text,
 
@@ -2238,6 +2427,12 @@ def process_voice_prompt(
                 True,
         )
     )
+
+    # Let final speaker/room echo decay before capture resumes.
+    from time import sleep as _pepper_sleep
+    _pepper_sleep(0.85)
+
+    return result
 
 # ---------------------------------------------------------------------------
 # Phase 14 - Wake Voice Authentication Speech
@@ -2255,9 +2450,7 @@ def speak_authenticated_wake():
     suppress_next_acknowledgement()
 
 
-    line = (
-        authenticated_wake_line()
-    )
+    line = "Voice authenticated. Welcome back, sir."
 
 
     print(
@@ -2531,3 +2724,4 @@ while True:
             "\nChoose T for terminal, "
             "V for voice, or Q to quit."
         )
+# Phase 17B.3 - Demo Reliability

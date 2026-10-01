@@ -1,4 +1,4 @@
-﻿"""
+"""
 P.E.P.P.E.R. - Phase 14 Final Voice Session Runtime
 
 Design goals:
@@ -41,6 +41,10 @@ from .conversation_state import (
 from .runtime_state import (
     VoiceRuntimeMode,
     VoiceRuntimeState,
+)
+
+from .reliability import (
+    classify_spurious_active_turn,
 )
 
 from .wake import (
@@ -430,9 +434,11 @@ def _run_safe_session(
 
             if not wake_request:
 
+                print(
+                    "P.E.P.P.E.R.: Welcome back, sir."
+                )
+
                 continue
-
-
             user_text = (
                 wake_request
             )
@@ -482,6 +488,12 @@ def _run_safe_session(
 
             continue
 
+
+        reject_turn, reject_reason = classify_spurious_active_turn(user_text)
+
+        if reject_turn:
+            print(f"[Voice Reliability Safe] Ignored {reject_reason}: {user_text!r}")
+            continue
 
         conversation.remember_prompt(
             user_text
@@ -785,9 +797,11 @@ def _run_headset_duplex_session(
 
             if not wake_request:
 
+                print(
+                    "P.E.P.P.E.R.: Welcome back, sir."
+                )
+
                 continue
-
-
             user_text = (
                 wake_request
             )
@@ -864,6 +878,15 @@ def _run_headset_duplex_session(
 
             continue
 
+
+        reject_turn, reject_reason = classify_spurious_active_turn(user_text)
+
+        if reject_turn and live_command is None:
+            print(f"[Voice Reliability Duplex] Ignored {reject_reason}: {user_text!r}")
+            if resume_speech_fn is not None:
+                resume_speech_fn()
+            runtime.set_mode(VoiceRuntimeMode.ACTIVE)
+            continue
 
         if live_command == "wait":
 

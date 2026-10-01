@@ -27,6 +27,48 @@ import threading
 from dataclasses import dataclass
 from typing import Callable
 
+from .hud_bridge import (
+    hud_speak,
+    hud_chunk,
+    hud_level,
+    hud_finish,
+)
+
+
+def _hud_audio_duration(audio, sample_rate: int) -> float:
+    try:
+        return len(audio) / float(sample_rate)
+    except Exception:
+        return 0.0
+
+
+def _hud_audio_levels(audio, sample_rate: int, stop_event, response_id):
+    try:
+        import math
+        import time as _time
+        frame=max(1,int(sample_rate*0.025))
+        started=_time.perf_counter()
+        index=0
+        while index < len(audio) and not stop_event.is_set():
+            seg=audio[index:index+frame]
+            try:
+                vals=seg.tolist() if hasattr(seg,"tolist") else list(seg)
+                if vals and isinstance(vals[0],list):
+                    vals=[x for row in vals for x in row]
+                if vals:
+                    rms=math.sqrt(max(0.0,sum(float(x)*float(x) for x in vals)/len(vals)))
+                    if rms>1.5:
+                        rms/=32768.0
+                    hud_level(max(0.0,min(1.0,math.sqrt(max(0.0,rms))*2.8)),response_id)
+            except Exception:
+                pass
+            index+=frame
+            delay=(started+index/float(sample_rate))-_time.perf_counter()
+            if delay>0:
+                stop_event.wait(delay)
+    finally:
+        hud_level(0.0,response_id)
+
 
 DEFAULT_MAX_SPOKEN_SENTENCES = 2
 DEFAULT_MAX_SPOKEN_CHARACTERS = 260
@@ -533,6 +575,10 @@ class AuthoritativeSpeechPipeline:
 
 
     def _rolling_playback_loop(self):
+        # Ordinary streamed model responses bypass speak_streaming_response(),
+        # so they need their own HUD response lifecycle here.
+        hud_response_id = hud_speak()
+
         try:
             while True:
                 item = self._audio_queue.get()
@@ -556,6 +602,31 @@ class AuthoritativeSpeechPipeline:
                     index=index,
                 )
 
+                audio_duration = _hud_audio_duration(
+                    audio,
+                    int(sample_rate),
+                )
+
+                hud_chunk(
+                    text,
+                    audio_duration,
+                    hud_response_id,
+                )
+
+                hud_stop = threading.Event()
+                hud_thread = threading.Thread(
+                    target=_hud_audio_levels,
+                    args=(
+                        audio,
+                        int(sample_rate),
+                        hud_stop,
+                        hud_response_id,
+                    ),
+                    daemon=True,
+                    name="pepper-authoritative-hud-levels",
+                )
+                hud_thread.start()
+
                 try:
                     self.play_fn(
                         audio,
@@ -565,6 +636,10 @@ class AuthoritativeSpeechPipeline:
                 except Exception as error:
                     print("\n[Authoritative Playback Warning]")
                     print(error)
+
+                finally:
+                    hud_stop.set()
+                    hud_thread.join(timeout=0.25)
 
                 self._emit(
                     kind="playback_finished",
@@ -576,6 +651,7 @@ class AuthoritativeSpeechPipeline:
                     break
 
         finally:
+            hud_finish(hud_response_id)
             self._done.set()
 
 

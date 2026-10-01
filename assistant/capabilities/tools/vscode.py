@@ -44,6 +44,10 @@ from .registry import (
     register_tool,
 )
 
+from assistant.interaction.perception.workspace import (
+    set_last_explicit_workspace,
+)
+
 
 # ---------------------------------------------------------------------------
 # VS Code Detection
@@ -234,6 +238,9 @@ def open_workspace_in_vscode(
             cwd=workspace,
         )
     )
+
+    # Keep hands-on follow-up work bound to the workspace the user chose.
+    set_last_explicit_workspace(workspace)
 
 
     return {

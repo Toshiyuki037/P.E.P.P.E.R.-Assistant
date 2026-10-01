@@ -35,6 +35,7 @@ import inspect
 import re
 
 from assistant.interaction.perception.workspace import (
+    get_last_explicit_workspace,
     get_workspace_context,
 )
 
@@ -69,6 +70,7 @@ from .state import (
     clear_task,
     load_task,
     save_task,
+    save_last_completed_task,
 )
 
 from .verifier import (
@@ -313,10 +315,14 @@ def build_placeholder_failure(
 # ---------------------------------------------------------------------------
 
 def get_current_workspace_path():
+    # Explicit selection outranks transient foreground-window detection.
+    explicit_workspace = get_last_explicit_workspace()
+    if explicit_workspace:
+        return explicit_workspace
+
     context = (
         get_workspace_context()
     )
-
 
     return context.get(
         "workspace_path"
@@ -346,6 +352,10 @@ def bind_workspace(
         or not workspace_path
     ):
 
+        return arguments
+
+    # Phase 17B.10.16 - explicit discovery roots outrank task workspace.
+    if tool_name == "search_filesystem" and arguments.get("roots"):
         return arguments
 
 
@@ -1279,6 +1289,11 @@ def run_task(
 
 
             save_task(
+                task
+            )
+
+            # Phase 17B.6 - preserve completed diagnosis/action context.
+            save_last_completed_task(
                 task
             )
 

@@ -37,11 +37,11 @@ DEFAULT_VOICEPRINT = (
 
 
 AUTHENTICATED_LINES = (
-    "Voice authenticated. Welcome home, Max.",
-    "Identity confirmed. Welcome back, Max.",
-    "Voice verified. Good to have you back, Max.",
-    "Authenticated. Welcome back, Max.",
-    "Voice confirmed. Pepper online.",
+    "Voice authenticated.",
+    "Voice authenticated.",
+    "Voice authenticated.",
+    "Voice authenticated.",
+    "Voice authenticated.",
 )
 
 

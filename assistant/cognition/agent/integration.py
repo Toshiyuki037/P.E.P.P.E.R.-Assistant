@@ -45,6 +45,10 @@ from .controller import (
     resume_agent,
 )
 
+from .state import (
+    load_last_completed_task,
+)
+
 
 # ---------------------------------------------------------------------------
 # Command Normalization
@@ -352,6 +356,23 @@ def should_consider_agent(
 
 
     # -----------------------------------------------------------------------
+    # Phase 17B.10.19 - hands-on workspace engineering must reach Phase 7.
+    # -----------------------------------------------------------------------
+
+    workspace_action = re.search(
+        r"\b(figure\s+out|find|inspect|investigate|debug|diagnose|fix|repair|edit|change|modify|update)\b",
+        normalized,
+        flags=re.IGNORECASE,
+    )
+    workspace_object = re.search(
+        r"\b(code|source|file|controller|script|project|workspace|function|class|module|bug|issue|error|test)\b",
+        normalized,
+        flags=re.IGNORECASE,
+    )
+    if workspace_action and workspace_object:
+        return True
+
+    # -----------------------------------------------------------------------
     # Strong Explicit Agentic Signals
     # -----------------------------------------------------------------------
 
@@ -446,9 +467,75 @@ def should_consider_agent(
     return False
 
 
+
+# ---------------------------------------------------------------------------
+# Phase 17B.6 - Completed Diagnostic Follow-Up
+# ---------------------------------------------------------------------------
+
+_SHORT_ACTION_FOLLOWUPS = {
+    "fix it", "fix that", "repair it", "repair that",
+    "do it", "make the fix", "apply the fix",
+    "can you fix it", "can you fix it for me",
+    "could you fix it", "could you fix it for me",
+    "please fix it", "fix it for me",
+}
+
+def _completed_task_followup(user_message: str):
+    normalized=_normalized_command(user_message)
+    if normalized not in _SHORT_ACTION_FOLLOWUPS:
+        return None
+    previous=load_last_completed_task()
+    if previous is None:
+        return None
+    summary=str(getattr(previous,"final_summary","") or "").strip()
+    workspace=str(getattr(previous,"workspace_path","") or "").strip()
+    if not summary or not workspace:
+        return None
+    evidence=[]
+    for step in getattr(previous,"steps",[]) or []:
+        result=getattr(step,"result",None)
+        if result:
+            evidence.append(
+                f"Step {getattr(step,'step_number','?')} "
+                f"({getattr(step,'tool_name','')}): {str(result)[:1800]}"
+            )
+    return (
+        "Continue the immediately previous completed Phase 7 diagnosis. "
+        "The user explicitly asked to apply the identified fix. "
+        "Do not restart discovery or rerun generic pytest merely to rediscover "
+        "facts already established below. Read the target file if needed, "
+        "perform the real edit through the registered filesystem mutation tool "
+        "and its normal approval gate, then run the previously relevant verification. "
+        f"\n\nAuthoritative workspace: {workspace}"
+        f"\nPrevious diagnosis: {summary}"
+        f"\nPrior execution evidence:\n" + "\n".join(evidence[-4:])
+    )
+
+
 # ---------------------------------------------------------------------------
 # Handle Agent Message
 # ---------------------------------------------------------------------------
+
+
+def _normalize_pending_agent_approval(user_message: str) -> str:
+    """Map natural affirmative approval to the existing explicit approval path."""
+    text = " ".join(str(user_message or "").lower().split())
+    text = re.sub(r"[^a-z0-9\s']", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+
+    if re.search(r"\b(no|nope|cancel|stop|reject)\b", text):
+        return user_message
+    if "do not" in text or "don't" in text or "never mind" in text or "nevermind" in text:
+        return user_message
+
+    if re.search(r"\b(yes|yeah|yep|sure|okay|ok|approve|approved|proceed)\b", text):
+        return "yes"
+
+    if re.search(r"\b(go ahead|do it|fix it|fix that|repair it|repair that|apply it|apply the fix|make the fix)\b", text):
+        return "yes"
+
+    return user_message
+
 
 def handle_agent_message(
     user_message: str,
@@ -495,7 +582,7 @@ def handle_agent_message(
 
         approval = (
             parse_approval_response(
-                user_message
+                _normalize_pending_agent_approval(user_message)
             )
         )
 
@@ -640,6 +727,25 @@ def handle_agent_message(
 
         task = None
 
+
+    # -----------------------------------------------------------------------
+    # Phase 17B.6 - short action inherits completed diagnosis.
+    # -----------------------------------------------------------------------
+
+    continuity_context = _completed_task_followup(
+        user_message
+    )
+
+    if continuity_context:
+        result = execute_agent_request(
+            continuity_context
+        )
+        if result["handled"]:
+            return {
+                "handled": True,
+                "response": result["response"],
+                "follow_up": "",
+            }
 
     # -----------------------------------------------------------------------
     # Phase 14A Fast Gate

@@ -68,6 +68,24 @@ def plan_computer_message(
     # Application launch
     # ---------------------------------------------------------
 
+    # Phase 17B.3 - Native Workspace Routing Guard
+    #
+    # Explicit VS Code workspace requests belong to the existing Phase 6
+    # open_workspace_in_vscode tool. Phase 13 is the generic GUI fallback
+    # and must not reinterpret the entire phrase as an application name.
+    workspace_native_request = bool(
+        re.search(r"\b(folder|directory|workspace|project)\b", lower)
+        and re.search(
+            r"\b(vs\s*code|vscode|visual studio code)\b",
+            lower,
+        )
+    )
+
+    if workspace_native_request:
+        return ComputerToolPlan(
+            handled=False
+        )
+
     match = re.match(
         r"^(?:open|launch|start)\s+(.+)$",
         text,

@@ -93,16 +93,16 @@ _EXACT_RESPONSES = {
 
     # Ordinary social conversation
     "how are you":
-        "I'm doing well, Max. What can I help with?",
+        "I'm doing well, sir. What can I help with?",
 
     "how are you doing":
-        "I'm doing well, Max. What can I help with?",
+        "I'm doing well, sir. What can I help with?",
 
     "how're you":
-        "I'm doing well, Max. What can I help with?",
+        "I'm doing well, sir. What can I help with?",
 
     "howre you":
-        "I'm doing well, Max. What can I help with?",
+        "I'm doing well, sir. What can I help with?",
 
     "how's it going":
         "Going well. What can I help with?",

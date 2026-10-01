@@ -66,6 +66,12 @@ CURRENT_TASK_FILE = (
     / "current_task.json"
 )
 
+# Phase 17B.6 - completed actionable task continuity
+LAST_COMPLETED_TASK_FILE = (
+    AGENT_RUNTIME
+    / "last_completed_task.json"
+)
+
 
 # ---------------------------------------------------------------------------
 # Time
@@ -345,6 +351,49 @@ def load_task():
                 "updated_at",
                 "",
             ),
+    )
+
+
+
+# ---------------------------------------------------------------------------
+# Phase 17B.6 - Last Completed Task
+# ---------------------------------------------------------------------------
+
+def save_last_completed_task(task: AgentTask):
+    AGENT_RUNTIME.mkdir(parents=True, exist_ok=True)
+    LAST_COMPLETED_TASK_FILE.write_text(
+        json.dumps(task_to_dict(task), indent=2, ensure_ascii=False, default=str),
+        encoding="utf-8",
+    )
+    return task
+
+
+def load_last_completed_task():
+    if not LAST_COMPLETED_TASK_FILE.exists():
+        return None
+    try:
+        data=json.loads(LAST_COMPLETED_TASK_FILE.read_text(encoding="utf-8"))
+    except (OSError,json.JSONDecodeError):
+        return None
+    if not isinstance(data,dict):
+        return None
+    steps=[
+        load_step(item,fallback_number=index)
+        for index,item in enumerate(data.get("steps",[]),start=1)
+        if isinstance(item,dict)
+    ]
+    return AgentTask(
+        goal=data.get("goal",""), steps=steps,
+        workspace_path=data.get("workspace_path"),
+        status=data.get("status","completed"),
+        current_step_index=data.get("current_step_index",0),
+        total_executions=data.get("total_executions",0),
+        replan_count=data.get("replan_count",0),
+        continuation_count=data.get("continuation_count",0),
+        pending_action=data.get("pending_action"),
+        final_summary=data.get("final_summary",""),
+        created_at=data.get("created_at",""),
+        updated_at=data.get("updated_at",""),
     )
 
 

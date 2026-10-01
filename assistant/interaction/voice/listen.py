@@ -535,7 +535,7 @@ class LiveTranscriptController:
 
         print(
             (
-                "[Partial — en] "
+                "[Partial â€” en] "
                 f"{event.text}"
             )
         )
@@ -602,7 +602,7 @@ class LiveTranscriptController:
 
         print(
             (
-                "[Final transcript — en] "
+                "[Final transcript â€” en] "
                 f"{result.text}"
             )
         )
@@ -1083,3 +1083,4 @@ if __name__ == "__main__":
         result
         or "<nothing>"
     )
+

@@ -168,6 +168,17 @@ def limit_characters(
     return shortened
 
 
+def normalize_spoken_technical_terms(text: str) -> str:
+    # Voice-only normalization; visible terminal text remains canonical.
+    replacements = (
+        (r"(?i)\bvisual\s+studio\s+code\b", "Visual Studio Code"),
+        (r"(?i)\bvs\s*code\b", "Visual Studio Code"),
+    )
+    for pattern, replacement in replacements:
+        text = re.sub(pattern, replacement, text)
+    return text
+
+
 def prepare_full_spoken_text(
     response: str,
 ) -> str:
@@ -185,6 +196,10 @@ def prepare_full_spoken_text(
     )
 
     text = normalize_whitespace(
+        text
+    )
+
+    text = normalize_spoken_technical_terms(
         text
     )
 

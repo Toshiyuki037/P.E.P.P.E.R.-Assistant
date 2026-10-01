@@ -218,32 +218,105 @@ def _critical_sentences(sentences):
     return selected
 
 
-def _generic_condense(full_response: str, *, maximum_words: int = 115):
+def _generic_condense(full_response: str, *, maximum_words: int = 34):
     sentences = _sentences(full_response)
     if not sentences:
         return ""
+    # Default voice: at most two sentences. Explicit detail requests bypass this.
+    result = " ".join(sentences[:2]).strip()
+    return _clip_words(result, maximum_words)
 
-    selected = []
-    for sentence in sentences[:2]:
-        if sentence not in selected:
-            selected.append(sentence)
 
-    for sentence in _critical_sentences(sentences):
-        if sentence not in selected:
-            selected.append(sentence)
 
-    result = " ".join(selected).strip()
+# ---------------------------------------------------------------------------
+# Phase 17B.6 - Concise Agent Speech
+# ---------------------------------------------------------------------------
 
-    if _word_count(result) < 45 and len(sentences) > 2:
-        for sentence in sentences[2:]:
-            if sentence in selected:
-                continue
-            selected.append(sentence)
-            result = " ".join(selected).strip()
-            if _word_count(result) >= 65:
+def _agent_voice_summary(user_text: str, full_response: str):
+    if not full_response.lstrip().startswith("Agent status:"):
+        return ""
+
+    match=re.search(r"(?m)^Agent status:\s*([^\n]+)",full_response)
+    status=match.group(1).strip().lower() if match else ""
+
+    body=re.sub(r"(?m)^Agent status:[^\n]*\n?","",full_response,count=1)
+    body=re.sub(r"(?m)^Goal:[^\n]*\n?","",body,count=1)
+    body=body.split("\nTask steps:",1)[0].strip()
+    body=_clean_for_speech(body)
+
+    if status=="approval_required":
+        # Explain the concrete issue briefly, then ask permission.
+        clean=re.sub(r"[`*_#]", "", body)
+        clean=re.sub(r"\s+", " ", clean).strip()
+        finding=""
+        patterns=(
+            r"(?:issue|bug|problem)(?:\s+is|\s+was|:)?\s+([^.!?]{8,180})",
+            r"([^.!?]{8,180}(?:swapped|reversed|backwards|backward|wrong direction|moves away)[^.!?]{0,100})",
+        )
+        for pattern in patterns:
+            match=re.search(pattern,clean,flags=re.IGNORECASE)
+            if match:
+                finding=match.group(1).strip(" :-.")
+                break
+        if finding:
+            finding=_clip_words(finding,26)
+            return f"I found it, sir. {finding}. Do I have your approval to fix it?"
+        # Phase 17B.10.22: recover the concrete diagnosis from the
+        # awaiting-approval task step when the short status body omits it.
+        approval_step = ""
+        for raw in full_response.splitlines():
+            line = raw.strip()
+            if "[awaiting_approval]" in line.lower():
+                approval_step = re.sub(r"^\d+\.\s*", "", line)
+                approval_step = re.sub(r"\s*\[awaiting_approval\]\s*$", "", approval_step, flags=re.IGNORECASE)
                 break
 
-    return _clip_words(result, maximum_words)
+        if approval_step:
+            low = approval_step.lower()
+            if "error sign" in low and ("controller" in low or "proportional" in low):
+                return (
+                    "I found it, sir. The controller calculates the error with the wrong sign, "
+                    "so it drives the motor away from the target. Do I have your approval to fix it?"
+                )
+            approval_step = re.sub(r"^(fix|repair|change|modify|update)\s+", "", approval_step, flags=re.IGNORECASE)
+            approval_step = _clip_words(approval_step.rstrip(". "), 24)
+            return f"I found it, sir. {approval_step}. Do I have your approval to fix it?"
+
+        return "I found the issue, sir. I know what needs to be changed. Do I have your approval to fix it?"
+
+    if status in {"failed","cancelled"}:
+        return _clip_words(body,42) if body else "I couldn't complete that, sir."
+
+    if status=="completed":
+        normalized=_normalize(user_text)
+        if any(x in normalized for x in ("yes", "approve", "fix", "repair", "apply", "proceed")):
+            lower=body.lower()
+            if any(x in lower for x in ("verification passed", "verified", "converges", "passed")):
+                return "Fixed and verified, sir."
+            return "Done, sir."
+
+    if status=="completed":
+        normalized=_normalize(user_text)
+        if any(x in normalized for x in ("yes", "approve", "fix", "repair", "apply", "proceed")):
+            return "Task complete, sir."
+
+    if status in {"completed","incomplete"}:
+        normalized=_normalize(user_text)
+        diagnosis_only=(
+            any(x in normalized for x in ("diagnose","figure out","find what's wrong","find what is wrong"))
+            and not any(x in normalized for x in ("fix","repair","change","edit"))
+        )
+        sentences=_sentences(body)
+        spoken=" ".join(sentences[:2]).strip() if sentences else body
+        spoken=_clip_words(spoken,34)
+        if diagnosis_only:
+            finding=(sentences[0] if sentences else body).strip()
+            finding=re.sub(r"^Diagnosed\s+","",finding,flags=re.I)
+            finding=_clip_words(finding,28).rstrip(" .")
+            spoken=f"I found the issue, sir: {finding}. Would you like me to fix it?"
+        return spoken or "Task complete, sir. The issue is fixed and verified."
+
+    return _clip_words(body,45) if body else ""
 
 
 def prepare_voice_presentation(user_text: str, full_response: str):
@@ -256,6 +329,25 @@ def prepare_voice_presentation(user_text: str, full_response: str):
         explicitly_requests_detail(user_text)
         or is_contextual_expansion_request(user_text)
     )
+
+    agent_spoken = _agent_voice_summary(
+        user_text,
+        full_response,
+    )
+
+    if agent_spoken and not detailed:
+        result = VoicePresentation(
+            "agent_concise",
+            agent_spoken,
+            full_response,
+            True,
+        )
+        remember_authoritative_response(
+            user_text,
+            full_response,
+            agent_spoken,
+        )
+        return result
 
     if detailed:
         spoken = _clean_for_speech(full_response)

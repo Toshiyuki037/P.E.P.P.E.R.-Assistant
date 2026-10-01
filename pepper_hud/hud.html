@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@font-face {
+  font-family: "PepperSF";
+  src: url("SFPRODISPLAYREGULAR.OTF") format("opentype");
+  font-weight: 400;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+}
+
+#hud {
+  width: 425px;
+  height: 187px;
+  opacity: 0;
+  transition: opacity 1.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity;
+}
+
+#wave {
+  position: relative;
+  left: 0;
+  width: 425px;
+  height: 100px;
+  transform: scaleY(1.46);
+  transform-origin: center center;
+}
+
+#response {
+  margin: -3px 17px 0 17px;
+  width: 391px;
+  font-family: "PepperSF", "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.28;
+  letter-spacing: -0.08px;
+  color: #fafafa;
+  text-shadow: 0 1px 2px rgba(0,0,0,.55);
+  white-space: normal;
+  overflow-wrap: break-word;
+  height: 84px;
+  overflow: hidden;
+}
+</style>
+</head>
+
+<body>
+<div id="hud">
+  <div id="wave"></div>
+  <div id="response"></div>
+</div>
+
+<script src="vendor/siriwave.umd.min.js"></script>
+<script>
+if (typeof SiriWave === "undefined") {
+  console.error("SiriWave failed to load from vendor/siriwave.umd.min.js");
+}
+
+const hud = document.getElementById("hud");
+const response = document.getElementById("response");
+
+const wave = new SiriWave({
+  container: document.getElementById("wave"),
+  style: "ios9",
+  width: 425,
+  height: 100,
+  speed: 0.18,
+  amplitude: 0.22,
+  frequency: 7.2,
+  autostart: true,
+
+  pixelDepth: 0.012,
+  lerpSpeed: 0.24,
+  globalCompositeOperation: "lighter",
+
+  ranges: {
+    noOfCurves: [4, 7],
+    amplitude: [0.62, 1.34],
+    offset: [-2.8, 2.8],
+    width: [1.20, 4.20],
+    speed: [0.62, 1.32],
+    despawnTimeout: [720, 1900]
+  }
+});
+
+window.pepper = {
+  _lastLevel: 0,
+
+  show() {
+    hud.style.transition = "opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1)";
+    hud.style.opacity = "1";
+  },
+
+  hide() {
+    hud.style.transition = "opacity 1.65s cubic-bezier(0.22, 1, 0.36, 1)";
+    hud.style.opacity = "0";
+  },
+
+  _scrollTarget: 0,
+  _scrollRaf: 0,
+
+  _smoothScroll() {
+    this._scrollTarget = Math.max(0, response.scrollHeight - response.clientHeight);
+    if (this._scrollRaf) return;
+
+    const step = () => {
+      const delta = this._scrollTarget - response.scrollTop;
+      if (Math.abs(delta) < 0.45) {
+        response.scrollTop = this._scrollTarget;
+        this._scrollRaf = 0;
+        return;
+      }
+      response.scrollTop += delta * 0.16;
+      this._scrollRaf = requestAnimationFrame(step);
+    };
+    this._scrollRaf = requestAnimationFrame(step);
+  },
+
+  text(s) {
+    response.textContent = s || "";
+    this._smoothScroll();
+  },
+
+  color(light) {
+    if (light) {
+      response.style.color = "#fafafa";
+      response.style.textShadow = "0 1px 2px rgba(0,0,0,.58)";
+    } else {
+      response.style.color = "#111113";
+      response.style.textShadow = "0 1px 2px rgba(255,255,255,.48)";
+    }
+  },
+
+  level(v) {
+    v = Math.max(0, Math.min(1, Number(v) || 0));
+
+    // Lower gate keeps quiet consonants/phonemes visibly alive.
+    const gated = v < 0.010 ? 0 : (v - 0.010) / 0.990;
+
+    // Expand normal speech dynamics without making everything huge.
+    const shaped = Math.pow(Math.max(0, gated), 0.43);
+
+    // Detect positive audio attacks. Stressed syllables get a brief kick.
+    const attack = Math.max(0, gated - this._lastLevel);
+
+    // Smoothed history prevents jitter.
+    this._lastLevel =
+      this._lastLevel * 0.58 +
+      gated * 0.42;
+
+    const punch = Math.min(0.55, attack * 2.15);
+
+    const amp =
+      gated === 0
+        ? 0.085
+        : Math.min(
+            2.18,
+            0.22 + shaped * 1.66 + punch
+          );
+
+    // Energetic syllables also get slightly quicker fluid motion.
+    const speed = Math.min(
+      0.42,
+      0.105 + shaped * 0.20 + punch * 0.13
+    );
+
+    wave.setAmplitude(amp);
+    wave.setSpeed(speed);
+  },
+
+  idle() {
+    this._lastLevel = 0;
+    wave.setAmplitude(0.085);
+    wave.setSpeed(0.10);
+  },
+
+  clear() {
+    response.textContent = "";
+    this._lastLevel = 0;
+    wave.setAmplitude(0.085);
+  }
+};
+</script>
+</body>
+</html>

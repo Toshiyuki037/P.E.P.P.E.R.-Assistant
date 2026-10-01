@@ -1,0 +1,429 @@
+"""
+P.E.P.P.E.R. Visual Response HUD — standalone UI sandbox.
+
+Windows-first prototype. No P.E.P.P.E.R. backend is required.
+Run: python hud_test.py
+
+Controls (global while this app is running):
+  1..5  Play canned response
+  Space Replay current response
+  A     Automatic contrast
+  L     Force light text
+  D     Force dark text
+  M     Toggle setup/move mode (then drag HUD)
+  R     Reset position
+  Esc   Quit
+
+The production-facing seam is PepperHUD.speak(text, duration_s=None).
+Later, replace the simulated speech clock with your real TTS lifecycle/audio level.
+"""
+from __future__ import annotations
+
+import math
+import random
+import sys
+import time
+from dataclasses import dataclass
+from typing import Optional
+
+from PySide6.QtCore import (
+    QEasingCurve, QPoint, QPointF, QRect, Qt, QTimer, Signal
+)
+from PySide6.QtGui import (
+    QColor, QFont, QGuiApplication, QKeySequence, QPainter, QPainterPath,
+    QPen, QPixmap, QShortcut
+)
+from PySide6.QtWidgets import QApplication, QWidget
+
+
+@dataclass(frozen=True)
+class HUDConfig:
+    width: int = 620
+    height: int = 250
+    margin: int = 26
+    wave_height: int = 54
+    wave_gap: int = 20
+    font_px: int = 21
+    line_spacing: float = 1.22
+    sample_size: int = 32
+    light_threshold: float = 0.56
+    contrast_hysteresis: float = 0.06
+    hold_after_speech_ms: int = 2400
+    fade_ms: int = 650
+    tick_ms: int = 16
+    chars_per_second: float = 25.0
+    anchor_x: int = 34
+    anchor_y: int = 38
+
+
+RESPONSES = [
+    "I found the issue. The controller's error calculation is reversed, causing the motor to move away from its target.",
+    "The control loop is stable, but the sign of the position error is inverted. That makes each correction increase the distance from the target instead of reducing it.",
+    "I traced the behavior through the controller. The target and current position are subtracted in the wrong order. Reversing that calculation restores the intended feedback direction without changing the rest of the control path.",
+    "I found it. The error sign is reversed. The motor corrects in the wrong direction.",
+    "I inspected the controller and found the fault in the error calculation. The current position is being subtracted from the target in the wrong direction, so the correction term drives the motor farther away. The rest of the control path can remain unchanged."
+]
+
+
+def clamp(v: float, lo: float, hi: float) -> float:
+    return max(lo, min(hi, v))
+
+
+def relative_luminance(rgb):
+    # WCAG-style relative luminance. More robust than plain grayscale average.
+    vals = []
+    for c in rgb:
+        x = c / 255.0
+        vals.append(x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4)
+    return 0.2126 * vals[0] + 0.7152 * vals[1] + 0.0722 * vals[2]
+
+
+class PepperHUD(QWidget):
+    finished = Signal()
+
+    def __init__(self, config: HUDConfig = HUDConfig()):
+        super().__init__()
+        self.cfg = config
+        self._text = ""
+        self._visible_chars = 0
+        self._speech_start = 0.0
+        self._speech_duration = 0.0
+        self._speech_end = 0.0
+        self._phase = "idle"  # idle, speaking, hold, fade
+        self._opacity = 0.0
+        self._contrast_mode = "auto"
+        self._use_light_text = True
+        self._last_auto_light = True
+        self._setup_mode = False
+        self._drag_offset: Optional[QPoint] = None
+        self._rng = random.Random(84)
+        self._wave_seed = [self._rng.uniform(0, math.tau) for _ in range(4)]
+
+        self.setWindowTitle("P.E.P.P.E.R. HUD Test")
+        self.setFixedSize(self.cfg.width, self.cfg.height)
+        self.setAttribute(Qt.WA_TranslucentBackground, True)
+        self.setAttribute(Qt.WA_NoSystemBackground, True)
+        self.setWindowFlags(
+            Qt.FramelessWindowHint
+            | Qt.WindowStaysOnTopHint
+            | Qt.Tool
+        )
+        self._apply_click_through(True)
+        self._place_default()
+
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self._tick)
+        self.timer.start(self.cfg.tick_ms)
+
+    # ---------- Public seam for future backend integration ----------
+    def speak(self, text: str, duration_s: Optional[float] = None):
+        text = " ".join(str(text).split())
+        if not text:
+            return
+        self._text = text
+        self._visible_chars = 0
+        self._speech_start = time.perf_counter()
+        # Simulation only. Real integration should use actual TTS start/end.
+        self._speech_duration = duration_s or max(
+            1.5, len(text) / self.cfg.chars_per_second
+        )
+        self._speech_end = self._speech_start + self._speech_duration
+        self._phase = "speaking"
+        self._opacity = 1.0
+        self._refresh_contrast()
+        self.show()
+        self.raise_()
+        self.update()
+
+    def set_contrast_mode(self, mode: str):
+        if mode not in {"auto", "light", "dark"}:
+            raise ValueError("mode must be auto, light, or dark")
+        self._contrast_mode = mode
+        self._refresh_contrast()
+        self.update()
+
+    def set_setup_mode(self, enabled: bool):
+        self._setup_mode = enabled
+        self._apply_click_through(not enabled)
+        if enabled:
+            self.show()
+            self.raise_()
+        self.update()
+
+    # ---------- Window behavior ----------
+    def _apply_click_through(self, enabled: bool):
+        self.setAttribute(Qt.WA_TransparentForMouseEvents, enabled)
+        # Qt's WindowTransparentForInput is supported on modern Qt/Windows.
+        flags = self.windowFlags()
+        if hasattr(Qt, "WindowTransparentForInput"):
+            if enabled:
+                flags |= Qt.WindowTransparentForInput
+            else:
+                flags &= ~Qt.WindowTransparentForInput
+            self.setWindowFlags(flags)
+            if self.isVisible():
+                self.show()
+
+    def _place_default(self):
+        screen = QGuiApplication.primaryScreen()
+        if not screen:
+            return
+        g = screen.availableGeometry()
+        self.move(g.left() + self.cfg.anchor_x, g.top() + self.cfg.anchor_y)
+
+    def mousePressEvent(self, event):
+        if self._setup_mode and event.button() == Qt.LeftButton:
+            self._drag_offset = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if self._setup_mode and self._drag_offset is not None:
+            self.move(event.globalPosition().toPoint() - self._drag_offset)
+            event.accept()
+
+    def mouseReleaseEvent(self, event):
+        self._drag_offset = None
+        event.accept()
+
+    # ---------- Contrast sampling ----------
+    def _text_rect_local(self) -> QRect:
+        top = self.cfg.margin + self.cfg.wave_height + self.cfg.wave_gap
+        return QRect(
+            self.cfg.margin,
+            top,
+            self.width() - 2 * self.cfg.margin,
+            self.height() - top - self.cfg.margin,
+        )
+
+    def _refresh_contrast(self):
+        if self._contrast_mode == "light":
+            self._use_light_text = True
+            return
+        if self._contrast_mode == "dark":
+            self._use_light_text = False
+            return
+
+        screen = QGuiApplication.screenAt(self.geometry().center()) or QGuiApplication.primaryScreen()
+        if not screen:
+            return
+
+        r = self._text_rect_local()
+        global_top_left = self.mapToGlobal(r.topLeft())
+        # Temporarily hide only from capture by setting opacity to 0.
+        # This prevents the HUD's own pixels from biasing its contrast decision.
+        old_opacity = self.windowOpacity()
+        self.setWindowOpacity(0.0)
+        QApplication.processEvents()
+        pix = screen.grabWindow(
+            0, global_top_left.x(), global_top_left.y(), r.width(), r.height()
+        )
+        self.setWindowOpacity(old_opacity)
+        if pix.isNull():
+            return
+
+        img = pix.toImage().scaled(
+            self.cfg.sample_size, self.cfg.sample_size,
+            Qt.IgnoreAspectRatio, Qt.FastTransformation
+        )
+        lums = []
+        for y in range(img.height()):
+            for x in range(img.width()):
+                c = img.pixelColor(x, y)
+                lums.append(relative_luminance((c.red(), c.green(), c.blue())))
+
+        if not lums:
+            return
+
+        # Median-ish robust signal: blend mean and median so a small bright/dark
+        # patch does not flip the entire HUD.
+        lums.sort()
+        mean = sum(lums) / len(lums)
+        median = lums[len(lums)//2]
+        score = 0.45 * mean + 0.55 * median
+
+        # "light background" => dark text. Hysteresis prevents flicker.
+        threshold = self.cfg.light_threshold
+        h = self.cfg.contrast_hysteresis
+        if self._last_auto_light:  # currently using light text / dark bg
+            background_is_light = score > threshold + h
+        else:
+            background_is_light = score > threshold - h
+
+        self._use_light_text = not background_is_light
+        self._last_auto_light = self._use_light_text
+
+    # ---------- Animation ----------
+    def _tick(self):
+        now = time.perf_counter()
+
+        if self._phase == "speaking":
+            elapsed = now - self._speech_start
+            progress = clamp(elapsed / self._speech_duration, 0.0, 1.0)
+            # Smooth typewriter: text completes with speech.
+            self._visible_chars = min(len(self._text), round(len(self._text) * progress))
+            if now >= self._speech_end:
+                self._visible_chars = len(self._text)
+                self._phase = "hold"
+                self._hold_until = now + self.cfg.hold_after_speech_ms / 1000.0
+
+        elif self._phase == "hold":
+            if now >= self._hold_until:
+                self._phase = "fade"
+                self._fade_start = now
+
+        elif self._phase == "fade":
+            p = clamp((now - self._fade_start) / (self.cfg.fade_ms / 1000.0), 0.0, 1.0)
+            # cubic ease-out in reverse
+            self._opacity = 1.0 - (1.0 - (1.0 - p) ** 3)
+            if p >= 1.0:
+                self._opacity = 0.0
+                self._phase = "idle"
+                if not self._setup_mode:
+                    self.hide()
+                self.finished.emit()
+
+        if self._phase != "idle" or self._setup_mode:
+            self.update()
+
+    def _wave_activity(self) -> float:
+        if self._phase == "speaking":
+            # Synthetic envelope for UI testing. Backend can later supply real RMS.
+            t = time.perf_counter() - self._speech_start
+            return clamp(
+                0.55
+                + 0.18 * math.sin(t * 3.7)
+                + 0.13 * math.sin(t * 7.1 + 0.8)
+                + 0.08 * math.sin(t * 13.0 + 2.1),
+                0.22, 0.95
+            )
+        if self._phase == "hold":
+            return 0.08
+        return 0.03
+
+    # ---------- Drawing ----------
+    def paintEvent(self, event):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.Antialiasing, True)
+        p.setOpacity(self._opacity if self._phase != "idle" else (0.55 if self._setup_mode else 0.0))
+
+        light = self._use_light_text
+        fg = QColor(248, 248, 250) if light else QColor(18, 18, 20)
+        shadow = QColor(0, 0, 0, 125) if light else QColor(255, 255, 255, 135)
+
+        self._draw_wave(p, fg, shadow)
+        self._draw_text(p, fg, shadow)
+
+        if self._setup_mode:
+            p.setOpacity(0.65)
+            p.setPen(QPen(fg, 1))
+            p.drawRoundedRect(self.rect().adjusted(1, 1, -2, -2), 12, 12)
+
+    def _draw_wave(self, p: QPainter, fg: QColor, shadow: QColor):
+        left = self.cfg.margin
+        right = self.width() - self.cfg.margin
+        cy = self.cfg.margin + self.cfg.wave_height / 2
+        width = right - left
+        activity = self._wave_activity()
+        now = time.perf_counter()
+
+        # Layered organic waves: inspired by fluid voice visualizers, not a Siri copy.
+        layers = [
+            (1.00, 1.00, 0.82),
+            (0.64, 1.63, 0.48),
+            (0.40, 2.17, 0.30),
+        ]
+
+        for amp_scale, freq, alpha in layers:
+            path = QPainterPath()
+            points = 90
+            for i in range(points + 1):
+                u = i / points
+                x = left + u * width
+                envelope = math.sin(math.pi * u) ** 1.35
+                yoff = (
+                    math.sin(u * math.tau * freq + now * (2.2 + freq) + self._wave_seed[0])
+                    + 0.42 * math.sin(u * math.tau * (freq * 2.15) - now * 1.7 + self._wave_seed[1])
+                    + 0.18 * math.sin(u * math.tau * 4.4 + now * 3.1 + self._wave_seed[2])
+                )
+                y = cy + yoff * envelope * activity * 15.5 * amp_scale
+                if i == 0:
+                    path.moveTo(QPointF(x, y))
+                else:
+                    path.lineTo(QPointF(x, y))
+
+            # subtle contrast shadow
+            p.setPen(QPen(QColor(shadow.red(), shadow.green(), shadow.blue(), 75), 4.0,
+                          Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            p.drawPath(path)
+            wave_color = QColor(fg.red(), fg.green(), fg.blue(), int(255 * alpha))
+            p.setPen(QPen(wave_color, 1.8, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            p.drawPath(path)
+
+    def _draw_text(self, p: QPainter, fg: QColor, shadow: QColor):
+        rect = self._text_rect_local()
+        visible = self._text[:self._visible_chars] if self._phase != "idle" else self._text
+        if not visible:
+            return
+
+        font = QFont("Segoe UI Variable Text")
+        if not QFont(font).exactMatch():
+            font = QFont("Segoe UI")
+        font.setPixelSize(self.cfg.font_px)
+        font.setWeight(QFont.Normal)
+        p.setFont(font)
+
+        flags = Qt.TextWordWrap | Qt.AlignLeft | Qt.AlignTop
+        # Small two-pass shadow gives readability on mixed imagery without a panel.
+        shadow_rect = rect.translated(1, 1)
+        p.setPen(shadow)
+        p.drawText(shadow_rect, flags, visible)
+        p.setPen(fg)
+        p.drawText(rect, flags, visible)
+
+
+class DemoController:
+    def __init__(self, app: QApplication):
+        self.app = app
+        self.hud = PepperHUD()
+        self.index = 0
+        self._shortcuts = []
+
+        for i in range(5):
+            self._bind(str(i + 1), lambda idx=i: self.play(idx))
+        self._bind("Space", lambda: self.play(self.index))
+        self._bind("A", lambda: self.hud.set_contrast_mode("auto"))
+        self._bind("L", lambda: self.hud.set_contrast_mode("light"))
+        self._bind("D", lambda: self.hud.set_contrast_mode("dark"))
+        self._bind("M", self.toggle_move)
+        self._bind("R", self.hud._place_default)
+        self._bind("Escape", self.app.quit)
+
+        # Start with a response after a short delay so the window is established.
+        QTimer.singleShot(650, lambda: self.play(0))
+
+    def _bind(self, key: str, callback):
+        sc = QShortcut(QKeySequence(key), self.hud)
+        sc.setContext(Qt.ApplicationShortcut)
+        sc.activated.connect(callback)
+        self._shortcuts.append(sc)
+
+    def play(self, index: int):
+        self.index = index
+        # Simulated TTS pacing ~155 wpm, bounded so short lines don't flash.
+        words = max(1, len(RESPONSES[index].split()))
+        duration = max(2.0, words / 155.0 * 60.0)
+        self.hud.speak(RESPONSES[index], duration)
+
+    def toggle_move(self):
+        self.hud.set_setup_mode(not self.hud._setup_mode)
+
+
+def main():
+    app = QApplication(sys.argv)
+    app.setApplicationName("P.E.P.P.E.R. HUD Test")
+    controller = DemoController(app)
+    sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()
